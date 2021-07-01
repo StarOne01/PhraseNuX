@@ -398,8 +398,6 @@ cout << "[] - jjsj";
 
 
 
-
-        system("s[2] - Google \e[0m");
         system("echo  \"\e[38;5;51m[4] - Spotify \e[0m\"");
         system("echo  \"\e[38;5;51m[6] - Apple ID \e[0m\"");
         system("echo  \"\e[38;5;51m[7] - Signal PIN \e[0m\"");
