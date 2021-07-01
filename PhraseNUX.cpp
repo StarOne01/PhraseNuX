@@ -23,6 +23,8 @@ string str(unsigned long long int i)
         string x = to_string(i);
         return x;
 }
+void clearallpass();
+void addpassmanually();
 void changepass();
 void safeenterstop();
 void advancedoptions();
@@ -64,7 +66,7 @@ void delpass()
         secdel();
         rename("testw", "test");
         veripassfore(lll);
-        lll = "00000000teidhsjgsksgsizsywiabhaishsiwywoanshs";
+        lll = "0eidhsjgsksgsizsywiabhaishsiwywoanshs";
         startup();
 
 }
@@ -197,14 +199,14 @@ void veripassford(string passstr)
         string strrr = "aescrypt -d -p " + passstr + " test.aes";
         const char *Opennn = strrr.c_str();
         system(Opennn);
-        passstr = "00000000teidhsjgsksgsizsywiabhaishsiwywoanshs";
+        passstr = "iyinaishsiwywoanshs";
 }
 void veripassfore(string parssstr)
 {
         string stsrrr = "aescrypt -e -p " + parssstr + " test";
         const char *Starboy = stsrrr.c_str();
         system(Starboy);
-        parssstr = "00000000teidhsjgsksgsizsywiabhaishsiwywoanshs";
+        parssstr = "8jgftjjnshs";
         secdel();
 }
 void writetofileforsd(string dea)
@@ -348,7 +350,7 @@ void advancedoptions()
 {
 system("clear");
         banner();
-        cout << "                Welcome to ProjectX\n";
+        cout << "                Welcome to PhraseNUX\n";
         cout << "         ( A password manager by Tamilanth )  " << endl
                  << endl;
         smallbanner();
@@ -359,7 +361,7 @@ system("clear");
         system("echo \"\e[38;5;51m[5] - Advanced\e[0m\n\n\n\"");
 	string Optionadvanced;
         cin >> Optionadvanced;
-	Optionadvanced == "1" ? changepass() : advancedoptions();
+	Optionadvanced == "1" ? changepass() : Optionadvanced == "4" ? addpassmanually() :Optionadvanced == "2" ? clearallpass() : advancedoptions();
 }
 void selectservice()
 {       cout << endl;
@@ -370,18 +372,30 @@ cout << "[1] - Instagram";
 cout << "[2] - Facebook";
 cout << "[3] - Twiitter";
 cout << "[4] - Reddit";
-cout << "[5] - Sololearn (Learn to Program)";
-cout << "[6] - Telegram";
-cout << "[7] - Koo";
-cout << "[8] - Cybernity";
-cout << "[9] - Mimo (Learn python and web dev)";
-
+cout << "[5] - Telegram";
+cout << "[6] - Koo";
+cout << "[7] - Cybernity";
+cout << "[8] - Houdo";
+cout << "[9] - 
 system("echo \"\e[92;5;12mProductivity\e[0m\n\"");
 cout << "[10] - Sololearn";
 cout << "[11] - Canva";
 cout << "[12] - Adobe";
 cout << "[13] - Enki (Learn to code)";
 cout << "[14] - Mimo (Learn python and web dev)";
+cout << "[15] - GitHub";
+cout << "[16] - Gitlab";
+cout << "
+
+system("echo \"\e[92;5;12mMail & others\e[0m\n\"");
+cout << "[] - Protonmail";
+cout << "[] - Protonmail Mailbox";
+cout << "[] - Tutanota";
+cout << "[] - Google";
+cout << "[] - Yahoo";
+cout << "[] - jjsj";
+
+
 
 
 
@@ -430,8 +444,48 @@ void changepass()
 			string enteringtosyse = "aescrypt -e -p " + newpass + " test";
         		const char *Enteredtosyse = enteringtosyse.c_str();
        			system(Enteredtosyse);
-			system("echo \"\e[92;5;12mSucess Password Changed, returning to Home \e[0m\n\"");
+			system("echo \"\e[92;5;12mSucess!  Password Changed, returning to Home \e[0m\n\"");
 			this_thread::sleep_for(chrono::milliseconds(1000));
                		startup();
 			}
+}
+void addpassmanually()
+{
+		system("echo \"\e[38;5;9m\n\nNote: Please donot enter your own passwords with spaces (The words after space will NOT be saves!\e[0m\n\"");
+		system("echo \"\e[92;5;12mPlease enter your own passsword\e[0m\n\"");
+		string ownpass;
+		cin >> ownpass;
+		system("echo \"\e[38;5;51m\nEnter Your Password:\e[0m\"");
+        	string passwd = safeenter();
+        	string tag;
+        	system("echo \"\e[38;5;51m\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt your passwords\e[0m\"");
+        	cin >> tag;
+        	cout << "\n";
+        	veripassford(passwd);
+        	ofstream file;
+        	file.open("test", ios_base::app);
+        	string writinginput = ownpass + "-" + tag;
+        	file << endl <<  writinginput <<  endl;
+        	file.close();
+        	veripassfore(passwd);
+        	passwd = "izsywiabhaishsiwywoanshs";
+        	secdel();
+}
+void clearallpass()
+{
+		system("aescrypt -d test.aes");
+		ifstream fortest;
+  		fortest.open("test");
+ 		if(fortest) {
+			system("aescrypt -d test.aes");
+			secdel();
+      			system("touch test");
+			system("aescrypt -e test");
+			secdel();
+			startup();
+   		} else {
+      			system("echo \"\e[38;5;9m\n\nError:!: Incorrect Password or the password file is altered\e[0m\n\"");
+			this_thread::sleep_for(chrono::milliseconds(1000));
+			startup();
+   		}
 }
