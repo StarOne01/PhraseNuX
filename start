@@ -1,0 +1,22 @@
+#!/bin/bash
+clear
+echo "\e[38;5;9mNote: For security reasons the source codes will be cleared, if you need to play with source codes please download this again and edit the installation script\e[0m\n"
+g++ test.cpp csprng.cpp -I.
+mv a.out PhraseX
+rm -rf PhraseX.cpp
+rm -rf install_dependencies.cpp
+sudo apt install secure-delete
+sudo apt install wget
+wget https://www.aescrypt.com/download/v3/linux/aescrypt-3.14.tgz
+tar -xzf aescrypt-3.14.tgz
+cd aescrypt-3.14/src && make && mv aescrypt /bin
+cd .. && cd ..
+rm -rf aescrypt-3.14
+rm -rf aescrypt-3.14.tgz
+touch test
+echo "\e[38;5;9mWarning !! : Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\e[0m\n"
+echo "\e[38;5;9m Guide for Password creation\e[0m\n"
+echo "\e[38;5;9m*PLEASE DONOT INCLUDE ANY SPACES IN  YOUR PASSWORD AND DONOT INCLUDE ANY SYMBOLS OTHER THAN \"@•_\":., OF YOU INCLUDE THEN YOU WILL FACE SOMETROUBLE\e[0m\n\""); 
+echo "\e[38;5;9m•You can use any ASCII (except  symbols) amd DONOT include Personal informarion amd short passwords for PROHIBITED\e[0m\n"
+aescrypt -e test
+
