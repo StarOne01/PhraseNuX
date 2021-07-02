@@ -10,7 +10,7 @@
 
 
 
-# Features
+# Intro
 
 - PhraseNUX is a command-line password manager and a command-line  password generator specially made for Linux
 
