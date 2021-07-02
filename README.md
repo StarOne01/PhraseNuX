@@ -49,7 +49,7 @@ Note: PhraseNUX was created with a average user in mine, who doesn't have too mu
 Now it will ask for a master Password 
 ***(Note: This password will be used for decrypting and encrypting your password, you can change this anytime inside the program, _only if you have your  current password_, if you forgot your password _You can't recover any of your passwords***
 
-***• Donot include any spaces or symbols in your password _THIS MAY CAUSE YOU TROUBLES_***
+***• Donot include any spaces or symbols in your password _this may cause you troubles***
 
 ***• Keep your passwords very long (atleast 50 chars)  and DONOT include any personal/guessable words to your password***
 
