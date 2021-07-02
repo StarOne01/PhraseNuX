@@ -16,7 +16,7 @@
 
 - PhraseNUX is a powerfull as well as secure command-line application
 
-- PhraseNUX depends on AES encryption algorithm (a Open-sourced and powerfull encryption algorithm) for encrypting your passwords 
+- PhraseNUX depends on AES encryption algorithm (an Open-sourced and powerfull encryption algorithm) for encrypting your passwords 
 
 - PhraseNUX uses a Cryptographically secure Random charecter generator
 
@@ -47,9 +47,9 @@ Note: PhraseNUX was created with a average user in mine, who doesn't have too mu
 ### That's all installing
 
 Now it will ask for a master Password 
-***(Note: This password will be used for decrypting and encrypting your password, you can change this anytime inside the program, ONLY IF YOU HAVE YOUR CURRENT PASSWORD, if you forgot your password YOU CAN'T RECOVER ANY OF YOUR PASSOWRDS)***
+***(Note: This password will be used for decrypting and encrypting your password, you can change this anytime inside the program, _only if you have your  current password_, if you forgot your password _You can't recover any of your passwords***
 
-***• DONOT INCLUDE ANY SPACES OR SYMBOLS IN YOUR PASSWORD THIS MAY CAUSE YOU TROUBLES***
+***• Donot include any spaces or symbols in your password _THIS MAY CAUSE YOU TROUBLES_***
 
 ***• Keep your passwords very long (atleast 50 chars)  and DONOT include any personal/guessable words to your password***
 
