@@ -6,7 +6,8 @@
 #include <termios.h>
 #include <unistd.h>
 #include <thread>
-#include "csprng.hpp"
+#include "random/csprng.hpp"
+#include "sha3.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ void clearallpass();
 void addpassmanually();
 void changepass();
 void safeenterstop();
+void selectservice();
 void advancedoptions();
 string safeenter();
 void waitup(int a);
@@ -41,13 +43,15 @@ void smallbanner();
 void delpass()
 {
         string line;
-        system("echo \"\e[38;5;51mEnter Your Password:\e[0m\"");
 	cout << endl;
+        system("echo \"\e[38;5;51mEnter Your Password:\e[0m\n\"");
         string lll = safeenter();
         veripassford(lll);
         system("cat test");
         secdel();
+	cout << endl << endl;
         string deletethis;
+	system("echo \"\e[38;5;51mEnter the password (with tags) to be deleted\e[0m\"");
         cin >> deletethis;
         veripassford(lll);
         ifstream oldfile("test");
@@ -92,8 +96,8 @@ void writetofile(string ea, short int opt)
         veripassford(lll);
         ofstream file;
         file.open("test", ios_base::app);
-        string writinginput = ea + "-" + tag;
-        file << endl <<  writinginput <<  endl;
+        string writinginput = ea + "-" + tag + "\n\n";
+        file << writinginput;
         file.close();
         veripassfore(lll);
         lll = "00000000teidhsjgsksgsizsywiabhaishsiwywoanshs";
@@ -115,6 +119,40 @@ void optionsB()
         system("echo  \"\e[38;5;51m[2] - Alphabets Only Mode \e[0m\"");
         system("echo  \"\e[38;5;51m[3] - Mixed Mode \e[0m\"");
         system("echo  \"\e[38;5;51m[4] - Main Menu \e[0m\n\"");
+}
+bool checkformodification(string a, string b)
+{
+  string filen  = a;
+  string algorithm = "3";
+  SHA3 digestSha3  (SHA3  ::Bits256);
+  const size_t BufferSize = 144*7*1024;
+  char* buffer = new char[BufferSize];
+  ifstream file;
+  istream* input = NULL;
+
+    file.open(filen.c_str(), ios::binary);
+    if (!file)
+    {
+      cerr << "Error ! Cannot open " << filen << "" << endl;
+    }
+    input = &file;
+
+  while (*input)
+  {
+    input->read(buffer, BufferSize);
+    size_t numBytesRead = size_t(input->gcount());
+      digestSha3  .add(buffer, numBytesRead);
+  }
+
+  file.close();
+  delete[] buffer;
+
+    if (digestSha3.getHash() == b){
+    return true;
+    }
+    else {
+    return false;
+    }
 }
 void optionsA()
 {
@@ -158,8 +196,8 @@ void startup()
         else {
 
         if (Jj == "2")
-        {
-                optionsB();
+        {	selectservice();
+	//                optionsB();
                 string Option;
                 cin >> Option;
                 Option == "1" ? call(48, 57, 1) : Option == "2" ? alphaonlyfn() :  Option == "3" ? call(33, 126, 3) : Option == "4" ?  startup() :  startup();
@@ -190,7 +228,7 @@ void startup()
         }
 }
 int main()
-{
+{	
         startup();
         return 0;
 }
@@ -365,57 +403,56 @@ system("clear");
 }
 void selectservice()
 {       cout << endl;
-	system("echo  \"\e[38;5;51m[1] - Generate Manually \e[0m\"");
+system("echo  \"\e[38;5;51m               [1] - Generate Manually \e[0m\n\n\n\"");
 
-system("echo \"\e[92;5;12mSocial Networks\e[0m\n\"");
-cout << "[1] - Instagram";
-cout << "[2] - Facebook";
-cout << "[3] - Twiitter";
-cout << "[4] - Reddit";
-cout << "[5] - Telegram";
-cout << "[6] - Koo";
-cout << "[7] - Cybernity";
-cout << "[8] - Houdo";
-cout << "[9] - 
-system("echo \"\e[92;5;12mProductivity\e[0m\n\"");
-cout << "[10] - Sololearn";
-cout << "[11] - Canva";
-cout << "[12] - Adobe";
-cout << "[13] - Enki (Learn to code)";
-cout << "[14] - Mimo (Learn python and web dev)";
-cout << "[15] - GitHub";
-cout << "[16] - Gitlab";
-cout << "
+system("echo \"\e[92;5;12m                 Social Networks\e[0m\n\"");
+cout << "[2] - Instagram                         |    ";
+cout << "[3] - Facebook\n";
+cout << "[4] - Twiitter                          |    ";
+cout << "[5] - Reddit\n";
+cout << "[6] - Telegram                          |    ";
+cout << "[7] - Koo\n";
+cout << "[8] - Cybernity;                        |    ";
+cout << "[9] - Houdo\n";
+cout << "[10] - Snapchat                         |    ";
+cout << "[11] - Sharechat\n\n";
 
-system("echo \"\e[92;5;12mMail & others\e[0m\n\"");
-cout << "[] - Protonmail";
-cout << "[] - Protonmail Mailbox";
-cout << "[] - Tutanota";
-cout << "[] - Google";
-cout << "[] - Yahoo";
-cout << "[] - jjsj";
+system("echo \"\e[92;5;12m                  Productivity\e[0m\n\"");
+cout << "[12] - Sololearn                        |    ";
+cout << "[13] - Canva\n";
+cout << "[14] - Adobe                            |    ";
+cout << "[15] - Enki (Learn to code)\n";
+cout << "[16] - Mimo (Learn python and web dev)  |    ";
+cout << "[17] - GitHub\n";
+cout << "[18] - Gitlab\n\n";
+
+system("echo \"\e[92;5;12m                   Music\e[0m\n\"");
+cout << "[19] - Spotify                          |    ";
+cout << "[20] - Gaana\n";
+cout << "[21] - Hungama                          |    ";
+cout << "[22] - Jiosaavn\n";
+cout << "[23] - Wynk                             |    ";
+cout << "[24] - Pandora\n";
+cout << "[24] - Deezer\n\n";
+
+
+
+system("echo \"\e[92;5;12m                 Mail & others\e[0m\n\"");
+cout << "[] - Protonmail                         |     ";
+cout << "[] - Protonmail Mailbox\n";
+cout << "[] - Tutanota                           |     ";
+cout << "[] - Google\n";
+cout << "[] - Yahoo                              |     ";
+cout << "[] - Apple ID\n";
+cout << "[] - Amazon\n\n\n";
 
 
 
 
-        system("echo  \"\e[38;5;51m[4] - Spotify \e[0m\"");
-        system("echo  \"\e[38;5;51m[6] - Apple ID \e[0m\"");
         system("echo  \"\e[38;5;51m[7] - Signal PIN \e[0m\"");
-        system("echo  \"\e[38;5;51m[8] - Github \e[0m\"");
-	system("echo  \"\e[38;5;51m[9] - Proton (mail/VPN) \e[0m\"");
-        system("echo  \"\e[38;5;51m[11] - Protonmail Box \e[0m\"");
-        system("echo  \"\e[38;5;51m[14] - Tutanota \e[0m\n\"");
-    system("echo  \"\e[38;5;51m[2] - Yahoo \e[0m\"");
         system("echo  \"\e[38;5;51m[3] - Brair messenger \e[0m\"");
         system("echo  \"\e[38;5;51m[4] - Element Messenger \e[0m\"");
         system("echo  \"\e[38;5;51m[5] - Session Messenger \e[0m\"");
-    system("echo  \"\e[38;5;51m[7] - PicsArt \e[0m\"");
-        system("echo  \"\e[38;5;51m[9] - Wynk Music \e[0m\"");
-        system("echo  \"\e[38;5;51m[10] - Gaana (Music \e[0m\"");
-        system("echo  \"\e[38;5;51m[11] - JioSaavn \e[0m\"");
-        system("echo  \"\e[38;5;51m[12] - Deezer \e[0m\"");
-        system("echo  \"\e[38;5;51m[13] - Pandora \e[0m\"");
-        system("echo  \"\e[38;5;51m[14] - Tutanota \e[0m\n\"");
 
 
 
