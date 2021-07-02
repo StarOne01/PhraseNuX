@@ -47,9 +47,9 @@ Note: PhraseNUX was created with a average user in mine, who doesn't have too mu
 ### That's all installing
 
 Now it will ask for a master Password 
-***(Note: This password will be used for decrypting and encrypting your password, you can change this anytime inside the program, _only if you have your  current password_, if you forgot your password _You can't recover any of your passwords***
+***(Note: This password will be used for decrypting and encrypting your password, you can change this anytime inside the program, _only if you have your current password_, if you forgot your password _You can't recover any of your passwords***
 
-***• Donot include any spaces or symbols in your password _this may cause you troubles***
+***• Donot include any spaces or symbols in your password _this may cause you troubles_***
 
-***• Keep your passwords very long (atleast 50 chars)  and DONOT include any personal/guessable words to your password***
+***• Keep your passwords very long (atleast 50 chars)  and _Donot_ include any personal/guessable words to your password***
 
