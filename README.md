@@ -61,7 +61,7 @@ Now it will ask for a master Password
 
 For now you need to run
 
-`**./PhraseNUX**`
+**`./PhraseNUX`**
 
 In the ***same directory***
 
