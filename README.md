@@ -28,13 +28,18 @@
 
 Note: PhraseNUX was created with a average user in mine, who doesn't have too much of tech knowledge. so, For security reasons the source codes of the application will be deleted after installation by default, If you are an advanced user and like to play with the codes, please edit the **install/start** file which is written in bash and edit the hashing function in the **install/PhraseNUX.cpp**
 
-- Open the **PhraseNUX** directory
+- Open a Terminal
+
+
+- Open the **PhraseNUX** directory in Terminal by typing
+
      **`cd PhraseNUX`**
-- Open the install directory
+
+- Open the install directory in the terminal by typing
 
      **`cd install`**
 
-- Compile the **install_dependencies.cpp** file
+- Compile the **install_dependencies.cpp** file by typing in your terminal
 
      **`g++ install_dependencies.cpp -o install`**
 
@@ -44,6 +49,9 @@ Note: PhraseNUX was created with a average user in mine, who doesn't have too mu
 - Run the compiled binary file 
 
      **`./install`**
+
+- Go to the previous terminal by Typing 
+    **`cd ..`**
 
 
 
