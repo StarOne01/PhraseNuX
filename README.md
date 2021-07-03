@@ -28,8 +28,8 @@
 
 Note: PhraseNUX was created with a average user in mine, who doesn't have too much of tech knowledge. so, For security reasons the source codes of the application will be deleted after installation by default, If you are an advanced user and like to play with the codes, please edit the **install/start** file which is written in bash and edit the hashing function in the **install/PhraseNUX.cpp**
 
-
-
+- Open the **PhraseNUX** directory
+     **`cd PhraseNUX`**
 - Open the install directory
 
      **`cd install`**
