@@ -9,7 +9,7 @@ g++ -o PhraseNUX ../random/csprng.cpp ../hash/sha3.cpp PhraseNUX.cpp -I.
 sudo apt install make
 wget https://www.aescrypt.com/download/v3/linux/aescrypt-3.14.tgz
 tar -xzf aescrypt-3.14.tgz
-cd aescrypt-3.14/src && make && mv aescrypt /bin
+cd aescrypt-3.14/src && make && sudo mv aescrypt /bin
 cd .. && cd ..
 rm -rf aescrypt-3.14
 rm -rf aescrypt-3.14.tgz
