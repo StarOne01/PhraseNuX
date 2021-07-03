@@ -1,12 +1,12 @@
 #!/bin/bash
 clear
 echo "\e[38;5;9mNote: For security reasons the source codes will be cleared, if you need to play with source codes please download this again and edit the installation script\e[0m\n"
-g++ test.cpp csprng.cpp -I.
-mv a.out PhraseX
+g++ -o PhraseNUX ../random/csprng.cpp ../hash/sha3.cpp PhraseNUX.cpp -I.
 rm -rf PhraseX.cpp
 rm -rf install_dependencies.cpp
 sudo apt install secure-delete
 sudo apt install wget
+sudo apt install make
 wget https://www.aescrypt.com/download/v3/linux/aescrypt-3.14.tgz
 tar -xzf aescrypt-3.14.tgz
 cd aescrypt-3.14/src && make && mv aescrypt /bin
@@ -20,3 +20,4 @@ echo "\e[38;5;9m*PLEASE DONOT INCLUDE ANY SPACES IN  YOUR PASSWORD AND DONOT INC
 echo "\e[38;5;9m•You can use any ASCII (except  symbols) amd DONOT include Personal informarion amd short passwords for PROHIBITED\e[0m\n"
 aescrypt -e test
 
+echo "To Start using the password manager Please enter './PhraseNUX' in this directory"

@@ -6,8 +6,8 @@
 #include <termios.h>
 #include <unistd.h>
 #include <thread>
-#include "random/csprng.hpp"
-#include "sha3.h"
+#include "../random/csprng.hpp"
+#include "../hash/sha3.h"
 
 using namespace std;
 
@@ -196,8 +196,8 @@ void startup()
         else {
 
         if (Jj == "2")
-        {	selectservice();
-	//                optionsB();
+        {//	selectservice();
+                optionsB();
                 string Option;
                 cin >> Option;
                 Option == "1" ? call(48, 57, 1) : Option == "2" ? alphaonlyfn() :  Option == "3" ? call(33, 126, 3) : Option == "4" ?  startup() :  startup();
