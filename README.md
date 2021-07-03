@@ -63,6 +63,6 @@ For now you need to run
 
 **`./PhraseNUX`**
 
-In the ***same directory***
+In the ***same directory (install directory)***
 
 In future It will be modified like you can run anywhere
