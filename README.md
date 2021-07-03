@@ -50,10 +50,7 @@ Note: PhraseNUX was created with a average user in mine, who doesn't have too mu
 
      **`./install`**
 
-- Go to the previous terminal by Typing 
-    **`cd ..`**
-
-
+- Now close the terminal and open the **`PhaseNUX`** directory
 
 ### That's all installing
 
