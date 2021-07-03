@@ -57,3 +57,12 @@ Now it will ask for a master Password
 
 ***• Keep your passwords very long (atleast 50 chars)  and _Donot_ include any personal/guessable words to your password***
 
+# How to Run
+
+For now you need to run
+
+'**./PhraseNUX**`
+
+In the ***same directory***
+
+In future It will be modified like you can run anywhere
