@@ -96,7 +96,7 @@ void writetofile(string ea, short int opt)
         veripassford(lll);
         ofstream file;
         file.open("test", ios_base::app);
-        string writinginput = ea + "-" + tag + "\n\n";
+        string writinginput = ea + "-------" + tag + "\n\n";
         file << writinginput;
         file.close();
         veripassfore(lll);
@@ -162,7 +162,7 @@ void optionsA()
         cout << "         ( A password manager by Tamilanth )  " << endl
                  << endl;
         smallbanner();
-        system("echo \"\e[38;5;51m[1] - Decrypt\e[0m\"");
+        system("echo \"\e[38;5;51m[1] - Show Saved Passwords\e[0m\"");
         system("echo  \"\e[38;5;51m[2] - Create a  New Password\e[0m\"");
         system("echo  \"\e[38;5;51m[3] - Delete a Password\e[0m\"");
         system("echo  \"\e[38;5;51m[4] - Exit\e[0m\"");
@@ -196,8 +196,8 @@ void startup()
         else {
 
         if (Jj == "2")
-        {//	selectservice();
-                optionsB();
+        {	selectservice();
+         //       optionsB();
                 string Option;
                 cin >> Option;
                 Option == "1" ? call(48, 57, 1) : Option == "2" ? alphaonlyfn() :  Option == "3" ? call(33, 126, 3) : Option == "4" ?  startup() :  startup();
@@ -228,9 +228,15 @@ void startup()
         }
 }
 int main()
-{	
-        startup();
+{
+//if(checkformodification("start", "10a72e2e389ab6d338e417d87dcaa67f9bb804ff40e9ba7ccf120a2dc0bb6820") && checkformodification("install_dependencies.cpp", "185e1ec2fcb6d36b9a44571b3fa0fb354c430fbf631a015b46d411ca7c3dedb4") && checkformodification("../random/csprng.cpp", "8b409deb0f2e086d00c99d2765dd56713bb33d16c675d12fe5c6903c35d50989") && checkformodification("../random/csprng.h", "c3e5389b011088b5e5ab6c68c08cc3b952215bd52c7a28968b74c993d626afe2") && checkformodification("../random/csprng.hpp", "1cb15d8415a63fce15cc85ddcd15666973e2fb41c4edfbd3b11503ced6ba589e") && checkformodification("../random/is_iterable.hpp", "4ab295afd50988c2562d89362ae7deaf91653c5d997258525396e61bf7cc96e5") && checkformodification("../hash/sha3.cpp", "8c070dbc66dee46ce8340a6c83264c922199e51ebabbc675ea0bb08301bab7fa") &&  checkformodification("../hash/sha3.h", "302478a22134b2eb1a598cd48d331fe80c4233d3dbe90a8508ff200477e73503"))
+//{
+        startup(); 
         return 0;
+//}
+//else {
+//exit(1);
+//}
 }
 void veripassford(string passstr)
 {
@@ -406,14 +412,14 @@ void selectservice()
 system("echo  \"\e[38;5;51m               [1] - Generate Manually \e[0m\n\n\n\"");
 
 system("echo \"\e[92;5;12m                 Social Networks\e[0m\n\"");
-cout << "[2] - Instagram                         |    ";
-cout << "[3] - Facebook\n";
-cout << "[4] - Twiitter                          |    ";
-cout << "[5] - Reddit\n";
-cout << "[6] - Telegram                          |    ";
-cout << "[7] - Koo\n";
-cout << "[8] - Cybernity;                        |    ";
-cout << "[9] - Houdo\n";
+cout << " [2] - Instagram                        |    ";
+cout << " [3] - Facebook\n";
+cout << " [4] - Twiitter                         |    ";
+cout << " [5] - Reddit\n";
+cout << " [6] - Telegram                         |    ";
+cout << " [7] - Koo\n";
+cout << " [8] - Cybernity                        |    ";
+cout << " [9] - Houdo\n";
 cout << "[10] - Snapchat                         |    ";
 cout << "[11] - Sharechat\n\n";
 
@@ -433,9 +439,15 @@ cout << "[21] - Hungama                          |    ";
 cout << "[22] - Jiosaavn\n";
 cout << "[23] - Wynk                             |    ";
 cout << "[24] - Pandora\n";
-cout << "[24] - Deezer\n\n";
+cout << "[24] - Deezer                           |    ";
+cout << "[] - Last.fm\n\n";
 
-
+system("echo \"\e[92;5;12m                   Private Messenger\e[0m\n\"");
+cout << "[25] - Signal PIN                       |    ";
+cout << "[26] - Briar Messenger\n";
+cout << "[27] - Element Messenger                |    ";
+cout << "[28] - Session Messenger\n";
+cout << "[29] - Whatsapp PIN\n\n";
 
 system("echo \"\e[92;5;12m                 Mail & others\e[0m\n\"");
 cout << "[] - Protonmail                         |     ";
@@ -446,13 +458,6 @@ cout << "[] - Yahoo                              |     ";
 cout << "[] - Apple ID\n";
 cout << "[] - Amazon\n\n\n";
 
-
-
-
-        system("echo  \"\e[38;5;51m[7] - Signal PIN \e[0m\"");
-        system("echo  \"\e[38;5;51m[3] - Brair messenger \e[0m\"");
-        system("echo  \"\e[38;5;51m[4] - Element Messenger \e[0m\"");
-        system("echo  \"\e[38;5;51m[5] - Session Messenger \e[0m\"");
 
 
 
