@@ -9,8 +9,6 @@
 #include "../random/csprng.hpp"
 #include "../hash/sha3.h"
 
-using namespace std;
-
 unsigned long long int randomize()
 {
 	duthomhas::csprng rng;
@@ -18,10 +16,10 @@ unsigned long long int randomize()
         return b;
 }
 
-string str(unsigned long long int i)
+std::string str(unsigned long long int i)
 {
 	duthomhas::csprng rng;
-        string x = to_string(i);
+        std::string x = std::to_string(i);
         return x;
 }
 void clearallpass();
@@ -30,10 +28,10 @@ void changepass();
 void safeenterstop();
 void selectservice();
 void advancedoptions();
-string safeenter();
+std::string safeenter();
 void waitup(int a);
-void veripassfore(string passstr);
-void veripassford(string passstr);
+void veripassfore(std::string passstr);
+void veripassford(std::string passstr);
 void startup();
 void secdel();
 void banner();
@@ -42,28 +40,28 @@ void call(int mini, int max, short int ik);
 void smallbanner();
 void delpass()
 {
-        string line;
-	cout << endl;
+        std::string line;
+	std::cout << std::endl;
         system("echo \"\e[38;5;51mEnter Your Password:\e[0m\n\"");
-        string lll = safeenter();
+        std::string lll = safeenter();
         veripassford(lll);
         system("cat test");
         secdel();
-	cout << endl << endl;
-        string deletethis;
+	std::cout << std::endl << std::endl;
+        std::string deletethis;
 	system("echo \"\e[38;5;51mEnter the password (with tags) to be deleted\e[0m\"");
-        cin >> deletethis;
+        std::cin >> deletethis;
         veripassford(lll);
-        ifstream oldfile("test");
+        std::ifstream oldfile("test");
         if (!oldfile.is_open())
         {
-                cout << "\noperation failed !!!\n";
+                std::cout << "\noperation failed !!!\n";
         }
-        ofstream newfile("testw");
+        std::ofstream newfile("testw");
         while(getline(oldfile, line))
         {
                 if (line != deletethis)
-                newfile << line << endl;
+                newfile << line << std::endl;
         }
         oldfile.close();
         newfile.close();
@@ -75,28 +73,28 @@ void delpass()
 
 }
 
-void writetofile(string ea, short int opt)
+void writetofile(std::string ea, short int opt)
 {
-        string lll;
-        cout << endl;
-        cout << ea << endl << endl;
+        std::string lll;
+        std::cout << std::endl;
+        std::cout << ea << std::endl << std::endl;
         system("echo \"\e[38;5;12mCan we save this password ?, if not you can generate the password again without saving this\e[0m\n\"");
         system("echo \"\e[38;5;51m[1] - Save the password \e[0m\"");
         system("echo \"\e[38;5;51m[2] - Generate a password again \e[0m\n\"");
         short int optionsforsaving;
-        cin >> optionsforsaving;
-        cout << "\n";
+        std::cin >> optionsforsaving;
+        std::cout << "\n";
         if(optionsforsaving == 1){
         system("echo \"\e[38;5;51m\nEnter Your Password:\e[0m\"");
         lll = safeenter();
-        string tag;
+        std::string tag;
         system("echo \"\e[38;5;51m\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt the passwords:\e[0m\n\n\"");
-        cin >> tag;
-        cout << "\n";
+        std::cin >> tag;
+        std::cout << "\n";
         veripassford(lll);
-        ofstream file;
-        file.open("test", ios_base::app);
-        string writinginput = ea + "-------" + tag + "\n\n";
+        std::ofstream file;
+        file.open("test", std::ios_base::app);
+        std::string writinginput = ea + "-------" + tag + "\n\n";
         file << writinginput;
         file.close();
         veripassfore(lll);
@@ -109,31 +107,31 @@ void writetofile(string ea, short int opt)
                 		          }
 		else {
 			system("echo \"\e[38;5;9m\n\nError:!: Please select 1 or 2 or 3 or 4\e[0m\n\"");
-			this_thread::sleep_for(chrono::milliseconds(1000));
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
        			 system("clear");
                 }			}
 }
 void optionsB()
-{       cout << endl;
+{       std::cout << std::endl;
         system("echo  \"\e[38;5;51m[1] - Numbers Only Mode \e[0m\"");
         system("echo  \"\e[38;5;51m[2] - Alphabets Only Mode \e[0m\"");
         system("echo  \"\e[38;5;51m[3] - Mixed Mode \e[0m\"");
         system("echo  \"\e[38;5;51m[4] - Main Menu \e[0m\n\"");
 }
-bool checkformodification(string a, string b)
+bool checkformodification(std::string a, std::string b)
 {
-  string filen  = a;
-  string algorithm = "3";
+  std::string filen  = a;
+  std::string algorithm = "3";
   SHA3 digestSha3  (SHA3  ::Bits256);
   const size_t BufferSize = 144*7*1024;
   char* buffer = new char[BufferSize];
-  ifstream file;
-  istream* input = NULL;
+  std::ifstream file;
+  std::istream* input = NULL;
 
-    file.open(filen.c_str(), ios::binary);
+    file.open(filen.c_str(), std::ios::binary);
     if (!file)
     {
-      cerr << "Error ! Cannot open " << filen << "" << endl;
+      std::cerr << "Error ! Cannot open " << filen << "" << std::endl;
     }
     input = &file;
 
@@ -158,9 +156,9 @@ void optionsA()
 {
         system("clear");
         banner();
-        cout << "                Welcome to PhraseX\n";
-        cout << "         ( A password manager by Tamilanth )  " << endl
-                 << endl;
+        std::cout << "                Welcome to PhraseX\n";
+        std::cout << "         ( A password manager by Tamilanth )  " << std::endl
+                 << std::endl;
         smallbanner();
         system("echo \"\e[38;5;51m[1] - Show Saved Passwords\e[0m\"");
         system("echo  \"\e[38;5;51m[2] - Create a  New Password\e[0m\"");
@@ -170,19 +168,19 @@ void optionsA()
 }
 void waitup(int a)
 {
-        string jk = str(a);
-        string see = "echo \"\e[38;5;9m\n\nNote: For security reasons your terminal will be cleared in " + jk + " seconds\e[0m\n\"";
+        std::string jk = str(a);
+        std::string see = "echo \"\e[38;5;9m\n\nNote: For security reasons your terminal will be cleared in " + jk + " seconds\e[0m\n\"";
         const char *hee = see.c_str();
         system(hee);
-        this_thread::sleep_for(chrono::milliseconds(a * 1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(a * 1000));
         system("clear");
 }
 void startup()
 {
         optionsA();
-        string Jj;
-        cout << "Please select your Option 1 or 2 or 3 or 4:\n";
-        cin >> Jj;
+        std::string Jj;
+        std::cout << "Please select your Option 1 or 2 or 3 or 4:\n";
+        std::cin >> Jj;
         if (Jj == "3")
         {
                 delpass();
@@ -198,17 +196,17 @@ void startup()
         if (Jj == "2")
         {	selectservice();
          //       optionsB();
-                string Option;
-                cin >> Option;
+                std::string Option;
+                std::cin >> Option;
                 Option == "1" ? call(48, 57, 1) : Option == "2" ? alphaonlyfn() :  Option == "3" ? call(33, 126, 3) : Option == "4" ?  startup() :  startup();
         }
         else {
 
         if (Jj == "Decrypt" || Jj == "decrypt" || Jj == "D" || Jj == "d" || Jj == "1" || Jj == "DECRYPT")
         {
-		cout << endl;
+		std::cout << std::endl;
                 system("aescrypt -d test.aes");
-		cout << endl;
+		std::cout << std::endl;
                 system("cat test");
                 secdel();
                 waitup(15);
@@ -219,7 +217,7 @@ void startup()
 				}
 		else {
                 system("echo \"\e[38;5;9m\n\nError:!: Please select 1 or 2 or 3 or 4\e[0m\n\"");
-                this_thread::sleep_for(chrono::milliseconds(1000));
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 startup();
 			}
                 }
@@ -238,26 +236,26 @@ int main()
 //exit(1);
 //}
 }
-void veripassford(string passstr)
+void veripassford(std::string passstr)
 {
-        string strrr = "aescrypt -d -p " + passstr + " test.aes";
+        std::string strrr = "aescrypt -d -p " + passstr + " test.aes";
         const char *Opennn = strrr.c_str();
         system(Opennn);
         passstr = "iyinaishsiwywoanshs";
 }
-void veripassfore(string parssstr)
+void veripassfore(std::string parssstr)
 {
-        string stsrrr = "aescrypt -e -p " + parssstr + " test";
+        std::string stsrrr = "aescrypt -e -p " + parssstr + " test";
         const char *Starboy = stsrrr.c_str();
         system(Starboy);
         parssstr = "8jgftjjnshs";
         secdel();
 }
-void writetofileforsd(string dea)
+void writetofileforsd(std::string dea)
 {
         for (short int hhh = 0; hhh <= 20; hhh++)
         {
-                ofstream file;
+                std::ofstream file;
                 file.open("test");
                 file << dea;
                 file.close();
@@ -267,9 +265,9 @@ void secdel()
 {
         long long unsigned int acaa = randomize();
         long long unsigned int bcbb = randomize();
-        string aaaab = str(acaa);
-        string baaab = str(bcbb) + aaaab;
-        string erapt = aaaab + baaab + aaaab + baaab + aaaab + baaab + aaaab + baaab;
+        std::string aaaab = str(acaa);
+        std::string baaab = str(bcbb) + aaaab;
+        std::string erapt = aaaab + baaab + aaaab + baaab + aaaab + baaab + aaaab + baaab;
         writetofileforsd(erapt);
         system("srm -z test");
 	remove("test");
@@ -324,14 +322,14 @@ void call(int mini, int max, short int ik)
 {
 	duthomhas::csprng rng; 
         long long unsigned int numberofmixed;
-        cout << endl;
+        std::cout << std::endl;
         system("echo \"\e[92;5;12mPlease enter the length of the password you need \n[Max 18,446,744,073,709,551,615] \nBut Beware !!, this number could crash your system after a few lakhs\nDEPENDS UPON YOUR SYSTEM\e[0m\"");
-	cout << endl;
-	if (!(cin >> numberofmixed))
+	std::cout << std::endl;
+	if (!(std::cin >> numberofmixed))
 	{
 	    throw std::invalid_argument("Please enter upto 18,446,744,073,709,551,615");
 	}
-        string mixed;
+        std::string mixed;
         for (long long unsigned int fromnoofall = 1; fromnoofall <= numberofmixed; ++fromnoofall)
         {
                 char mixedadd = (rng() % (max - mini)) + mini;
@@ -345,10 +343,10 @@ void alphaonlyfn()
 {
 			duthomhas::csprng rng;
                         int numberof;
-                        cout << endl;
+                        std::cout << std::endl;
                         system("echo \"\e[92;5;12mPlease enter the length of the password you need\n[Max 18,446,744,073,709,551,615]\nBut Beware !!, this number could crash your system after a few lakhs\nDEPENDS UPON YOUR SYSTEM \e[0m\n\"");
-                        cin >> numberof;
-                        string allalpha;
+                        std::cin >> numberof;
+                        std::string allalpha;
                         for (long long unsigned int fromnoof = 1; fromnoof <= numberof; ++fromnoof)
                         {
                                 char alphaadd = (rng() % 25) + 65;
@@ -366,7 +364,7 @@ void alphaonlyfn()
                         startup();
 }
 
-string safeenter()
+std::string safeenter()
 {
         termios previouslyentered;
         tcgetattr(STDIN_FILENO, &previouslyentered);
@@ -374,8 +372,8 @@ string safeenter()
         newlyentered.c_lflag &= ~ECHO;
         tcsetattr(STDIN_FILENO, TCSANOW, &newlyentered);
 
-        string pass;
-        cin >> pass;
+        std::string pass;
+        std::cin >> pass;
         safeenterstop();
         return pass;
 
@@ -394,69 +392,69 @@ void advancedoptions()
 {
 system("clear");
         banner();
-        cout << "                Welcome to PhraseNUX\n";
-        cout << "         ( A password manager by Tamilanth )  " << endl
-                 << endl;
+        std::cout << "                Welcome to PhraseNUX\n";
+        std::cout << "         ( A password manager by Tamilanth )  " << std::endl
+                 << std::endl;
         smallbanner();
         system("echo \"\e[38;5;51m[1] - Change Master Password\e[0m\"");
         system("echo  \"\e[38;5;51m[2] - Clear all Passwords\e[0m\"");
         system("echo  \"\e[38;5;51m[3] - Move Passwords to a location\e[0m\"");
         system("echo  \"\e[38;5;51m[4] - Add your own  Password to the Data (created by you)\e[0m\"");
         system("echo \"\e[38;5;51m[5] - Advanced\e[0m\n\n\n\"");
-	string Optionadvanced;
-        cin >> Optionadvanced;
+	std::string Optionadvanced;
+        std::cin >> Optionadvanced;
 	Optionadvanced == "1" ? changepass() : Optionadvanced == "4" ? addpassmanually() :Optionadvanced == "2" ? clearallpass() : advancedoptions();
 }
 void selectservice()
-{       cout << endl;
+{       std::cout << std::endl;
 system("echo  \"\e[38;5;51m               [1] - Generate Manually \e[0m\n\n\n\"");
 
 system("echo \"\e[92;5;12m                 Social Networks\e[0m\n\"");
-cout << " [2] - Instagram                        |    ";
-cout << " [3] - Facebook\n";
-cout << " [4] - Twiitter                         |    ";
-cout << " [5] - Reddit\n";
-cout << " [6] - Telegram                         |    ";
-cout << " [7] - Koo\n";
-cout << " [8] - Cybernity                        |    ";
-cout << " [9] - Houdo\n";
-cout << "[10] - Snapchat                         |    ";
-cout << "[11] - Sharechat\n\n";
+std::cout << " [2] - Instagram                        |    ";
+std::cout << " [3] - Facebook\n";
+std::cout << " [4] - Twiitter                         |    ";
+std::cout << " [5] - Reddit\n";
+std::cout << " [6] - Telegram                         |    ";
+std::cout << " [7] - Koo\n";
+std::cout << " [8] - Cybernity                        |    ";
+std::cout << " [9] - Houdo\n";
+std::cout << "[10] - Snapchat                         |    ";
+std::cout << "[11] - Sharechat\n\n";
 
 system("echo \"\e[92;5;12m                  Productivity\e[0m\n\"");
-cout << "[12] - Sololearn                        |    ";
-cout << "[13] - Canva\n";
-cout << "[14] - Adobe                            |    ";
-cout << "[15] - Enki (Learn to code)\n";
-cout << "[16] - Mimo (Learn python and web dev)  |    ";
-cout << "[17] - GitHub\n";
-cout << "[18] - Gitlab\n\n";
+std::cout << "[12] - Sololearn                        |    ";
+std::cout << "[13] - Canva\n";
+std::cout << "[14] - Adobe                            |    ";
+std::cout << "[15] - Enki (Learn to code)\n";
+std::cout << "[16] - Mimo (Learn python and web dev)  |    ";
+std::cout << "[17] - GitHub\n";
+std::cout << "[18] - Gitlab\n\n";
 
 system("echo \"\e[92;5;12m                   Music\e[0m\n\"");
-cout << "[19] - Spotify                          |    ";
-cout << "[20] - Gaana\n";
-cout << "[21] - Hungama                          |    ";
-cout << "[22] - Jiosaavn\n";
-cout << "[23] - Wynk                             |    ";
-cout << "[24] - Pandora\n";
-cout << "[24] - Deezer                           |    ";
-cout << "[] - Last.fm\n\n";
+std::cout << "[19] - Spotify                          |    ";
+std::cout << "[20] - Gaana\n";
+std::cout << "[21] - Hungama                          |    ";
+std::cout << "[22] - Jiosaavn\n";
+std::cout << "[23] - Wynk                             |    ";
+std::cout << "[24] - Pandora\n";
+std::cout << "[24] - Deezer                           |    ";
+std::cout << "[] - Last.fm\n\n";
 
 system("echo \"\e[92;5;12m                   Private Messenger\e[0m\n\"");
-cout << "[25] - Signal PIN                       |    ";
-cout << "[26] - Briar Messenger\n";
-cout << "[27] - Element Messenger                |    ";
-cout << "[28] - Session Messenger\n";
-cout << "[29] - Whatsapp PIN\n\n";
+std::cout << "[25] - Signal PIN                       |    ";
+std::cout << "[26] - Briar Messenger\n";
+std::cout << "[27] - Element Messenger                |    ";
+std::cout << "[28] - Session Messenger\n";
+std::cout << "[29] - Whatsapp PIN\n\n";
 
 system("echo \"\e[92;5;12m                 Mail & others\e[0m\n\"");
-cout << "[] - Protonmail                         |     ";
-cout << "[] - Protonmail Mailbox\n";
-cout << "[] - Tutanota                           |     ";
-cout << "[] - Google\n";
-cout << "[] - Yahoo                              |     ";
-cout << "[] - Apple ID\n";
-cout << "[] - Amazon\n\n\n";
+std::cout << "[] - Protonmail                         |     ";
+std::cout << "[] - Protonmail Mailbox\n";
+std::cout << "[] - Tutanota                           |     ";
+std::cout << "[] - Google\n";
+std::cout << "[] - Yahoo                              |     ";
+std::cout << "[] - Apple ID\n";
+std::cout << "[] - Amazon\n\n\n";
 
 
 
@@ -469,23 +467,23 @@ void changepass()
 		system("echo \"\e[38;5;9m•PLEASE DONOT INCLUDE ANY SPACES IN  YOUR PASSWORD AND DONOT INCLUDE ANY SYMBOLS OTHER THAN @•_., OF YOU INCLUDE THEN YOU WILL FACE SOMETROUBLE\e[0m\n\"");
 		system("echo \"\e[38;5;9m•You can use any ASCII (except  symbols) and DO NOT include Personal information and short passwords are PROHIBITED\e[0m\n\n\n\"");
 		system("echo \"\e[38;5;9m\n\nPlease Enter your current password to proceed\e[0m\n\"");
-		string oldpass = safeenter();
+		std::string oldpass = safeenter();
 		system("echo \"\e[\n\nPlease enter your new password\e[0m\n\"");
-		string newpass = safeenter();
+		std::string newpass = safeenter();
 		if (oldpass == newpass){
 		system("echo \"\e[38;5;9m\n\nError:!: The new and old Passwords are same !!\e[0m\n\"");
-		this_thread::sleep_for(chrono::milliseconds(1000));
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		changepass();
 		}
 		else {
-			string enteringtosys = "aescrypt -d -p " + oldpass + " test.aes";
+			std::string enteringtosys = "aescrypt -d -p " + oldpass + " test.aes";
         		const char *Enteredtosys = enteringtosys.c_str();
         		system(Enteredtosys);
-			string enteringtosyse = "aescrypt -e -p " + newpass + " test";
+			std::string enteringtosyse = "aescrypt -e -p " + newpass + " test";
         		const char *Enteredtosyse = enteringtosyse.c_str();
        			system(Enteredtosyse);
 			system("echo \"\e[92;5;12mSucess!  Password Changed, returning to Home \e[0m\n\"");
-			this_thread::sleep_for(chrono::milliseconds(1000));
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                		startup();
 			}
 }
@@ -493,19 +491,19 @@ void addpassmanually()
 {
 		system("echo \"\e[38;5;9m\n\nNote: Please donot enter your own passwords with spaces (The words after space will NOT be saves!\e[0m\n\"");
 		system("echo \"\e[92;5;12mPlease enter your own passsword\e[0m\n\"");
-		string ownpass;
-		cin >> ownpass;
+		std::string ownpass;
+		std::cin >> ownpass;
 		system("echo \"\e[38;5;51m\nEnter Your Password:\e[0m\"");
-        	string passwd = safeenter();
-        	string tag;
+        	std::string passwd = safeenter();
+        	std::string tag;
         	system("echo \"\e[38;5;51m\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt your passwords\e[0m\"");
-        	cin >> tag;
-        	cout << "\n";
+        	std::cin >> tag;
+        	std::cout << "\n";
         	veripassford(passwd);
-        	ofstream file;
-        	file.open("test", ios_base::app);
-        	string writinginput = ownpass + "-" + tag;
-        	file << endl <<  writinginput <<  endl;
+        	std::ofstream file;
+        	file.open("test", std::ios_base::app);
+        	std::string writinginput = ownpass + "-" + tag;
+        	file << std::endl <<  writinginput <<  std::endl;
         	file.close();
         	veripassfore(passwd);
         	passwd = "izsywiabhaishsiwywoanshs";
@@ -514,7 +512,7 @@ void addpassmanually()
 void clearallpass()
 {
 		system("aescrypt -d test.aes");
-		ifstream fortest;
+		std::ifstream fortest;
   		fortest.open("test");
  		if(fortest) {
 			system("aescrypt -d test.aes");
@@ -525,7 +523,7 @@ void clearallpass()
 			startup();
    		} else {
       			system("echo \"\e[38;5;9m\n\nError:!: Incorrect Password or the password file is altered\e[0m\n\"");
-			this_thread::sleep_for(chrono::milliseconds(1000));
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 			startup();
    		}
 }
