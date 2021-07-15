@@ -8,6 +8,8 @@
 #include <thread>
 #include "../random/csprng.hpp"
 #include "../hash/sha3.h"
+#include <filesystem>
+
 
 unsigned long long int randomize()
 {
@@ -29,6 +31,7 @@ void safeenterstop();
 void selectservice();
 void advancedoptions();
 std::string safeenter();
+void showpass(bool what);
 void waitup(int a);
 void veripassfore(std::string passstr);
 void veripassford(std::string passstr);
@@ -38,6 +41,7 @@ void banner();
 void alphaonlyfn();
 void call(int mini, int max, short int ik);
 void smallbanner();
+std::string pwdfile(std::string filename1);
 void delpass()
 {
         std::string line;
@@ -45,9 +49,15 @@ void delpass()
         system("echo \"\e[38;5;51mEnter Your Password:\e[0m\n\"");
         std::string lll = safeenter();
         veripassford(lll);
-        system("cat test");
+        //system("cat test");
+	showpass(0);
         secdel();
 	std::cout << std::endl << std::endl;
+	std::ifstream fortest1;
+	veripassford(lll);
+        fortest1.open("test");
+        if(fortest1) {
+	secdel();
         std::string deletethis;
 	system("echo \"\e[38;5;51mEnter the password (with tags) to be deleted\e[0m\"");
         std::cin >> deletethis;
@@ -70,6 +80,12 @@ void delpass()
         veripassfore(lll);
         lll = "0eidhsjgsksgsizsywiabhaishsiwywoanshs";
         startup();
+	}
+	else {
+                        system("echo \"\e[38;5;9m\n\nError:!: Incorrect Password or the password file is altered\e[0m\n\"");
+                        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                        startup();
+                }
 
 }
 
@@ -94,7 +110,7 @@ void writetofile(std::string ea, short int opt)
         veripassford(lll);
         std::ofstream file;
         file.open("test", std::ios_base::app);
-        std::string writinginput = ea + "-------" + tag + "\n\n";
+        std::string writinginput = ea + "-------" + tag + "\n";
         file << writinginput;
         file.close();
         veripassfore(lll);
@@ -156,7 +172,7 @@ void optionsA()
 {
         system("clear");
         banner();
-        std::cout << "                Welcome to PhraseX\n";
+        std::cout << "                Welcome to PhraseNUX\n";
         std::cout << "         ( A password manager by Tamilanth )  " << std::endl
                  << std::endl;
         smallbanner();
@@ -194,8 +210,8 @@ void startup()
         else {
 
         if (Jj == "2")
-        {	selectservice();
-         //       optionsB();
+        {//	selectservice();
+                optionsB();
                 std::string Option;
                 std::cin >> Option;
                 Option == "1" ? call(48, 57, 1) : Option == "2" ? alphaonlyfn() :  Option == "3" ? call(33, 126, 3) : Option == "4" ?  startup() :  startup();
@@ -206,10 +222,9 @@ void startup()
         {
 		std::cout << std::endl;
                 system("aescrypt -d test.aes");
+		showpass(1);
 		std::cout << std::endl;
-                system("cat test");
                 secdel();
-                waitup(15);
                 startup();
         }
         else {	if (Jj == "5") {
@@ -229,7 +244,7 @@ int main()
 {
 //if(checkformodification("start", "10a72e2e389ab6d338e417d87dcaa67f9bb804ff40e9ba7ccf120a2dc0bb6820") && checkformodification("install_dependencies.cpp", "185e1ec2fcb6d36b9a44571b3fa0fb354c430fbf631a015b46d411ca7c3dedb4") && checkformodification("../random/csprng.cpp", "8b409deb0f2e086d00c99d2765dd56713bb33d16c675d12fe5c6903c35d50989") && checkformodification("../random/csprng.h", "c3e5389b011088b5e5ab6c68c08cc3b952215bd52c7a28968b74c993d626afe2") && checkformodification("../random/csprng.hpp", "1cb15d8415a63fce15cc85ddcd15666973e2fb41c4edfbd3b11503ced6ba589e") && checkformodification("../random/is_iterable.hpp", "4ab295afd50988c2562d89362ae7deaf91653c5d997258525396e61bf7cc96e5") && checkformodification("../hash/sha3.cpp", "8c070dbc66dee46ce8340a6c83264c922199e51ebabbc675ea0bb08301bab7fa") &&  checkformodification("../hash/sha3.h", "302478a22134b2eb1a598cd48d331fe80c4233d3dbe90a8508ff200477e73503"))
 //{
-        startup(); 
+        startup();
         return 0;
 //}
 //else {
@@ -320,7 +335,7 @@ void banner()
 
 void call(int mini, int max, short int ik)
 {
-	duthomhas::csprng rng; 
+	duthomhas::csprng rng;
         long long unsigned int numberofmixed;
         std::cout << std::endl;
         system("echo \"\e[92;5;12mPlease enter the length of the password you need \n[Max 18,446,744,073,709,551,615] \nBut Beware !!, this number could crash your system after a few lakhs\nDEPENDS UPON YOUR SYSTEM\e[0m\"");
@@ -464,7 +479,7 @@ void changepass()
 {
 		system("echo \"\e[38;5;9m\n\nWarning !!: Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\e[0m\n\"");
 		system("echo \"\e[92;5;12m Guide for Password creation\e[0m\n\"");
-		system("echo \"\e[38;5;9m•PLEASE DONOT INCLUDE ANY SPACES IN  YOUR PASSWORD AND DONOT INCLUDE ANY SYMBOLS OTHER THAN @•_., OF YOU INCLUDE THEN YOU WILL FACE SOMETROUBLE\e[0m\n\"");
+		system("echo \"\e[38;5;9m•PLEASE DONOT INCLUDE ANY SPACES IN  YOUR PASSWORD AND DONOT INCLUDE ANY SYMBOLS OTHER THAN @•_., IF YOU INCLUDE THEN YOU WILL FACE SOME TROUBLES\e[0m\n\"");
 		system("echo \"\e[38;5;9m•You can use any ASCII (except  symbols) and DO NOT include Personal information and short passwords are PROHIBITED\e[0m\n\n\n\"");
 		system("echo \"\e[38;5;9m\n\nPlease Enter your current password to proceed\e[0m\n\"");
 		std::string oldpass = safeenter();
@@ -507,7 +522,7 @@ void addpassmanually()
         	file.close();
         	veripassfore(passwd);
         	passwd = "izsywiabhaishsiwywoanshs";
-        	secdel();
+	      	secdel();
 }
 void clearallpass()
 {
@@ -527,3 +542,62 @@ void clearallpass()
 			startup();
    		}
 }
+void movefile();
+
+std::string pwdfile(std::string filename1)
+{
+		std::string path = get_current_dir_name();
+	        char finalletter = path[path.length() -1 ];
+    		if(finalletter == '/'){
+        	path = path + filename1;
+	    	}
+    		else
+		{
+        		path  = path + "/" + filename1;
+    		}
+		return path;
+}
+void showpass(bool what)
+{
+		std::string lineofthefile;
+		std::ifstream passfile(pwdfile("test"));
+		unsigned long long int waitfor = 0;
+		std::cout << std::endl << std::endl << std::endl;
+		while(getline(passfile, lineofthefile))
+        	{
+                std::cout << lineofthefile <<  std::endl << std::endl;
+		if (lineofthefile.length() <= 100 ) {
+		if (what){
+		unsigned int count99 = 1;
+		waitfor = count99++ * 2 + waitfor;
+		}
+		}
+		else {
+		if (lineofthefile.length() <= 1000 && lineofthefile.length() >= 101){
+		if (what){
+		unsigned int  count1001 = 1;
+		waitfor = count1001++ * 4 + waitfor;
+		}
+		}
+		else {
+		if (lineofthefile.length() >= 1001 && lineofthefile.length() <= 50000){
+		if (what){
+		unsigned int count10001 = 1;
+		waitfor = count10001++ * 20 + waitfor;
+		}
+		}
+		else {
+		if (what){
+		unsigned int countmore = 1;
+		waitfor = countmore++ * 100 +waitfor;
+		}
+		}
+		}
+		}
+		}
+        	passfile.close();
+		if (what){
+		waitup(waitfor);
+		}
+}
+
