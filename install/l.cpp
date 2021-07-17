@@ -10,6 +10,7 @@
 #include "../hash/sha3.h"
 #include <filesystem>
 
+//Random integer creator
 
 unsigned long long int randomize()
 {
@@ -18,12 +19,17 @@ unsigned long long int randomize()
         return b;
 }
 
+
+//integer to string converter
+
 std::string str(unsigned long long int i)
 {
 	duthomhas::csprng rng;
         std::string x = std::to_string(i);
         return x;
 }
+//Declaring all functions
+
 void clearallpass();
 void addpassmanually();
 void changepass();
@@ -42,6 +48,10 @@ void alphaonlyfn();
 void call(int mini, int max, short int ik);
 void smallbanner();
 std::string pwdfile(std::string filename1);
+
+
+//function to delete passwords
+
 void delpass()
 {
         std::string line;
@@ -49,7 +59,6 @@ void delpass()
         system("echo \"\e[38;5;51mEnter Your Password:\e[0m\n\"");
         std::string lll = safeenter();
         veripassford(lll);
-        //system("cat test");
 	showpass(0);
         secdel();
 	std::cout << std::endl << std::endl;
@@ -82,12 +91,14 @@ void delpass()
         startup();
 	}
 	else {
-                        system("echo \"\e[38;5;9m\n\nError:!: Incorrect Password or the password file is altered\e[0m\n\"");
+                        std::cout << "\033[1;31m\n\nError:!: Incorrect Password or the password file is altered\033[0m\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                         startup();
                 }
 
 }
+
+//Function to write to the password file
 
 void writetofile(std::string ea, short int opt)
 {
@@ -122,11 +133,14 @@ void writetofile(std::string ea, short int opt)
                         opt == 1 ? call(48, 57, 1) : opt == 2 ? alphaonlyfn() :  call(33, 126, 3);
                 		          }
 		else {
-			system("echo \"\e[38;5;9m\n\nError:!: Please select 1 or 2 or 3 or 4\e[0m\n\"");
+			std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n";
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
        			 system("clear");
                 }			}
 }
+
+//Function that displays the custom option banner
+
 void optionsB()
 {       std::cout << std::endl;
         system("echo  \"\e[38;5;51m[1] - Numbers Only Mode \e[0m\"");
@@ -134,6 +148,9 @@ void optionsB()
         system("echo  \"\e[38;5;51m[3] - Mixed Mode \e[0m\"");
         system("echo  \"\e[38;5;51m[4] - Main Menu \e[0m\n\"");
 }
+
+//Function that checks for any modification to the codes of the project
+
 bool checkformodification(std::string a, std::string b)
 {
   std::string filen  = a;
@@ -147,7 +164,7 @@ bool checkformodification(std::string a, std::string b)
     file.open(filen.c_str(), std::ios::binary);
     if (!file)
     {
-      std::cerr << "Error ! Cannot open " << filen << "" << std::endl;
+      std::cerr << "Error ! Cannot open " << filen << std::endl;
     }
     input = &file;
 
@@ -168,6 +185,9 @@ bool checkformodification(std::string a, std::string b)
     return false;
     }
 }
+
+//Funtion that displays the main menu
+
 void optionsA()
 {
         system("clear");
@@ -176,21 +196,24 @@ void optionsA()
         std::cout << "         ( A password manager by Tamilanth )  " << std::endl
                  << std::endl;
         smallbanner();
-        system("echo \"\e[38;5;51m[1] - Show Saved Passwords\e[0m\"");
-        system("echo  \"\e[38;5;51m[2] - Create a  New Password\e[0m\"");
-        system("echo  \"\e[38;5;51m[3] - Delete a Password\e[0m\"");
-        system("echo  \"\e[38;5;51m[4] - Exit\e[0m\"");
-	system("echo \"\e[38;5;51m[5] - Advanced\e[0m\n\n\n\"");
+        std::cout << "\033[5;36m[1] - Show Saved Passwords\033[0m\n";
+        std::cout << "\033[5;36m[2] - Create a  New Password\033[0m\n";
+        std::cout << "\033[5;36m[3] - Delete a Password\033[0m\n";
+        std::cout << "\033[5;36m[4] - Exit\033[0m\n";
+	std::cout << "\033[5;36m[5] - Advanced\033[0m\n\n\n";
 }
+
+//Function that makes the program wait for specific timw
+
 void waitup(int a)
 {
-        std::string jk = str(a);
-        std::string see = "echo \"\e[38;5;9m\n\nNote: For security reasons your terminal will be cleared in " + jk + " seconds\e[0m\n\"";
-        const char *hee = see.c_str();
-        system(hee);
+        std::cout << "\033[1;31m\n\nNote: For security reasons your terminal will be cleared in " << a << " seconds\n\033[0m\n";
         std::this_thread::sleep_for(std::chrono::milliseconds(a * 1000));
         system("clear");
 }
+
+//Function which acts like "main" function
+
 void startup()
 {
         optionsA();
@@ -220,10 +243,9 @@ void startup()
 
         if (Jj == "Decrypt" || Jj == "decrypt" || Jj == "D" || Jj == "d" || Jj == "1" || Jj == "DECRYPT")
         {
-		std::cout << std::endl;
+		std::cout << std::endl  << std::endl;
                 system("aescrypt -d test.aes");
 		showpass(1);
-		std::cout << std::endl;
                 secdel();
                 startup();
         }
@@ -240,6 +262,9 @@ void startup()
                 }
         }
 }
+
+//Main
+
 int main()
 {
 //if(checkformodification("start", "10a72e2e389ab6d338e417d87dcaa67f9bb804ff40e9ba7ccf120a2dc0bb6820") && checkformodification("install_dependencies.cpp", "185e1ec2fcb6d36b9a44571b3fa0fb354c430fbf631a015b46d411ca7c3dedb4") && checkformodification("../random/csprng.cpp", "8b409deb0f2e086d00c99d2765dd56713bb33d16c675d12fe5c6903c35d50989") && checkformodification("../random/csprng.h", "c3e5389b011088b5e5ab6c68c08cc3b952215bd52c7a28968b74c993d626afe2") && checkformodification("../random/csprng.hpp", "1cb15d8415a63fce15cc85ddcd15666973e2fb41c4edfbd3b11503ced6ba589e") && checkformodification("../random/is_iterable.hpp", "4ab295afd50988c2562d89362ae7deaf91653c5d997258525396e61bf7cc96e5") && checkformodification("../hash/sha3.cpp", "8c070dbc66dee46ce8340a6c83264c922199e51ebabbc675ea0bb08301bab7fa") &&  checkformodification("../hash/sha3.h", "302478a22134b2eb1a598cd48d331fe80c4233d3dbe90a8508ff200477e73503"))
@@ -251,24 +276,35 @@ int main()
 //exit(1);
 //}
 }
+
+//Password verification for decryption
+
 void veripassford(std::string passstr)
 {
+	std::cout << std::endl;
         std::string strrr = "aescrypt -d -p " + passstr + " test.aes";
         const char *Opennn = strrr.c_str();
         system(Opennn);
         passstr = "iyinaishsiwywoanshs";
 }
+
+//Password verification for encryption
+
 void veripassfore(std::string parssstr)
 {
+	std::cout << std::endl;
         std::string stsrrr = "aescrypt -e -p " + parssstr + " test";
         const char *Starboy = stsrrr.c_str();
         system(Starboy);
         parssstr = "8jgftjjnshs";
         secdel();
 }
+
+//Writing to file for secure delete
+
 void writetofileforsd(std::string dea)
 {
-        for (short int hhh = 0; hhh <= 20; hhh++)
+        for (short int hhh = 0; hhh <= 35; hhh++)
         {
                 std::ofstream file;
                 file.open("test");
@@ -276,6 +312,9 @@ void writetofileforsd(std::string dea)
                 file.close();
         }
 }
+
+//Function for secure deletion
+
 void secdel()
 {
         long long unsigned int acaa = randomize();
@@ -287,44 +326,50 @@ void secdel()
         system("srm -z test");
 	remove("test");
 }
+
+
+//Banners
+
 void smallbanner()
 {
-        system("echo \"\e[38;5;51m                ▁▂▄▅▆▇█ ƬΛ █▇▆▅▄▂▁         \e[0m\n\n\"");
+	std::cout << "\033[5;36m                ▁▂▄▅▆▇█ ƬΛ █▇▆▅▄▂▁         \033[0m\n\n";
 }
 
 void banner1()
 {
-        system("echo \"\e[38;5;9m\n\n\"");
-        system("echo \"\e[38;5;9m                  ________________\"");
-        system("echo \"\e[38;5;9m                 |__   __|(  ___  )\"");
-        system("echo \"\e[38;5;9m                    ) (   | (   ) |\"");
-        system("echo \"\e[38;5;9m                    | |   | (___) |\"");
-        system("echo \"\e[38;5;9m                    | |   |  ___  |\"");
-        system("echo \"\e[38;5;9m                    | |   | (   ) |\"");
-        system("echo \"\e[38;5;9m                    | |   | )   ( |\"");
-        system("echo \"\e[38;5;9m                    )_(   |_|   |_|\e[0m\n\n\n\n\"");
+        std::cout << "\033[1;31m\n\n";
+        std::cout << "\033[1;31m                  ________________\n";
+        std::cout << "\033[1;31m                 |__   __|(  ___  )\n";
+        std::cout << "\033[1;31m                    ) (   | (   ) |\n";
+        std::cout << "\033[1;31m                    | |   | (___) |\n";
+        std::cout << "\033[1;31m                    | |   |  ___  |\n";
+        std::cout << "\033[1;31m                    | |   | (   ) |\n";
+        std::cout << "\033[1;31m                    | |   | )   ( |\n";
+        std::cout << "\033[1;31m                    )_(   |_|   |_|\033[0m\n\n\n\n";
 }
 
 void banner2()
 {
-        system("echo \"\e[38;5;51m\n\n\"");
-        system("echo  \"\e[38;5;51m                  |''||''|     |\"");
-        system("echo  \"\e[38;5;51m                     ||       |||\"");
-        system("echo  \"\e[38;5;51m                     ||      |  ||\"");
-        system("echo  \"\e[38;5;51m                     ||     .''''|.\"");
-        system("echo  \"\e[38;5;51m                    .||.   .|.  .||.\e[0m\n\n\n\n\"");
+        std::cout << "\033[5;36m\n\n";
+        std::cout << "\033[5;36m                  |''||''|     |\n";
+        std::cout << "\033[5;36m                     ||       |||\n";
+        std::cout << "\033[5;36m                     ||      |  ||\n";
+        std::cout << "\033[5;36m                     ||     .''''|.\n";
+        std::cout << "\033[5;36m                    .||.   .|.  .||.\033[0m\n\n\n\n";
 }
 
 void banner3()
 {
-        system("echo \"\e[38;5;51m\n\n\"");
-        system("echo  \"\e[38;5;51m                     ╭━━━━┳━━━╮     \"");
-        system("echo  \"\e[38;5;51m                     ┃╭╮╭╮┃╭━╮┃     \"");
-        system("echo  \"\e[38;5;51m                     ╰╯┃┃╰┫┃╱┃┃    \"");
-        system("echo  \"\e[38;5;51m                     ╱╱┃┃╱┃╰━╯┃    \"");
-        system("echo  \"\e[38;5;51m                     ╱╱┃┃╱┃╭━╮┃    \"");
-        system("echo  \"\e[38;5;51m                     ╱╱╰╯╱╰╯╱╰╯    \e[0m\n\n\n\"");
+        std::cout << "\033[5;36m\n\n";
+        std::cout << "\033[5;36m                       ╭━━━━┳━━━╮    \n";
+        std::cout << "\033[5;36m                       ┃╭╮╭╮┃╭━╮┃    \n";
+        std::cout << "\033[5;36m                       ╰╯┃┃╰┫┃╱┃┃    \n";
+        std::cout << "\033[5;36m                       ╱╱┃┃╱┃╰━╯┃    \n";
+        std::cout << "\033[5;36m                       ╱╱┃┃╱┃╭━╮┃    \n";
+        std::cout << "\033[5;36m                       ╱╱╰╯╱╰╯╱╰╯    \033[0m\n\n\n\n";
 }
+
+//Randomly select a banner
 
 void banner()
 {
@@ -332,6 +377,8 @@ void banner()
         short int ta = (rng() % 3);
         ta == 1 ? banner1() : ta == 2 ? banner2() : banner3();
 }
+
+//Randomly create number and mixed passwords
 
 void call(int mini, int max, short int ik)
 {
@@ -353,6 +400,8 @@ void call(int mini, int max, short int ik)
         writetofile(mixed, ik);
         startup();
 }
+
+//Randomly create a Alphabet only password
 
 void alphaonlyfn()
 {
@@ -379,6 +428,8 @@ void alphaonlyfn()
                         startup();
 }
 
+//Making password entered invisible
+
 std::string safeenter()
 {
         termios previouslyentered;
@@ -394,6 +445,8 @@ std::string safeenter()
 
 }
 
+//Making options entered visible again
+
 void safeenterstop()
  {
         termios previouslyentered;
@@ -402,6 +455,8 @@ void safeenterstop()
         newlyentered.c_lflag |= ECHO;
         tcsetattr(STDIN_FILENO, TCSANOW, &newlyentered);
 }
+
+//Advanced Options menu
 
 void advancedoptions()
 {
@@ -412,14 +467,17 @@ system("clear");
                  << std::endl;
         smallbanner();
         system("echo \"\e[38;5;51m[1] - Change Master Password\e[0m\"");
-        system("echo  \"\e[38;5;51m[2] - Clear all Passwords\e[0m\"");
-        system("echo  \"\e[38;5;51m[3] - Move Passwords to a location\e[0m\"");
-        system("echo  \"\e[38;5;51m[4] - Add your own  Password to the Data (created by you)\e[0m\"");
+        system("echo \"\e[38;5;51m[2] - Clear all Passwords\e[0m\"");
+        system("echo \"\e[38;5;51m[3] - Move Passwords to a location\e[0m\"");
+        system("echo \"\e[38;5;51m[4] - Add your own  Password to the Data (created by you)\e[0m\"");
         system("echo \"\e[38;5;51m[5] - Advanced\e[0m\n\n\n\"");
 	std::string Optionadvanced;
         std::cin >> Optionadvanced;
 	Optionadvanced == "1" ? changepass() : Optionadvanced == "4" ? addpassmanually() :Optionadvanced == "2" ? clearallpass() : advancedoptions();
 }
+
+//services menu with max password length
+
 void selectservice()
 {       std::cout << std::endl;
 system("echo  \"\e[38;5;51m               [1] - Generate Manually \e[0m\n\n\n\"");
@@ -471,22 +529,22 @@ std::cout << "[] - Yahoo                              |     ";
 std::cout << "[] - Apple ID\n";
 std::cout << "[] - Amazon\n\n\n";
 
-
-
-
 }
+
+//Function change the Password
+
 void changepass()
 {
-		system("echo \"\e[38;5;9m\n\nWarning !!: Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\e[0m\n\"");
+		std::cout << "\033[1;31m\n\nWarning !!: Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\033[0m\n";
 		system("echo \"\e[92;5;12m Guide for Password creation\e[0m\n\"");
-		system("echo \"\e[38;5;9m•PLEASE DONOT INCLUDE ANY SPACES IN  YOUR PASSWORD AND DONOT INCLUDE ANY SYMBOLS OTHER THAN @•_., IF YOU INCLUDE THEN YOU WILL FACE SOME TROUBLES\e[0m\n\"");
-		system("echo \"\e[38;5;9m•You can use any ASCII (except  symbols) and DO NOT include Personal information and short passwords are PROHIBITED\e[0m\n\n\n\"");
-		system("echo \"\e[38;5;9m\n\nPlease Enter your current password to proceed\e[0m\n\"");
+		std::cout << "\033[1;31m•PLEASE DONOT INCLUDE ANY SPACES IN  YOUR PASSWORD AND DONOT INCLUDE ANY SYMBOLS OTHER THAN @•_., IF YOU INCLUDE THEN YOU WILL FACE SOME TROUBLES\e[0m\n";
+		std::cout << "\033[1;31m•You can use any ASCII (except  symbols) and DO NOT include Personal information and short passwords are PROHIBITED\033[0m\n\n\n";
+		system("echo \"\e[38;5;9m\n\nPlease Enter your current password to proceed\033[0m\n\"");
 		std::string oldpass = safeenter();
-		system("echo \"\e[\n\nPlease enter your new password\e[0m\n\"");
+		system("echo \"\e[38;5;9m\n\nPlease enter your new password\e[0m\n\"");
 		std::string newpass = safeenter();
 		if (oldpass == newpass){
-		system("echo \"\e[38;5;9m\n\nError:!: The new and old Passwords are same !!\e[0m\n\"");
+		std::cout << "\033[1;31m\n\nError:!: The new and old Passwords are same !!\033[0m\n";
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		changepass();
 		}
@@ -502,9 +560,12 @@ void changepass()
                		startup();
 			}
 }
+
+//Function accept user's own passwords
+
 void addpassmanually()
 {
-		system("echo \"\e[38;5;9m\n\nNote: Please donot enter your own passwords with spaces (The words after space will NOT be saves!\e[0m\n\"");
+		std::cout << "\033[1;31m\n\nNote: Please donot enter your own passwords with spaces (The words after space will NOT be saves!\e[0m\n";
 		system("echo \"\e[92;5;12mPlease enter your own passsword\e[0m\n\"");
 		std::string ownpass;
 		std::cin >> ownpass;
@@ -524,6 +585,9 @@ void addpassmanually()
         	passwd = "izsywiabhaishsiwywoanshs";
 	      	secdel();
 }
+
+//delete all passwords in stored
+
 void clearallpass()
 {
 		system("aescrypt -d test.aes");
@@ -542,8 +606,14 @@ void clearallpass()
 			startup();
    		}
 }
-void movefile();
 
+//Move password file to some path
+
+void movefile()
+{
+		system("echo \"\e[38;5;51m\nPlease Enter the path to Move\e[0m\"");
+		system("echo \"\e[38;5;51m\nPlease Enter the path to copy\e[0m\"");
+}
 std::string pwdfile(std::string filename1)
 {
 		std::string path = get_current_dir_name();
@@ -557,47 +627,52 @@ std::string pwdfile(std::string filename1)
     		}
 		return path;
 }
+
+//Function to show all passwords stored
+
 void showpass(bool what)
 {
 		std::string lineofthefile;
 		std::ifstream passfile(pwdfile("test"));
-		unsigned long long int waitfor = 0;
+		unsigned long long int waitfor = 10;
 		std::cout << std::endl << std::endl << std::endl;
 		while(getline(passfile, lineofthefile))
         	{
                 std::cout << lineofthefile <<  std::endl << std::endl;
 		if (lineofthefile.length() <= 100 ) {
-		if (what){
 		unsigned int count99 = 1;
 		waitfor = count99++ * 2 + waitfor;
 		}
-		}
 		else {
 		if (lineofthefile.length() <= 1000 && lineofthefile.length() >= 101){
-		if (what){
 		unsigned int  count1001 = 1;
 		waitfor = count1001++ * 4 + waitfor;
 		}
-		}
 		else {
 		if (lineofthefile.length() >= 1001 && lineofthefile.length() <= 50000){
-		if (what){
 		unsigned int count10001 = 1;
 		waitfor = count10001++ * 20 + waitfor;
 		}
-		}
 		else {
-		if (what){
 		unsigned int countmore = 1;
-		waitfor = countmore++ * 100 +waitfor;
-		}
+		waitfor = countmore++ * 100 + waitfor;
 		}
 		}
 		}
 		}
         	passfile.close();
 		if (what){
+		secdel();
+		if (waitfor >= 20){
+		waitfor = waitfor - 10;
 		waitup(waitfor);
 		}
+		else {
+		if (waitfor == 10){
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		}
+		}
+		}
 }
-
+void checkforupdates(){
+}
