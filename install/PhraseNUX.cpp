@@ -18,7 +18,6 @@ Prashanth
 #include <stdio.h>
 #include <iostream>
 #include <curl/curl.h>
-#include <ctime>
 #include <fstream>
 #include <chrono>
 #include <string>
@@ -374,7 +373,7 @@ void secdel()
         std::string baaab = str(bcbb) + aaaab;
         std::string erapt = aaaab + baaab + aaaab + baaab + aaaab + baaab + aaaab + baaab;
         writetofileforsd(erapt);
-        //system("srm -z test");
+        system("srm -z test");
 	remove("test");
 }
 
@@ -797,14 +796,13 @@ void changepass()
 {
 		std::cout << "\033[1;31m\n\nWarning !!: Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\033[0m\n";
 		std::cout << "\033[1;32m Guide for Password creation\e[0m\n\n";
-		std::cout << "\033[1;31m•PLEASE DONOT INCLUDE ANY SPACES IN  YOUR PASSWORD AND DONOT INCLUDE ANY SYMBOLS OTHER THAN @•_., IF YOU INCLUDE THEN YOU WILL FACE SOME TROUBLES\e[0m\n";
-		std::cout << "\033[1;31m•You can use any ASCII (except  symbols) and DO NOT include Personal information and short passwords are PROHIBITED\033[0m\n\n\n";
+		std::cout << "\033[1;31m•You can use any ASCII valuesand DO NOT include Personal information \n•short passwords are PROHIBITED\n•Max Length 1024 characters\033[0m\n\n\n";
 		std::cout << "\033[1;31m\n\nPlease Enter your current password to proceed\033[0m\n\n";
 		std::string oldpass = safeenter();
 		std::cout << "\033[1;31m\n\nPlease enter your new password\e[0m\n\n";
 		std::string newpass = safeenter();
 		if (oldpass == newpass){
-		std::cout << "\033[1;31m\n\nError:!: The new and old Passwords are same !!\033[0m\n";
+		std::cout << "\033[1;31m\n\nError:!: The new and old Passwords are same !!\n\nPlease Try again\033[0m\n";
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		changepass();
 		}
@@ -861,7 +859,7 @@ void clearallpass()
 			fortest.close();
 			aescrypt('d', &pass);
 			secdel();
-      			system("touch test");
+      			std::ofstream output("Hi");
 			aescrypt('e', &pass);
 			secdel();
 			startup();

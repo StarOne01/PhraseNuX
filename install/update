@@ -3,9 +3,9 @@ clear
 cd ..
 mkdir PhraseNUXupdating
 cd PhraseNUX
-mv test.aes ..
+mv Encrypted_Passwords.aes ..
 cd ..
-mv test.aes PhraseNUXupdating
+mv Encrypted_Passwords.aes PhraseNUXupdating
 rm -rf PhraseNUX
 rm -rf PhraseNUX
 apt install git
@@ -28,8 +28,8 @@ chmod +x update
 rm -rf install
 cd ..
 cd PhraseNUXupdating
-mv test.aes ..
+mv Encrypted_Passwords.aes ..
 cd ..
 rm -rf PhraseNUXupdating
 mv test.aes PhraseNUX.cpp
-echo -ne "\e[38;5;9m\n\nTo are free to Start using the password manager Please enter ./PhraseNUX in this directory\e[0m\n"
+echo -ne "\e[38;5;9m\n\nYou are free to Start using the password manager by entering PhraseNUX any directory\e[0m\n"

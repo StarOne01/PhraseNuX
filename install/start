@@ -4,15 +4,9 @@ echo -ne "\e[38;5;9mNote: For security reasons the source codes will be cleared,
 rm -rf PhraseX.cpp
 rm -rf install_dependencies.cpp
 sudo apt install secure-delete
-sudo apt install wget
-g++ PhraseNUX.cpp -lcurl -o PhraseNUX ../AES/aes.h ../AES/sha256.h ../AES/ password.h ../AES/aes.cpp ../AES/sha256.cpp ../AES/password.cpp ../AES/version.h ../AES/keyfile.h ../AES/keyfile.cpp ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
-sudo apt install make
-wget https://www.aescrypt.com/download/v3/linux/aescrypt-3.14.tgz
-tar -xzf aescrypt-3.14.tgz
-cd aescrypt-3.14/src && make && sudo mv aescrypt /bin
-cd .. && cd ..
-rm -rf aescrypt-3.14
-rm -rf aescrypt-3.14.tgz
+echo -ne "\e[38;5;9m\n\nPlease Wait compiling codes\e[0m\n"
+g++ PhraseNUX.cpp -lcurl -o PhraseNUX ../AES/aes.h ../AES/sha256.h ../AES/password.h ../AES/aes.c ../AES/sha256.c ../AES/password.c ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
+echo "Compiled successfully !\n\n"
 rm -rf PhraseNUX.cpp
 rm -rf Start
 rm -rf install_dependencies.cpp
@@ -28,9 +22,8 @@ chmod +x update
 touch test
 echo -ne "\e[38;5;9mWarning !! : Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\e[0m\n"
 echo -ne "\e[38;5;9m Guide for Password creation\n\e[0m\n"
-echo -ne "\e[38;5;9m*PLEASE DONOT INCLUDE ANY SPACES IN  YOUR PASSWORD AND DONOT INCLUDE ANY SYMBOLS, IF YOU INCLUDE THEN YOU WILL FACE SOMETROUBLE\e[0m\n"
-echo -ne "\e[38;5;9m•You can use any ASCII |except  symbols| amd DONOT include Personal informarion amd short passwords for PROHIBITED\e[0m\n"
+echo -ne "\e[38;5;9m•You can use any ASCII values and DONOT include Personal informarion \n•short passwords for PROHIBITED\n•Max Password size = 1024 characters\e[0m\n"
 aescrypt -e test
 srm -z test
-
-echo -ne "\e[38;5;9m\n\nTo Start using the password manager Please enter ./PhraseNUX in this directory\e[0m\n"
+mv test.aes Encrypted_Passwords.aes
+echo -ne "\e[38;5;9m\n\nTo Start using the password manager Please type PhraseNUX in any directory\e[0m\n"
