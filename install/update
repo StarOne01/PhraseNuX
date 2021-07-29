@@ -1,0 +1,35 @@
+#!/bin/bash
+clear
+cd ..
+mkdir PhraseNUXupdating
+cd PhraseNUX
+mv test.aes ..
+cd ..
+mv test.aes PhraseNUXupdating
+rm -rf PhraseNUX
+rm -rf PhraseNUX
+apt install git
+git clone https://github.com/Tamilanth/PhraseNUX/
+cd PhraseNUX
+cd install
+echo -ne "\e[38;5;9mNote: For security reasons the source codes will be cleared, if you need to play with source codes please download this again and edit the installation script\n\e[0m"
+g++ PhraseNUX.cpp -lcurl -o PhraseNUX ../random/csprng.cpp ../hash/sha3.cpp -I.
+rm -rf PhraseNUX.cpp
+rm -rf Start
+rm -rf install_dependencies.cpp
+cd ..
+rm -rf random
+rm -rf hash
+cd install
+mv PhraseNUX ..
+mv update ..
+cd ..
+chmod +x update
+rm -rf install
+cd ..
+cd PhraseNUXupdating
+mv test.aes ..
+cd ..
+rm -rf PhraseNUXupdating
+mv test.aes PhraseNUX.cpp
+echo -ne "\e[38;5;9m\n\nTo are free to Start using the password manager Please enter ./PhraseNUX in this directory\e[0m\n"
