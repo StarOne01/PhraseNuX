@@ -30,10 +30,14 @@ cout << "Please enter the command to start the Program i.e, the word which you e
 cin >> name;
 std::ofstream file;
 file.open(name);
-name = "cd " + name;
+string namee = "cd " + name;
 file << "#!/bin/bash";
-file << name;
+file << namee;
 file << "./PhraseNUX";
+file.close();
+name = "sudo mv " + name + " /usr/bin";
+const char* na = name.c_str(); 
+system(na);
 }
 else {
     if (a == "No" || a == "NO" || a == "N" || a == "n" || a == "no"){
