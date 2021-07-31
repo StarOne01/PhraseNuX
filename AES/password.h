@@ -44,7 +44,7 @@ int passwd_to_utf16(unsigned char *in_passwd,
 const char* read_password_error(int error);
 
 int read_password(unsigned char* buffer,
-                  encryptmode_t mode, bool hide);
+                  encryptmode_t mode);
 
 
 #endif // AESCRYPT_PASSWORD_H

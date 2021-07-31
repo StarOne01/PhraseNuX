@@ -434,7 +434,7 @@ uint32 KT3[256];
 
 /* AES key scheduling routine */
 
-int aes_set_key( aes_context *ctx, uint8 *key, int nbits )
+bool aes_set_key( aes_context *ctx, uint8 *key, int nbits )
 {
     int i;
     uint32 *RK, *SK;
@@ -451,7 +451,7 @@ int aes_set_key( aes_context *ctx, uint8 *key, int nbits )
         case 128: ctx->nr = 10; break;
         case 192: ctx->nr = 12; break;
         case 256: ctx->nr = 14; break;
-        default : return( 1 );
+        default : return( 0 );
     }
 
     RK = ctx->erk;
@@ -580,7 +580,7 @@ int aes_set_key( aes_context *ctx, uint8 *key, int nbits )
     *SK++ = *RK++;
     *SK++ = *RK++;
 
-    return( 0 );
+    return( 1 );
 }
 
 /* AES 128-bit block encryption routine */
@@ -848,7 +848,7 @@ int main( void )
                 ( m == 1 && memcmp( buf, AES_dec_test[n], 16 ) != 0 ) )
             {
                 printf( "failed!\n" );
-                return( 1 );
+                return( 0 );
             }
 
             printf( "passed.\n" );
@@ -857,7 +857,7 @@ int main( void )
 
     printf( "\n" );
 
-    return( 0 );
+    return( 1 );
 }
 
 #endif

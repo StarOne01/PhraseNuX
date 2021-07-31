@@ -330,7 +330,7 @@ int main( int argc, char *argv[] )
             if( memcmp( output, val[i], 64 ) )
             {
                 printf( "failed!\n" );
-                return( 1 );
+                return( 0 );
             }
 
             printf( "passed.\n" );
@@ -343,7 +343,7 @@ int main( int argc, char *argv[] )
         if( ! ( f = fopen( argv[1], "rb" ) ) )
         {
             perror( "fopen" );
-            return( 1 );
+            return( 0 );
         }
 
         sha256_starts( &ctx );
@@ -363,7 +363,7 @@ int main( int argc, char *argv[] )
         printf( "  %s\n", argv[1] );
     }
 
-    return( 0 );
+    return( 1 );
 }
 
 #endif

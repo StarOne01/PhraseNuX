@@ -71,10 +71,10 @@ const char* read_password_error(int error)
  *    < 0 error (return value indicating the specific error)
  */
 
-int read_password(unsigned char* buffer, encryptmode_t mode, bool hide)
+int read_password(unsigned char* buffer, encryptmode_t mode)
 {
     struct termios t;                   // Used to set ECHO attribute
-    int echo_enabled = 0;               // Was echo enabled?
+    int echo_enabled;                   // Was echo enabled?
     int tty;                            // File descriptor for tty
     FILE* ftty;                         // File for tty
     unsigned char pwd_confirm[MAX_PASSWD_BUF];
@@ -121,14 +121,13 @@ int read_password(unsigned char* buffer, encryptmode_t mode, bool hide)
         // Prompt for password
         if (i)
         {
-            fprintf(ftty, "\033[1;31mRe-\033[0m");
+            fprintf(ftty, "\033[5;36m\nRe-\033[0m");
         }
-        fprintf(ftty, "\033[1;31mEnter password: \033[0m");
+        fprintf(ftty, "\033[5;36m\nEnter Your Password:\033[0m ");
         fflush(ftty);
 
         // Disable echo if necessary
-        if (hide){
-	if (t.c_lflag & ECHO)
+        if (t.c_lflag & ECHO)
         {
             t.c_lflag &= ~ECHO;
             if (tcsetattr(tty, TCSANOW, &t) < 0)
@@ -145,7 +144,7 @@ int read_password(unsigned char* buffer, encryptmode_t mode, bool hide)
         {
             echo_enabled = 0;
         }
-	}
+
         // Read from input and fill buffer till MAX_PASSWD_LEN chars are read
         chars_read = 0;
         while (((c = fgetc(ftty)) != '\n') && (c != EOF))
@@ -167,7 +166,7 @@ int read_password(unsigned char* buffer, encryptmode_t mode, bool hide)
         fprintf(ftty, "\n");
 
         // Enable echo if disabled above
-	if (echo_enabled)
+        if (echo_enabled)
         {
             t.c_lflag |= ECHO;
             if (tcsetattr(tty, TCSANOW, &t) < 0)
@@ -269,7 +268,7 @@ int passwd_to_utf16(unsigned char *in_passwd,
         switch (errno)
         {
             case E2BIG:
-                fprintf(stderr, "Error: password too long\n");
+                fprintf(stderr, "\033[1;31mError: password too long\e[0m\n");
                 iconv_close(condesc);
                 return -1;
                 break;
@@ -280,7 +279,7 @@ int passwd_to_utf16(unsigned char *in_passwd,
                        EINVAL,
                        errno);
                 */
-                perror("Password conversion error");
+                perror("\033[1;31mPassword conversion error\e[0m");
                 iconv_close(condesc);
                 return -1;
         }

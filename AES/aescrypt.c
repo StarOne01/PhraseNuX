@@ -34,7 +34,7 @@
  *
  *  This function is called to encrypt the open data steam "infp".
  */
-int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
+bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
 {
     aes_context aes_ctx;
     sha256_context sha_ctx;
@@ -58,7 +58,7 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     if ((randfp = fopen("/dev/urandom", "r")) == NULL)
     {
         perror("Error open /dev/urandom:");
-        return -1;
+        return 0;
     }
 
     // Create the 16-octet IV and 32-octet encryption key
@@ -77,10 +77,10 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         {
             if ((bytes_read = fread(buffer, 1, 32, randfp)) != 32)
             {
-                fprintf(stderr, "Error: Couldn't read from /dev/urandom : %u\n",
+                fprintf(stderr, "\033[1;31mError: Couldn't read from /dev/urandom : %u\e[0m\n",
                         (unsigned) bytes_read);
                 fclose(randfp);
-                return -1;
+                return 0;
             }
             sha256_update(&sha_ctx, buffer, 32);
         }
@@ -97,9 +97,9 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     buffer[4] = '\0';                   // Reserved for version 0
     if (fwrite(buffer, 1, 5, outfp) != 5)
     {
-        fprintf(stderr, "Error: Could not write out header data\n");
+        fprintf(stderr, "\033[1;31mError: Could not write out header data\e[0m\n");
         fclose(randfp);
-        return -1;
+        return 0;
     }
 
     // Write out the CREATED-BY tag
@@ -116,9 +116,9 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         buffer[1] = (unsigned char) (j & 0xff);
         if (fwrite(buffer, 1, 2, outfp) != 2)
         {
-            fprintf(stderr, "Error: Could not write tag to AES file (1)\n");
+            fprintf(stderr, "\033[1;31mError: Could not write tag to AES file (1)\e[0m\n");
             fclose(randfp);
-            return -1;
+            return 0;
         }
 
         strncpy((char *)tag_buffer, "CREATED_BY", 255);
@@ -127,7 +127,7 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         {
             fprintf(stderr, "Error: Could not write tag to AES file (2)\n");
             fclose(randfp);
-            return -1;
+            return 0;
         }
 
         sprintf((char *)tag_buffer, "%s %s", PROG_NAME, PROG_VERSION);
@@ -136,7 +136,7 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         {
             fprintf(stderr, "Error: Could not write tag to AES file (3)\n");
             fclose(randfp);
-            return -1;
+            return 0;
         }
     }
 
@@ -147,14 +147,14 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     {
         fprintf(stderr, "Error: Could not write tag to AES file (4)\n");
         fclose(randfp);
-        return -1;
+        return 0;
     }
     memset(tag_buffer, 0, 128);
     if (fwrite(tag_buffer, 1, 128, outfp) != 128)
     {
         fprintf(stderr, "Error: Could not write tag to AES file (5)\n");
         fclose(randfp);
-        return -1;
+        return 0;
     }
 
     // Write out 0x0000 to indicate that no more extensions exist
@@ -164,7 +164,7 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     {
         fprintf(stderr, "Error: Could not write tag to AES file (6)\n");
         fclose(randfp);
-        return -1;
+        return 0;
     }
 
     // We will use an initialization vector comprised of the current time
@@ -189,9 +189,9 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     {
         if (fread(buffer, 1, 32, randfp) != 32)
         {
-            fprintf(stderr, "Error: Couldn't read from /dev/random\n");
+            fprintf(stderr, "\033[1;31mError: Couldn't read from /dev/random\e[0m\n");
             fclose(randfp);
-            return -1;
+            return 0;
         }
         sha256_update(  &sha_ctx,
                         buffer,
@@ -208,8 +208,8 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     // Write the initialization vector to the file
     if (fwrite(IV, 1, 16, outfp) != 16)
     {
-        fprintf(stderr, "Error: Could not write out initialization vector\n");
-        return -1;
+        fprintf(stderr, "\033[1;31mError: Could not write out initialization vector\n\e[0m");
+        return 0;
     }
     
     // Hash the IV and password 8192 times
@@ -268,8 +268,8 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         // Write the encrypted block
         if (fwrite(buffer, 1, 16, outfp) != 16)
         {
-            fprintf(stderr, "Error: Could not write iv_key data\n");
-            return -1;
+            fprintf(stderr, "\033[1;31mError: Could not write iv_key data\n\e[0m");
+            return 0;
         }
         
         // Update the IV (CBC mode)
@@ -285,8 +285,8 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     // Write the encrypted block
     if (fwrite(digest, 1, 32, outfp) != 32)
     {
-        fprintf(stderr, "Error: Could not write iv_key HMAC\n");
-        return -1;
+        fprintf(stderr, "\033[1;31mError: Could not write iv_key HMAC\e[0m\n");
+        return 0;
     }
 
     // Re-load the IV and encryption key with the IV and
@@ -337,7 +337,7 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         if (fwrite(buffer, 1, 16, outfp) != 16)
         {
             fprintf(stderr, "Error: Could not write to output file\n");
-            return -1;
+            return 0;
         }
         
         // Update the IV (CBC mode)
@@ -351,7 +351,7 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     if (ferror(infp))
     {
         fprintf(stderr, "Error: Couldn't read input file\n");
-        return -1;
+        return 0;
     }
 
     // Write the file size modulo
@@ -359,7 +359,7 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     if (fwrite(buffer, 1, 1, outfp) != 1)
     {
         fprintf(stderr, "Error: Could not write the file size modulo\n");
-        return -1;
+        return 0;
     }
 
     // Write the HMAC
@@ -371,14 +371,14 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     if (fwrite(digest, 1, 32, outfp) != 32)
     {
         fprintf(stderr, "Error: Could not write the file HMAC\n");
-        return -1;
+        return 0;
     }
 
     // Flush the output buffer to ensure all data is written to disk
     if (fflush(outfp))
     {
         fprintf(stderr, "Error: Could not flush output file buffer\n");
-        return -1;
+        return 0;
     }
 
     return 1;
@@ -389,7 +389,7 @@ int encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
  *
  *  This function is called to decrypt the open data steam "infp".
  */
-int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
+bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
 {
     aes_context aes_ctx;
     sha256_context sha_ctx;
@@ -416,14 +416,14 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         {
             perror("Error reading the file header:");
         }
-        return -1;
+        return 0;
     }
 
     if (!(aeshdr.aes[0] == 'A' && aeshdr.aes[1] == 'E' &&
           aeshdr.aes[2] == 'S'))
     {
         fprintf(stderr, "Error: Bad file header (not aescrypt file or is corrupted? [%x, %x, %x])\n", aeshdr.aes[0], aeshdr.aes[1], aeshdr.aes[2]);
-        return -1;
+        return 0;
     }
 
     // Validate the version number and take any version-specific actions
@@ -437,7 +437,7 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     {
         fprintf(stderr, "Error: Unsupported AES file version: %d\n",
                 aeshdr.version);
-        return -1;
+        return 0;
     }
 
     // Skip over extensions present v2 and later files
@@ -455,7 +455,7 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
                 {
                     perror("Error reading the file extensions:");
                 }
-                return -1;
+                return 0;
             }
             // Determine the extension length, zero means no more extensions
             i = j = (((int)buffer[0]) << 8) | (int)buffer[1];
@@ -471,7 +471,7 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
                     {
                         perror("Error reading the file extensions:");
                     }
-                    return -1;
+                    return 0;
                 }
             }
         } while(j);
@@ -488,7 +488,7 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         {
             perror("Error reading the initialization vector:");
         }
-        return -1;
+        return 0;
     }
 
     // Hash the IV and password 8192 times
@@ -539,7 +539,7 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
                 {
                     perror("Error reading input file IV and key:");
                 }
-                return -1;
+                return 0;
             }
 
             memcpy(buffer2, buffer, 16);
@@ -575,13 +575,13 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
             {
                 perror("Error reading input file digest:");
             }
-            return -1;
+            return 0;
         }
 
         if (memcmp(digest, buffer, 32))
         {
-            fprintf(stderr, "Error: Message has been altered or password is incorrect\n");
-            return -1;
+            fprintf(stderr, "\033[1;31mError: Message has been altered or password is incorrect\e[0m\n");
+            return 0;
         }
 
         // Re-load the IV and encryption key with the IV and
@@ -620,7 +620,7 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         if (!feof(infp))
         {
             perror("Error reading input file ring:");
-            return -1;
+            return 0;
         }
         else
         {
@@ -632,7 +632,7 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
             {
                 fprintf(stderr, "Error: Input file is corrupt (1:%u).\n",
                         (unsigned) bytes_read);
-                return -1;
+                return 0;
             }
             else
             {
@@ -650,7 +650,7 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
                 if (aeshdr.last_block_size != 0)
                 {
                     fprintf(stderr, "Error: Input file is corrupt (2).\n");
-                    return -1;
+                    return 0;
                 }
             }
             reached_eof = 1;
@@ -672,7 +672,7 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
             if (!feof(infp))
             {
                 perror("Error reading input file:");
-                return -1;
+                return 0;
             }
             else
             {
@@ -682,7 +682,7 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
                 {
                     fprintf(stderr, "Error: Input file is corrupt (3:%u).\n",
                             (unsigned) bytes_read);
-                    return -1;
+                    return 0;
                 }
 
                 // If this is a v1 file, then the file modulo is located
@@ -740,8 +740,8 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
             // Write the decrypted block
             if ((i = fwrite(tail, 1, n, outfp)) != n)
             {
-                perror("Error writing decrypted block:");
-                return -1;
+                perror("\033[1;31mError writing decrypted block:\e[0m");
+                return 0;
             }
             
             // Move the tail of the ring buffer forward
@@ -792,22 +792,22 @@ int decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     {
         if (aeshdr.version == 0x00)
         {
-            fprintf(stderr, "Error: Message has been altered or password is incorrect\n");
+            fprintf(stderr, "\033[1;31mError: Message has been altered or password is incorrect\n\e[0m");
 	    return 0;
         }
         else
         {
-            fprintf(stderr, "Error: Message has been altered and should not be trusted\n");
+            fprintf(stderr, "\033[1;31mError: Message has been altered and should not be trusted\e[0m\n");
         }
 
-        return -1;
+        return 0;
     }
 
     // Flush the output buffer to ensure all data is written to disk
     if (fflush(outfp))
     {
         fprintf(stderr, "Error: Could not flush output file buffer\n");
-        return -1;
+        return 0;
     }
 
     return 1;

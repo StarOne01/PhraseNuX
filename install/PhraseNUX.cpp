@@ -3,7 +3,7 @@ PhraseNUX was created && developed && is being maintained by Prashanth(Tamilanth
 © Tamilanth
 PhraseNUX is free to use and free to be modified and distributed as per the GPL License
 for more information on modification and distribution, please refer to LICENSE.md
-Incase of any bugs please tag me by posting "Found a Bug @MY_USWLERNAME" at 
+Incase of any bugs please tag me by posting "Found a Bug @MY_USWLERNAME" at
 		• Instagram (@its_me_tamilanth) or
 		• Twitter (@Tamilanth)
 for further Instructions
@@ -35,8 +35,12 @@ Prashanth
 unsigned long long int randomize()
 {
 	duthomhas::csprng rng;
-        unsigned long long int b = 9999 * 99999 * (rng() % 999999999999999999);
+        if (unsigned long long int b = 9999 * 99999 * (rng() % 999999999999999999)){
         return b;
+	}
+	else {
+	return false;
+	}
 }
 
 
@@ -50,119 +54,210 @@ std::string str(unsigned long long int i)
 }
 //Declaring all functions and checkers
 bool aescrypt(char type,const char** pas);
-void checkforupdates(bool start);
-void clearallpass();
-void addpassmanually();
-void changepass();
-void safeenterstop();
-void selectservice();
-void advancedoptions();
+bool checkforupdates(bool start);
+bool addpassmanually();
+bool changepass();
+bool safeenterstop();
+bool selectservice();
+bool advancedoptions();
 std::string safeenter();
-void showpass(bool what);
+bool showpass(bool what);
 void waitup(int a);
-void veripassfore(std::string passstr);
+bool veripassfore(std::string passstr);
 bool veripassford(std::string passstr);
-void startup();
-signed int rc = -1;
-signed int enrc = -1;
-void secdel();
+bool startup();
+signed int rc = 0;
+signed int enrc = 0;
+bool secdel();
 void banner();
-void alphaonlyfn();
-void call(int mini, int max, short int ik);
+bool alphaonlyfn(bool num);
+bool call(int mini, int max, short int ik);
 void smallbanner();
 std::string pwdfile(std::string filename1);
 
 
 //function to delete passwords
 
-void delpass()
+bool delpass()
 {
         std::string line;
-	std::cout << std::endl;
-        std::cout << "\033[1;31mEnter Your Password:\033[0m\n\n";
+	std::cout << "\n";
+        std::cout << "\033[1;31mEnter Your Password:\033[0m";
         std::string lll = safeenter();
         if (veripassford(lll)){
-	showpass(0);
-        secdel();
-	std::cout << std::endl << std::endl;
-	veripassford(lll);
-	secdel();
+	if (!(showpass(0))){
+	return false;
+	}
+        if(!secdel()){
+	remove("test");
+	}
+	std::cout << "\n" << "\n";
         std::string deletethis;
 	std::cout << "\033[1;31mEnter the password (with tags) to be deleted\e[0m\n";
         std::getline(std::cin >> std::ws, deletethis);
-        veripassford(lll);
+        if(!(veripassford(lll))){
+	std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+        return false;
+        }
         std::ifstream oldfile("test");
         if (!oldfile.is_open())
         {
                 std::cout << "\noperation failed !!!\n";
+		return false;
         }
         std::ofstream newfile("testw");
         while(getline(oldfile, line))
         {
-                if (line != deletethis)
+		if(line.find(deletethis) == std::string::npos){
                 newfile << line << std::endl;
-        }
+    		}
+	}
         oldfile.close();
         newfile.close();
-        secdel();
-        rename("testw", "test");
-        veripassfore(lll);
-        lll = "0eidhsjgsksgsizsywiabhaishsiwywoanshs";
-        startup();
+        if(!secdel()){
+	remove("test");
 	}
-
+        rename("testw", "test");
+        if(!veripassfore(lll)){
+	std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
+	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+	return false;
+	}
+        lll = "sjueodnzkslsnejsidaishsiwywoanshs";
+	if (!(startup())){
+	std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+	return false;
+	}}
+return true;
 }
 
 //Function to write to the password file
 
-void writetofile(std::string ea, short int opt)
-{
+bool writetofile(std::string ea, short int opt)
+{	short int optionsforsaving;
         std::string lll;
-        std::cout << std::endl;
-        std::cout << ea << std::endl << std::endl;
+	std::cout << "\n";
+	if (ea.length() > 1000000){
+	std::cout << "\033[5;36m\nLooks like the generated password is too long \033[0m\n";
+	short int moreopt;
+	std::cout << "\033[5;36m\n[1] - Show Anyway\033[0m";
+	std::cout << "\033[5;36m\n[2] - Directly save to enecrypted password file\033[0m\n";
+        std::cout << "\n";
+	std::cin >> moreopt;
+	if (moreopt == 1){
+	std::cout << "\n";
+        std::cout << ea << std::endl << "\n";
         std::cout << "\033[1;34mCan we save this password ?, if not you can generate the password again without saving this\033[0m\n\n";
         std::cout << "\033[1;36m[1] - Save the password \033[0m\n";
         std::cout << "\033[1;36m[2] - Generate a password again \033[0m\n\n";
-        short int optionsforsaving;
         std::cin >> optionsforsaving;
         std::cout << "\n";
+        }
+	else if (moreopt == 2){
+	optionsforsaving = 1;
+	}
+	else {
+	std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                                        if(!(std::cout << "\033c")){
+                                        system("clear");
+                                        return false;
+                                        }
+	}
+	}
+	else {
+	std::cout << "\n";
+        std::cout << ea << std::endl << "\n";
+        std::cout << "\033[1;34mCan we save this password ?, if not you can generate the password again without saving this\033[0m\n\n";
+        std::cout << "\033[1;36m[1] - Save the password \033[0m\n";
+        std::cout << "\033[1;36m[2] - Generate a password again \033[0m\n\n";
+        std::cin >> optionsforsaving;
+        std::cout << "\n";
+	}
         if(optionsforsaving == 1){
-        std::cout << "\033[1;31mEnter Your Password:\033[0m\n\n";
+        std::cout << "\033[1;31mEnter Your Password:\033[0m";
         lll = safeenter();
-        std::string tag;
-        std::cout << "\033[5;36m\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt the passwords:\033[0m\n\n\n";
+	std::string tag;
+        std::cout << "\033[5;36m\n\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt the passwords:\033[0m\n\n\n";
 	std::getline(std::cin >> std::ws, tag);
         std::cout << "\n";
-        if(veripassford(lll)){
-        std::ofstream file;
-        file.open("test", std::ios_base::app);
-        std::string writinginput = ea + "-------" + tag + "\n";
-        file << writinginput;
-        file.close();
-        veripassfore(lll);
-        lll = "00000000teidhsjgsksgsizsywiabhaishsiwywoanshs";
-        secdel();
-        }
+	bool a = veripassford(lll);
+        if(a && rc){
 	}
-        else {
-                if (optionsforsaving == 2){
-                        opt == 1 ? call(48, 57, 1) : opt == 2 ? alphaonlyfn() :  call(33, 126, 3);
-                		          }
-		else {
-			std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n";
-			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-       			std::cout << "\033c";
-                }			}
+	else if (!a && !rc){
+	for (short int count = 0; count <= 5; count++){
+	if(count == 4){
+        std::cout << "\033[1;31mEntered incorrect Password for 5 times exiting !\n\033[0m";
+        return false;
+        }
+	std::cout << "\033[1;31m\nEnter Your Password:\033[0m";
+	lll = safeenter();
+        if(veripassford(lll)){
+	break;
+	}
+	}
+	}
+	std::ofstream file;
+        file.open("test", std::ios_base::app);
+        std::string writinginput = ea + "|-------------|" + tag;
+        file << writinginput << std::endl;
+        file.close();
+        if(!(veripassfore(lll))){
+	std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
+	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+	return false;
+	}
+        lll = "0sywwywoanshs";
+        if(!secdel()){
+	remove("test");
+	}
+	if (!(startup())){
+	std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+	return false;
+	}
+        return true;
+	}
+	else {
+
+		if (optionsforsaving == 2){
+			    switch (opt) {
+        			case 1:
+            				call(48, 57, 1);
+            				break;
+        			case 2:
+            				alphaonlyfn(0);
+            				break;
+				case 3:
+					alphaonlyfn(1);
+					break;
+        			case 4:
+            				call(33, 126, 3);
+            				break;
+				default:
+					std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n";
+					std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+       					if(!(std::cout << "\033c")){
+					system("clear");
+					return false;
+					}
+              }
+	  }
+}
+return true;
 }
 
 //Function that displays the custom option banner
 
 void optionsB()
-{       std::cout << std::endl;
+{       std::cout << "\n";
         std::cout << "\033[5;36m[1] - Numbers Only Mode \033[0m\n";
         std::cout << "\033[5;36m[2] - Alphabets Only Mode \033[0m\n";
-        std::cout << "\033[5;36m[3] - Mixed Mode \033[0m\n";
-        std::cout << "\033[5;36m[4] - Main Menu \033[0m\n\n";
+	std::cout << "\033[5;36m[3] - Alphabets-Numeric Mode \033[0m\n";
+        std::cout << "\033[5;36m[4] - Mixed Mode \033[0m\n";
+        std::cout << "\033[5;36m[5] - Main Menu \033[0m\n\n";
 }
 
 
@@ -219,8 +314,8 @@ void optionsA()
         std::cout << "\033c";
         banner();
         std::cout << "                Welcome to PhraseNUX\n";
-        std::cout << "         ( A password manager by Tamilanth )  " << std::endl
-                 << std::endl;
+        std::cout << "         ( A password manager by Tamilanth )  " << "\n"
+                 << "\n";
         smallbanner();
         std::cout << "\033[5;36m[1] - Show Saved Passwords\033[0m\n";
         std::cout << "\033[5;36m[2] - Create a  New Password\033[0m\n";
@@ -235,12 +330,14 @@ void waitup(int a)
 {
         std::cout << "\033[1;31m\n\nNote: For security reasons your terminal will be cleared in " << a << " seconds\n\033[0m\n";
         std::this_thread::sleep_for(std::chrono::milliseconds(a * 1000));
-        std::cout << "\033c";
+        if(!(std::cout << "\033c")){
+	system("clear");
+	}
 }
 
 //Function which acts like "main" function
 
-void startup()
+bool startup()
 {
         optionsA();
         std::string Jj;
@@ -248,47 +345,130 @@ void startup()
         std::cin >> Jj;
         if (Jj == "3")
         {
-                delpass();
-        }
-        else {
+                if(!(delpass())){
+		std::cout << "\033[1;31mError!! in Deleting the passwords\033[0m\n\n";
+        	return false;
+		}
+		if(!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                        }
+		return true;
+	}
 
-        if (Jj == "4")
+        else if (Jj == "4")
         {
                 exit(1);
         }
-        else {
-
-        if (Jj == "2")
+        else if (Jj == "2")
         {
                 optionsB();
                 std::string Option;
                 std::cin >> Option;
-                Option == "1" ? call(48, 57, 1) : Option == "2" ? alphaonlyfn() :  Option == "3" ? call(33, 126, 3) : Option == "4" ?  startup() :  startup();
-        }
-        else {
-
-        if (Jj == "Decrypt" || Jj == "decrypt" || Jj == "D" || Jj == "d" || Jj == "1" || Jj == "DECRYPT")
+                                if (Option == "1"){
+                                        if (!(call(48, 57, 1))){
+					std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+					return false;
+					}
+					if(!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                        		}
+					return true;
+					}
+                                else if (Option == "2"){
+                                        if(!(alphaonlyfn(0))){
+					std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
+					std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+					return false;
+					}
+					return true;
+                         		if(!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                        		}
+				        }
+				else if (Option == "3"){
+					if(!(alphaonlyfn(1))){
+                                        std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+					return false;
+					}
+					if(!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                        		}
+					return true;
+					}
+                                else if (Option == "4"){
+                                        if(!(call(33, 126, 3))){
+					std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
+					std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+					return false;
+					}
+					return true;
+                                        }
+                                else {
+					std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                                        if(!(std::cout << "\033c")){
+					system("clear");
+					}
+					if(!(startup())){
+					std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+					std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+					}
+					return false;
+        				}
+	}
+        else if (Jj == "Decrypt" || Jj == "decrypt" || Jj == "D" || Jj == "d" || Jj == "1" || Jj == "DECRYPT")
         {
-		std::cout << std::endl  << std::endl;
+		std::cout << "\n"  << "\n";
 		const char* pass = "0";
-		aescrypt('d', &pass);
+		if(!(aescrypt('d', &pass))){
+		std::cout << "\033[1;31mError!! in Decrypting the encrypted password\033[0m\n\n";
+		std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+		}
 		showpass(1);
-                secdel();
-                startup();
+                if(!(secdel())){
+		remove("test");
+		}
+		if(!(startup())){
+                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+			return false;
+		}
+		return true;
         }
-        else {
-	if (Jj == "5") {
-		advancedoptions();
-			}
+        else if (Jj == "5") {
+		if(!(advancedoptions())){
+		std::cout << "\033[1;31mError!! in starting advanced options !!\033[0m\n\n";
+		std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+		return false;
+		}
+		if(!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                        }
+		return true;
+		}
 		else {
                 std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-                startup();
+                if(!(startup())){
+		std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";	
+			std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+			return false;
 			}
-                }
-                }
-                }
-        }
+		return false;
+		}
+	return true;
 }
 
 //Main
@@ -297,12 +477,13 @@ int main()
 //if(checkformodification("start", "10a72e2e389ab6d338e417d87dcaa67f9bb804ff40e9ba7ccf120a2dc0bb6820") && checkformodification("install_dependencies.cpp", "185e1ec2fcb6d36b9a44571b3fa0fb354c430fbf631a015b46d411ca7c3dedb4") && checkformodification("../random/csprng.cpp", "8b409deb0f2e086d00c99d2765dd56713bb33d16c675d12fe5c6903c35d50989") && checkformodification("../random/csprng.h", "c3e5389b011088b5e5ab6c68c08cc3b952215bd52c7a28968b74c993d626afe2") && checkformodification("../random/csprng.hpp", "1cb15d8415a63fce15cc85ddcd15666973e2fb41c4edfbd3b11503ced6ba589e") && checkformodification("../random/is_iterable.hpp", "4ab295afd50988c2562d89362ae7deaf91653c5d997258525396e61bf7cc96e5") && checkformodification("../hash/sha3.cpp", "8c070dbc66dee46ce8340a6c83264c922199e51ebabbc675ea0bb08301bab7fa") &&  checkformodification("../hash/sha3.h", "302478a22134b2eb1a598cd48d331fe80c4233d3dbe90a8508ff200477e73503"))
 //{
 	std::cout << "\033c";
-	checkforupdates(1);
+	if(checkforupdates(1)){
         return 0;
-//}
+	}
 //else {
 //exit(1);
-//cout << "Some or all files are corrupted
+//cout << "Some or all files are corrupted\n this could be dangerous\n";
+//
 //}
 }
 
@@ -310,49 +491,56 @@ int main()
 
 bool veripassford(std::string passstr)
 {
-	std::cout << std::endl;
+	std::cout << "\n";
         const char *Opennn = passstr.c_str();
-        aescrypt('d', &Opennn);
+        if(!(aescrypt('d', &Opennn))){
+	if(!(rc)){
+	std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
         passstr = "iyinaishsiwywoanshs";
-	std::ifstream fortest2;
-        fortest2.open("test");
-        if(fortest2) {
-	fortest2.close();
+	return false;
 	}
-	else {
-	std::cout << "\033[1;31m\n\nError:!: Incorrect Password or the password file is altered\033[0m\n";
-                        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-                        startup();
-			return 0;
 	}
-	return 1;
+	return true;
 }
 
 //Password verification for encryption
 
-void veripassfore(std::string parssstr)
+bool veripassfore(std::string parssstr)
 {
 	std::ifstream ifile;
   	ifile.open("test");
-   	if(ifile && rc == 1 || rc == 0){
-	ifile.close();
-	std::cout << std::endl;
-        const char *Starboy = parssstr.c_str();
-        aescrypt('e', &Starboy);
-        parssstr = "8jgftjjnshs";
-        secdel();
-	}
-	else {
+   	if(!(ifile && rc)){
 	std::cout << "\033[1;31mError:!: Incorrect Password or the password file is altered\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-                        secdel();
-                        startup();
-                }
+                        if(!(secdel())){
+                        remove("test");
+                        }
+           }
+	ifile.close();
+	std::cout << "\n";
+        const char *Starboy = parssstr.c_str();
+        if(!(aescrypt('e', &Starboy))){
+	std::cout << "\033[1;31mError!! in Encrypting the Decrypted password\033[0m\n\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+        parssstr = "8jgftjjnshs";
+	return false;
+	}
+	parssstr = "8jgftjjnshs";
+        if(!(secdel())){
+        remove("test");
+        }
+                        if(!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                 	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+				        return false;
+			}
+	return true;
 }
 
 //Writing to file for secure delete
 
-void writetofileforsd(std::string dea)
+bool writetofileforsd(std::string dea)
 {
         for (short int hhh = 0; hhh <= 35; hhh++)
         {
@@ -361,25 +549,27 @@ void writetofileforsd(std::string dea)
                 file << dea;
                 file.close();
         }
+		return true;
 }
 
 //Function for secure deletion
 
-void secdel()
+bool secdel()
 {
         long long unsigned int acaa = randomize();
         long long unsigned int bcbb = randomize();
         std::string aaaab = str(acaa);
         std::string baaab = str(bcbb) + aaaab;
         std::string erapt = aaaab + baaab + aaaab + baaab + aaaab + baaab + aaaab + baaab;
-        writetofileforsd(erapt);
+        if (writetofileforsd(erapt)){
         system("srm -z test");
 	remove("test");
+	}
+	return true;
 }
 
 
 //Banners
-
 void smallbanner()
 {
 	std::cout << "\033[5;36m                 ▁▂▄▅▆▇█ ƬΛ █▇▆▅▄▂▁         \033[0m\n\n";
@@ -435,35 +625,11 @@ void banner4()
 void banner5()
 {
 	std::cout << "\033[1;36m\n\n";
- 	std::cout << "\033[1;36m		  '||''|.  '||' '|'\n"; 
+ 	std::cout << "\033[1;36m		  '||''|.  '||' '|'\n";
  	std::cout << "\033[1;36m	           ||   ||   || |   \n";
  	std::cout << "\033[1;36m         	   ||...|'    ||    \n";
 	std::cout << "\033[1;36m		   ||        | ||   \n";
 	std::cout << "\033[1;36m		  .||.     .|   ||. \033[0m\n\n\n\n";
-
-}
-
-void banner6()
-{
-	std::cout << "\033[1;36m\n\n";
-	std::cout << "\033[1;36m	 ,ggggggggggg,   ,ggg,          ,gg\n";
-	std::cout << "\033[1;36m	dP\"\"\"88\"\"\"\"\"\"Y8,dP\"\"\"Y8,      ,dP' \n";
-	std::cout << "\033[1;36m	Yb,  88      `8bYb,_  \"8b,   d8\"   \n";
-	std::cout << "\033[1;36m	 `\"  88      ,8P `\"\"    Y8,,8P'    \n";
-	std::cout << "\033[1;36m	     88aaaad8\"          Y88\"      \n";
-	std::cout << "\033[1;36m	     88\"\"\"\"\"            ,888b      \n";
-	std::cout << "\033[1;36m	     88                d8\" \"8b,   \n";
-	std::cout << "\033[1;36m	     88              ,8P'    Y8,   \n";
-	std::cout << "\033[1;36m	     88             d8\"       \"Yb, \n";
-	std::cout << "\033[1;36m	     88           ,8P\'          \"Y8 \033[0m\n\n\n\n";
-}
-void banner7()
-{                                   
-                                   
-                                   
-                                   
-                                   
-                                   
 
 }
 
@@ -478,19 +644,19 @@ void banner7()
 void banner()
 {
 	duthomhas::csprng rng;
-        short int ta = (rng() % 5);
-        ta == 1 ? banner1() : ta == 2 ? banner2() : ta == 3 ? banner3() : ta == 4 ? banner4() : ta == 5 ? banner5() : banner6();
+        short int ta = (rng() % 4);
+        ta == 1 ? banner1() : ta == 2 ? banner2() : ta == 3 ? banner3() : ta == 4 ? banner4() : banner5();
 }
 
 //Randomly create number and mixed passwords
 
-void call(int mini, int max, short int ik)
+bool call(int mini, int max, short int ik)
 {
 	duthomhas::csprng rng;
         long long unsigned int numberofmixed;
-        std::cout << std::endl;
+        std::cout << "\n";
         std::cout << "\033[1;32mPlease enter the length of the password you need \n[Max 18,446,744,073,709,551,615] \n\nBut Beware !!, this number could crash your system after a few lakhs\nDEPENDS UPON YOUR SYSTEM\033[0m\n";
-	std::cout << std::endl;
+	std::cout << "\n";
 	if (!(std::cin >> numberofmixed))
 	{
 	    throw std::invalid_argument("Please enter upto 18,446,744,073,709,551,615");
@@ -501,18 +667,26 @@ void call(int mini, int max, short int ik)
                 char mixedadd = (rng() % (max - mini)) + mini;
                 mixed.push_back(mixedadd);
         }
-        writetofile(mixed, ik);
-        startup();
+        if(!(writetofile(mixed, ik))){
+	std::cout << "\033[1;31mError!! in writing the  passwords to file\033[0m\n\n";
+        return false;
+	}
+	if(!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        return false;
+	}
+	return true;
 }
 
 //Randomly create a Alphabet only password
 
-void alphaonlyfn()
+bool alphaonlyfn(bool num)
 {
+			short int type = 2;
 			duthomhas::csprng rng;
-                        int numberof;
-                        std::cout << std::endl;
-                        std::cout << "\033[1;32mPlease enter the length of the password you need\n[Max 18,446,744,073,709,551,615]\nBut Beware !!, this number could crash your system after a few lakhs\nDEPENDS UPON YOUR SYSTEM \033[0m\n\n";
+                        unsigned long long int numberof;
+                        std::cout << "\n";
+                        std::cout << "\033[1;32mPlease enter the length of the password you need\n Literally there is no limits for the length of the password \n\nBut Beware !!, this could crash your system after a few lakhs or Cror es\nDEPENDING UPON YOUR SYSTEM \033[0m\n\n";
                         std::cin >> numberof;
                         std::string allalpha;
                         for (long long unsigned int fromnoof = 1; fromnoof <= numberof; ++fromnoof)
@@ -520,16 +694,36 @@ void alphaonlyfn()
                                 char alphaadd = (rng() % 25) + 65;
                                 allalpha.push_back(alphaadd);
                         }
-                        for (short int bulb = 0; bulb < numberof / 25; bulb++)
+                        for (unsigned long long bulb = 0; bulb < numberof / 25; bulb++)
                         {
-                                for (char ujk = 97; ujk <= 122; ujk++)
+                                for (char alpha = 97; alpha <= 122; alpha++)
                                 {
-                                        int kgs = (rng() % allalpha.length());
-                                        allalpha[kgs] = ujk;
+                                        unsigned long long int kgs = (rng() % allalpha.length());
+                                        allalpha[kgs] = alpha;
                                 }
                         }
-                        writetofile(allalpha, 2);
-                        startup();
+			if(num){
+			type = 3;
+			for (unsigned long long int  num1 = 0; num1 < numberof /13; num1++)
+			{
+				for (char num2 = 48; num2 <= 57; num2++)
+				{
+					unsigned long long int placenum = (rng() % allalpha.length());
+					allalpha[placenum] = num2;
+				}
+			}
+			}
+                        if(!(writetofile(allalpha, type))){
+			std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
+			std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+			return false;
+                        }
+			if(!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                        }
+	return true;
 }
 
 //Making password entered invisible
@@ -543,7 +737,10 @@ std::string safeenter(){
 
         std::string pass;
         std::getline(std::cin >> std::ws, pass);
-        safeenterstop();
+        if(!(safeenterstop())){
+	std::cout << "\033[1;31mLooks like the invisible typing remains forever\033[0m\n\n";
+	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+	}
         return pass;
 
 }
@@ -565,7 +762,7 @@ bool aescrypt(char type,const char** pas)
                 {
                     fprintf(stderr, "Error: only specify one of -d or -e\n");
                     cleanup(outfile);
-                    return -1;
+                    return 0;
                 }
                 mode = DEC;
                 }
@@ -574,7 +771,7 @@ bool aescrypt(char type,const char** pas)
                 {
                     fprintf(stderr, "Error: only specify one of -d or -e\n");
                     cleanup(outfile);
-                    return -1;
+                    return 0;
                 }
                 mode = ENC;
                 }
@@ -583,7 +780,7 @@ bool aescrypt(char type,const char** pas)
                 {
                     fprintf(stderr, "Error: password supplied twice\n");
                     cleanup(outfile);
-                    return -1;
+                    return 0;
                 }
                     passlen = passwd_to_utf16(  (unsigned char*) *pas,
                                                 strlen((char *) *pas),
@@ -592,7 +789,7 @@ bool aescrypt(char type,const char** pas)
                     if (passlen < 0)
                     {
                         cleanup(outfile);
-                        return -1;                    }
+                        return 0;                    }
                     password_acquired = 1;
                 }
 
@@ -600,20 +797,20 @@ bool aescrypt(char type,const char** pas)
     {
         fprintf(stderr, "Error: -e or -d not specified\n");
         cleanup(outfile);
-        return -1;
+        return 0;
     }
 
     // Prompt for password if not provided on the command line
     if (passlen == 0)
     {
-        passlen = read_password(pass_input, mode,1);
+        passlen = read_password(pass_input, mode);
 
         switch (passlen)
         {
             case 0: //no password in input
                 fprintf(stderr, "Error: No password supplied.\n");
                 cleanup(outfile);
-                return -1;
+                return 0;
             case AESCRYPT_READPWD_FOPEN:
             case AESCRYPT_READPWD_FILENO:
             case AESCRYPT_READPWD_TCGETATTR:
@@ -623,11 +820,11 @@ bool aescrypt(char type,const char** pas)
                 fprintf(stderr, "Error in read_password: %s.\n",
                         read_password_error(passlen));
                 cleanup(outfile);
-                return -1;
+                return 0;
             case AESCRYPT_READPWD_NOMATCH:
                 fprintf(stderr, "Error: Passwords don't match.\n");
                 cleanup(outfile);
-                return -1;
+                return 0;
         }
 
         passlen = passwd_to_utf16(  pass_input,
@@ -640,7 +837,7 @@ bool aescrypt(char type,const char** pas)
             cleanup(outfile);
             // For security reasons, erase the password
             memset(pass, 0, MAX_PASSWD_BUF);
-            return -1;
+            return 0;
         }
     }
     if (outfp != NULL)
@@ -653,14 +850,14 @@ bool aescrypt(char type,const char** pas)
         cleanup(outfile);
         // For security reasons, erase the password
         memset(pass, 0, MAX_PASSWD_BUF);
-        return -1;
+        return 0;
     }
         if (mode == ENC)
         {
 	  rename("Encrypted_Passwords.aes", "test.aes");
 	  std::ifstream ifile;
           ifile.open("test");
-	  if (ifile && rc == 1 || rc == 0){
+	  if (ifile && rc){
           const char *infile;
           infile = "test";
           infp = fopen(infile, "r");
@@ -674,7 +871,7 @@ bool aescrypt(char type,const char** pas)
                 snprintf(outfile, 1024, "%s.aes", infile);
                 if ((outfp = fopen(outfile, "w")) == NULL)
                 {
-                    if ((infp != stdin) && (infp != NULL))
+                    if (infp != NULL)
                     {
                         fclose(infp);
                     }
@@ -683,12 +880,12 @@ bool aescrypt(char type,const char** pas)
                     cleanup(outfile);
                     // For security reasons, erase the password
                     memset(pass, 0, MAX_PASSWD_BUF);
-                    rc = -1;
+                    rc = 0;
                 }
 
             }
 	}
-            encrypt_stream(infp, outfp, pass, passlen);
+            enrc = encrypt_stream(infp, outfp, pass, passlen);
             secdel();
 	    rename("test.aes", "Encrypted_Passwords.aes");
 	}
@@ -710,7 +907,7 @@ bool aescrypt(char type,const char** pas)
                 outfile[strlen(infile)-4] = '\0';
                 if ((outfp = fopen(outfile, "w")) == NULL)
                 {
-                    if ((infp != stdin) && (infp != NULL))
+                    if (infp != NULL)
                     {
                         fclose(infp);
                     }
@@ -719,7 +916,7 @@ bool aescrypt(char type,const char** pas)
                     cleanup(outfile);
                     // For security reasons, erase the password
                     memset(pass, 0, MAX_PASSWD_BUF);
-                    return -1;
+                    return 0;
                 }
             }
 
@@ -729,24 +926,24 @@ bool aescrypt(char type,const char** pas)
 	    rename("test.aes", "Encrypted_Passwords.aes");
         }
 
-        if ((infp != stdin) && (infp != NULL))
+        if (infp != NULL)
         {
             fclose(infp);
         }
-        if ((outfp != stdout) && (outfp != NULL))
+        if (outfp != NULL)
         {
             fclose(outfp);
         }
 
         // If there was an error, remove the output file
-        if (0)
+/*        if (!rc || !enrc)
         {
             cleanup(outfile);
             // For security reasons, erase the password
             memset(pass, 0, MAX_PASSWD_BUF);
-            return -1;
+            return 0;
         }
-
+*/
         // Reset input/output file names and desriptors
         outfile[0] = '\0';
         infp = NULL;
@@ -754,120 +951,153 @@ bool aescrypt(char type,const char** pas)
 
     // For security reasons, erase the password
     memset(pass, 0, MAX_PASSWD_BUF);
-    return true;
+    if(!rc){
+    return false;
+    }
+ return true;
 }
 
 //Making options entered visible again
 
-void safeenterstop()
+bool safeenterstop()
 {
         termios previouslyentered;
         tcgetattr(STDIN_FILENO, &previouslyentered);
         termios newlyentered = previouslyentered;
         newlyentered.c_lflag |= ECHO;
         tcsetattr(STDIN_FILENO, TCSANOW, &newlyentered);
+	return true;
 }
 
 //Advanced Options menu
 
-void advancedoptions()
+bool advancedoptions()
 {
 	std::cout << "\033c";
         banner();
         std::cout << "                Welcome to PhraseNUX\n";
-        std::cout << "         ( A password manager by Tamilanth )  " << std::endl
-                 << std::endl;
+        std::cout << "         ( A password manager by Tamilanth )  " << "\n"
+                 << "\n";
         smallbanner();
         std::cout << "\033[5;36m\n[1] - Change Master Password\033[0m\n";
-        std::cout << "\033[5;36m[2] - Clear all Passwords\033[0m\n";
-        std::cout << "\033[5;36m[3] - Move Passwords to a location\033[0m\n";
-        std::cout << "\033[5;36m[4] - Add your own  Password to the Database (created by you)\033[0m\n";
-        std::cout << "\033[5;36m[5] - Check for updates\e[0m\n";
-	std::cout << "\033[5;36m[6] - Return to Main Menu\e[0m\n\n\n\n";
+        std::cout << "\033[5;36m[2] - Add your own  Password to the Database (created by you)\033[0m\n";
+        std::cout << "\033[5;36m[3] - Check for updates\e[0m\n";
+	std::cout << "\033[5;36m[4] - Return to Main Menu\e[0m\n\n\n\n";
 	std::string Optionadvanced;
 	std::cout << "Please select your Option 1 or 2 or 3 or 4:\n";
         std::cin >> Optionadvanced;
-		Optionadvanced == "1" ? changepass() : Optionadvanced == "4" ? addpassmanually() :Optionadvanced == "2" ? clearallpass() : Optionadvanced == "5" ? checkforupdates(0) : Optionadvanced == "6" ? startup() : advancedoptions();
+                                if (Optionadvanced ==  "1"){
+                                        if(changepass()){
+					return true;
+					}
+					else {
+					return false;
+					}
+				}
+                                else if (Optionadvanced == "2"){
+                                        if(addpassmanually()){
+                                        return true;
+					}
+					else {
+					return false;
+					}
+					}
+				else if (Optionadvanced == "3"){
+					if(checkforupdates(0)){
+					return true;
+					}
+					else {
+					return false;
+					}
+					}
+				else if (Optionadvanced == "4"){
+					return true;
+					}
+                                else {
+					std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                                        std::cout << "\033c";
+					advancedoptions();
+					return false;
+}
+return true;
 }
 
 //Function change the Password
 
-void changepass()
+bool changepass()
 {
 		std::cout << "\033[1;31m\n\nWarning !!: Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\033[0m\n";
 		std::cout << "\033[1;32m Guide for Password creation\e[0m\n\n";
 		std::cout << "\033[1;31m•You can use any ASCII valuesand DO NOT include Personal information \n•short passwords are PROHIBITED\n•Max Length 1024 characters\033[0m\n\n\n";
-		std::cout << "\033[1;31m\n\nPlease Enter your current password to proceed\033[0m\n\n";
+		std::cout << "\033[1;31m\n\nPlease Enter your current password to proceed\033[0m";
 		std::string oldpass = safeenter();
-		std::cout << "\033[1;31m\n\nPlease enter your new password\e[0m\n\n";
+		std::cout << std::endl;
+		std::cout << "\033[1;31m\n\nPlease enter your new password  \e[0m";
 		std::string newpass = safeenter();
 		if (oldpass == newpass){
-		std::cout << "\033[1;31m\n\nError:!: The new and old Passwords are same !!\n\nPlease Try again\033[0m\n";
+		std::cout << "\033[1;31m\n\nError:!: The new and old Passwords are same !!\n\nPlease Try again  \033[0m\n";
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-		changepass();
+		if(!changepass()){
+		return false;
 		}
+		else{
+		return true;
+		}
+                }
 		else {
         		const char *Enteredtosys = oldpass.c_str();
-                	aescrypt('d', &Enteredtosys);
+                	if (!(aescrypt('d', &Enteredtosys))){
+			std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                        return false;
+                        }
         		const char *Enteredtosyse = newpass.c_str();
-       			aescrypt('e', &Enteredtosyse);
+       			if (!(aescrypt('e', &Enteredtosyse))){
+			std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                        return false;
+                        }
 			system("echo \"\e[92;5;12mSucess!  Password Changed, returning to Home \e[0m\n\"");
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-               		startup();
+               		return true;
 			}
+return true;
 }
 
 //Function accept user's own passwords
 
-void addpassmanually(){
+bool addpassmanually(){
 		std::cout << "\033[1;32m\n\nPlease enter your own passsword\033[0m\n\n";
 		std::string ownpass;
 		std::getline(std::cin >> std::ws, ownpass);
-		std::cout << "\033[5;36m\nEnter Your Password:\033[0m\n";
+		std::cout << "\033[5;36m\nEnter Your Password:\033[0m";
         	std::string passwd = safeenter();
         	std::string tag;
-        	std::cout << "\033[5;36m\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt your passwords\033[0m\n";
+        	std::cout << "\033[5;36m\n\n\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt your passwords\033[0m\n";
         	std::getline(std::cin >> std::ws, tag);
         	std::cout << "\n";
-        	if(veripassford(passwd)){
- 		std::ofstream ifile("test");
+        	if(!(veripassford(passwd))){
+		std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                return false;
+                }
+ 		std::ofstream ifile;
+		ifile.open("test", std::ios_base::app);
 	       	std::string writinginput = ownpass + "|-------------|" + tag;
-        	ifile << writinginput <<  std::endl;
+        	ifile << writinginput << std::endl;
         	ifile.close();
-        	veripassfore(passwd);
+        	if(!(veripassfore(passwd))){
+		passwd = "izsywiabhaishsiwywoanshs";
+		std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
+                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                return false;
+                }
         	passwd = "izsywiabhaishsiwywoanshs";
-	      	secdel();
-		startup();
+	      	if(!(secdel())){
+		remove ("test");
 		}
-		else {
-		std::cout << "\033[1;31mError:!: Incorrect Password or the password file is altered\033[0m\n\n";
-                        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-			secdel();
-                        startup();
-		}
-}
-
-//delete all passwords in stored
-
-void clearallpass()
-{
-		const char* pass = "0";
-                aescrypt('d', &pass);
-		std::ifstream fortest;
-  		fortest.open("test");
- 		if(fortest && rc == 1 || rc == 0) {
-			fortest.close();
-			aescrypt('d', &pass);
-			secdel();
-      			std::ofstream output("Hi");
-			aescrypt('e', &pass);
-			secdel();
-			startup();
-   		} else {
-      			std::cout << "\033[1;31mError:!: Incorrect Password or the password file is altered\033[0m\n\n";
-			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-			startup();
-   		}
+		return true;
 }
 
 std::string pwdfile(std::string filename1)
@@ -888,29 +1118,32 @@ std::string pwdfile(std::string filename1)
 
 //Function to show all passwords stored
 
-void showpass(bool what)
+bool showpass(bool what)
 {
         std::ifstream ifile;
    	ifile.open("test");
-   	if(ifile) {
+   	if(!(ifile && rc)) {
+	std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                        return false;
+        		}
+		ifile.close();
 		std::string lineofthefile;
-		std::ifstream passfile(pwdfile("test"));
+		std::ifstream passfile("test");
 		unsigned long long int waitfor = 10;
-		std::cout << std::endl << std::endl << std::endl;
+		std::cout << "\n" << "\n" << "\n";
 		while(getline(passfile, lineofthefile))
         	{
-                std::cout << lineofthefile <<  std::endl << std::endl;
+                std::cout << lineofthefile <<  "\n" << "\n" << "\n" << "\n" <<  "\n" << "\n" << "\n" << "\n";
 		if (lineofthefile.length() <= 100 ) {
 		unsigned int count99 = 1;
 		waitfor = count99++ * 2 + waitfor;
 		}
-		else {
-		if (lineofthefile.length() <= 1000 && lineofthefile.length() >= 101){
+		else if (lineofthefile.length() <= 1000 && lineofthefile.length() >= 101){
 		unsigned int  count1001 = 1;
 		waitfor = count1001++ * 4 + waitfor;
 		}
-		else {
-		if (lineofthefile.length() >= 1001 && lineofthefile.length() <= 50000){
+		else if (lineofthefile.length() >= 1001 && lineofthefile.length() <= 50000){
 		unsigned int count10001 = 1;
 		waitfor = count10001++ * 20 + waitfor;
 		}
@@ -919,30 +1152,35 @@ void showpass(bool what)
 		waitfor = countmore++ * 100 + waitfor;
 		}
 		}
-		}
-		}
         	passfile.close();
-		ifile.close();
 		if (what){
-		secdel();
+		if(!(secdel())){
+                remove ("test");
+                }
 		if (waitfor > 10){
 		waitfor = waitfor - 10;
 		waitup(waitfor);
+		if(!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                        }
+		return true;
 		}
-		else {
+		else if (waitfor <= 10){
       		std::cout << "Your Password is correct but\n\nNo Passwords Found\n\n";
 		std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+		return true;
 		}
-}
-
 		else {
 		std::cout << "\033[1;31mError:!: Incorrect Password or the password file is altered\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                         startup();
-                }
-		}
+			return false;
+			}}
+	return true;
 }
-void checkforupdates(bool start)
+bool checkforupdates(bool start)
 {
   CURL *curl;
   CURLcode res;
@@ -959,12 +1197,20 @@ void checkforupdates(bool start)
     if (!start){
     std::cout << "\033[1;32m              Version is Up-to-date.....   Returning To Home Now\033[0m\n";
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-    startup();
+    if (!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                        }
     }
-    else {
-	startup();
-	}
-    }
+    else if (start){
+		if (!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                        }
+	return true;
+		}
     else {
     std::cout << "\033[1;36m               Newer Update available !!\033[0m\n\n\n";
     std::cout << "\033[1;32mWould you like to update the program ?\033[0m\n\n";
@@ -973,15 +1219,32 @@ void checkforupdates(bool start)
     short int a;
     std::cin >> a;
     if (a == 1){
-    system("bash update");
+    if(!(system("bash update"))){
+    std::cout << "\033[1;31mError!! could not start the update script, please do it manually by running \"bash update\" in you terminal\033[0m\n\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                        return false;
+                        }
+    return true;
     }
     else if (a == 2){
-    startup();
+    if(!(startup())){
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                        }
+    return true;
     }
     else {
     std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n\n";
-    checkforupdates(0);
+    if(!(checkforupdates(0))){
+    std::cout << "\033[1;31mError!! could not start the update script, please do it manually by running \"bash update\" in you terminal\033[0m\n\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                        return false;
+                        }
+    return false;
     }
   }
 }
+}
+return true;
 }
