@@ -8,17 +8,19 @@ echo -ne "\e[38;5;9m\n\nPlease Wait compiling codes\e[0m\n"
 g++ PhraseNUX.cpp -lcurl -o PhraseNUX ../AES/aes.h ../AES/sha256.h ../AES/password.h ../AES/aes.c ../AES/sha256.c ../AES/password.c ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
 echo "Compiled successfully !\n\n"
 rm -rf PhraseNUX.cpp
-rm -rf Start
+rm -rf start
 rm -rf install_dependencies.cpp
 cd ..
 rm -rf random
 rm -rf hash
+rm -rf AES
+rm -rf index.html
 cd install 
 mv PhraseNUX ..
 mv update ..
 cd ..
 rm -rf install
-chmod +x update
+chmod u=x update
 touch test
 echo -ne "\e[38;5;9mWarning !! : Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\e[0m\n"
 echo -ne "\e[38;5;9m Guide for Password creation\n\e[0m\n"

@@ -56,6 +56,7 @@ std::string str(unsigned long long int i)
 bool aescrypt(char type,const char** pas);
 bool checkforupdates(bool start);
 bool addpassmanually();
+bool changeprogramcaller();
 bool changepass();
 bool safeenterstop();
 bool selectservice();
@@ -68,7 +69,7 @@ bool veripassford(std::string passstr);
 bool startup();
 signed int rc = 0;
 signed int enrc = 0;
-bool secdel();
+inline bool secdel();
 void banner();
 bool alphaonlyfn(bool num);
 bool call(int mini, int max, short int ik);
@@ -201,7 +202,7 @@ bool writetofile(std::string ea, short int opt)
 	}
 	std::ofstream file;
         file.open("test", std::ios_base::app);
-        std::string writinginput = ea + "|-------------|" + tag;
+        std::string writinginput = ea + "|-------|A|_~`------|" + tag;
         file << writinginput << std::endl;
         file.close();
         if(!(veripassfore(lll))){
@@ -340,10 +341,10 @@ void waitup(int a)
 bool startup()
 {
         optionsA();
-        std::string Jj;
+        char Jj;
         std::cout << "Please select your Option 1 or 2 or 3 or 4:\n";
         std::cin >> Jj;
-        if (Jj == "3")
+        if (Jj == '3')
         {
                 if(!(delpass())){
 		std::cout << "\033[1;31mError!! in Deleting the passwords\033[0m\n\n";
@@ -357,16 +358,16 @@ bool startup()
 		return true;
 	}
 
-        else if (Jj == "4")
+        else if (Jj == '4')
         {
                 exit(1);
         }
-        else if (Jj == "2")
+        else if (Jj == '2')
         {
                 optionsB();
-                std::string Option;
+                char  Option;
                 std::cin >> Option;
-                                if (Option == "1"){
+                                if (Option == '1'){
                                         if (!(call(48, 57, 1))){
 					std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
                                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
@@ -379,7 +380,7 @@ bool startup()
                         		}
 					return true;
 					}
-                                else if (Option == "2"){
+                                else if (Option == '2'){
                                         if(!(alphaonlyfn(0))){
 					std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
 					std::this_thread::sleep_for(std::chrono::milliseconds(3000));
@@ -392,7 +393,7 @@ bool startup()
                                         return false;
                         		}
 				        }
-				else if (Option == "3"){
+				else if (Option == '3'){
 					if(!(alphaonlyfn(1))){
                                         std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
                                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
@@ -405,7 +406,7 @@ bool startup()
                         		}
 					return true;
 					}
-                                else if (Option == "4"){
+                                else if (Option == '4'){
                                         if(!(call(33, 126, 3))){
 					std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
 					std::this_thread::sleep_for(std::chrono::milliseconds(3000));
@@ -426,7 +427,7 @@ bool startup()
 					return false;
         				}
 	}
-        else if (Jj == "Decrypt" || Jj == "decrypt" || Jj == "D" || Jj == "d" || Jj == "1" || Jj == "DECRYPT")
+        else if (Jj == 'D' || Jj == 'd' || Jj == '1')
         {
 		std::cout << "\n"  << "\n";
 		const char* pass = "0";
@@ -445,7 +446,7 @@ bool startup()
 		}
 		return true;
         }
-        else if (Jj == "5") {
+        else if (Jj == '5') {
 		if(!(advancedoptions())){
 		std::cout << "\033[1;31mError!! in starting advanced options !!\033[0m\n\n";
 		std::this_thread::sleep_for(std::chrono::milliseconds(3000));
@@ -554,7 +555,7 @@ bool writetofileforsd(std::string dea)
 
 //Function for secure deletion
 
-bool secdel()
+inline bool secdel()
 {
         long long unsigned int acaa = randomize();
         long long unsigned int bcbb = randomize();
@@ -644,7 +645,7 @@ void banner5()
 void banner()
 {
 	duthomhas::csprng rng;
-        short int ta = (rng() % 4);
+        short int ta = (rng() % 5);
         ta == 1 ? banner1() : ta == 2 ? banner2() : ta == 3 ? banner3() : ta == 4 ? banner4() : banner5();
 }
 
@@ -653,7 +654,7 @@ void banner()
 bool call(int mini, int max, short int ik)
 {
 	duthomhas::csprng rng;
-        long long unsigned int numberofmixed;
+        unsigned long long int numberofmixed;
         std::cout << "\n";
         std::cout << "\033[1;32mPlease enter the length of the password you need \n[Max 18,446,744,073,709,551,615] \n\nBut Beware !!, this number could crash your system after a few lakhs\nDEPENDS UPON YOUR SYSTEM\033[0m\n";
 	std::cout << "\n";
@@ -662,7 +663,7 @@ bool call(int mini, int max, short int ik)
 	    throw std::invalid_argument("Please enter upto 18,446,744,073,709,551,615");
 	}
         std::string mixed;
-        for (long long unsigned int fromnoofall = 1; fromnoofall <= numberofmixed; ++fromnoofall)
+        for (unsigned long long int fromnoofall = 1; fromnoofall <= numberofmixed; ++fromnoofall)
         {
                 char mixedadd = (rng() % (max - mini)) + mini;
                 mixed.push_back(mixedadd);
@@ -686,15 +687,15 @@ bool alphaonlyfn(bool num)
 			duthomhas::csprng rng;
                         unsigned long long int numberof;
                         std::cout << "\n";
-                        std::cout << "\033[1;32mPlease enter the length of the password you need\n Literally there is no limits for the length of the password \n\nBut Beware !!, this could crash your system after a few lakhs or Cror es\nDEPENDING UPON YOUR SYSTEM \033[0m\n\n";
+                        std::cout << "\033[1;32mPlease enter the length of the password you need\n Literally there is no limits for the length of the password \n\nBut Beware !!, this could crash your system after a few lakhs or Crores\nDEPENDING UPON YOUR SYSTEM \033[0m\n\n";
                         std::cin >> numberof;
                         std::string allalpha;
-                        for (long long unsigned int fromnoof = 1; fromnoof <= numberof; ++fromnoof)
+                        for (unsigned long long int fromnoof = 1; fromnoof <= numberof; ++fromnoof)
                         {
                                 char alphaadd = (rng() % 25) + 65;
                                 allalpha.push_back(alphaadd);
                         }
-                        for (unsigned long long bulb = 0; bulb < numberof / 25; bulb++)
+                        for (unsigned long long int bulb = 0; bulb < numberof / 25; bulb++)
                         {
                                 for (char alpha = 97; alpha <= 122; alpha++)
                                 {
@@ -704,7 +705,7 @@ bool alphaonlyfn(bool num)
                         }
 			if(num){
 			type = 3;
-			for (unsigned long long int  num1 = 0; num1 < numberof /13; num1++)
+			for (unsigned long long int num1 = 0; num1 < numberof /13; num1++)
 			{
 				for (char num2 = 48; num2 <= 57; num2++)
 				{
@@ -940,7 +941,7 @@ bool aescrypt(char type,const char** pas)
         {
             cleanup(outfile);
             // For security reasons, erase the password
-            memset(pass, 0, MAX_PASSWD_BUF);
+            memset(pass,0, MAX_PASSWD_BUF);
             return 0;
         }
 */
@@ -982,11 +983,12 @@ bool advancedoptions()
         std::cout << "\033[5;36m\n[1] - Change Master Password\033[0m\n";
         std::cout << "\033[5;36m[2] - Add your own  Password to the Database (created by you)\033[0m\n";
         std::cout << "\033[5;36m[3] - Check for updates\e[0m\n";
-	std::cout << "\033[5;36m[4] - Return to Main Menu\e[0m\n\n\n\n";
-	std::string Optionadvanced;
+	std::cout << "\033[5;36m[4] - Change the phrase to call the program\033[0m\n";
+	std::cout << "\033[5;36m[5] - Return to Main Menu\e[0m\n\n\n\n";
+	char Optionadvanced;
 	std::cout << "Please select your Option 1 or 2 or 3 or 4:\n";
         std::cin >> Optionadvanced;
-                                if (Optionadvanced ==  "1"){
+                                if (Optionadvanced ==  '1'){
                                         if(changepass()){
 					return true;
 					}
@@ -994,7 +996,7 @@ bool advancedoptions()
 					return false;
 					}
 				}
-                                else if (Optionadvanced == "2"){
+                                else if (Optionadvanced == '2'){
                                         if(addpassmanually()){
                                         return true;
 					}
@@ -1002,7 +1004,15 @@ bool advancedoptions()
 					return false;
 					}
 					}
-				else if (Optionadvanced == "3"){
+				else if (Optionadvanced == '4'){
+					if (changeprogramcaller()){
+					return true;
+					}
+					else {
+					return false;
+					}
+					}
+				else if (Optionadvanced == '3'){
 					if(checkforupdates(0)){
 					return true;
 					}
@@ -1010,7 +1020,7 @@ bool advancedoptions()
 					return false;
 					}
 					}
-				else if (Optionadvanced == "4"){
+				else if (Optionadvanced == '5'){
 					return true;
 					}
                                 else {
@@ -1058,7 +1068,7 @@ bool changepass()
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                         }
-			system("echo \"\e[92;5;12mSucess!  Password Changed, returning to Home \e[0m\n\"");
+			std::cout << "Success! password changed successfully\033[0m\n";
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                		return true;
 			}
@@ -1084,7 +1094,7 @@ bool addpassmanually(){
                 }
  		std::ofstream ifile;
 		ifile.open("test", std::ios_base::app);
-	       	std::string writinginput = ownpass + "|-------------|" + tag;
+	       	std::string writinginput = ownpass + "|-------|A|_~`------|" + tag;
         	ifile << writinginput << std::endl;
         	ifile.close();
         	if(!(veripassfore(passwd))){
@@ -1130,11 +1140,22 @@ bool showpass(bool what)
 		ifile.close();
 		std::string lineofthefile;
 		std::ifstream passfile("test");
-		unsigned long long int waitfor = 10;
+		unsigned int waitfor = 10;
+		std::cout << "\033[5;36m\n\nPlease Enter the keyword of the password you need\033[0m\n\n";
+		std::string tagforsearch;
+		std::getline(std::cin >> std::ws, tagforsearch);
 		std::cout << "\n" << "\n" << "\n";
 		while(getline(passfile, lineofthefile))
         	{
-                std::cout << lineofthefile <<  "\n" << "\n" << "\n" << "\n" <<  "\n" << "\n" << "\n" << "\n";
+		if(lineofthefile.find(tagforsearch) != std::string::npos){
+		    for (auto ai = lineofthefile.length() - 1; ai >= 0; ai--){
+	            if (lineofthefile[ai] == '|' && lineofthefile[ai - 1] == '-' && lineofthefile[ai - 2] == '-' && lineofthefile[ai - 3] == '-' && lineofthefile[ai - 4] == '-' && lineofthefile[ai - 5] == '-' && lineofthefile[ai - 6] == '-' && lineofthefile[ai - 7] == '`' && lineofthefile[ai - 8] == '~' && lineofthefile[ai - 9] == '_' && lineofthefile[ai - 10] == '|' && lineofthefile[ai - 11] == 'A' && lineofthefile[ai - 12] == '|' && lineofthefile[ai - 13] == '-' && lineofthefile[ai - 14] == '-' && lineofthefile[ai - 15] == '-' && lineofthefile[ai - 16] == '-' && lineofthefile[ai - 17] == '-' && lineofthefile[ai - 18] == '-' &&  lineofthefile[ai - 19] == '-' && lineofthefile[ai - 20] == '|'){
+		            auto I = lineofthefile.length() - ai + 20;
+		            lineofthefile.resize(lineofthefile.size() - I);
+		            std::cout << lineofthefile << "\n" << "\n" << "\n" << "\n" << "\n";
+		            break;
+        			    }
+		}
 		if (lineofthefile.length() <= 100 ) {
 		unsigned int count99 = 1;
 		waitfor = count99++ * 2 + waitfor;
@@ -1151,7 +1172,7 @@ bool showpass(bool what)
 		unsigned int countmore = 1;
 		waitfor = countmore++ * 100 + waitfor;
 		}
-		}
+		}}
         	passfile.close();
 		if (what){
 		if(!(secdel())){
@@ -1193,7 +1214,7 @@ bool checkforupdates(bool start)
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
     res = curl_easy_perform(curl);
     curl_easy_cleanup(curl);
-    if (readBuffer == "No Updates Available\n" || readBuffer == "Latest version = 1\n" || readBuffer == ""){
+    if (readBuffer == "No Updates Available\n" || readBuffer == "1\n" || readBuffer == ""){
     if (!start){
     std::cout << "\033[1;32m              Version is Up-to-date.....   Returning To Home Now\033[0m\n";
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
@@ -1214,7 +1235,7 @@ bool checkforupdates(bool start)
     else {
     std::cout << "\033[1;36m               Newer Update available !!\033[0m\n\n\n";
     std::cout << "\033[1;32mWould you like to update the program ?\033[0m\n\n";
-    std::cout << "\033[5;36m[1] - Update to the newest version (Recommended\033[0m\n";
+    std::cout << "\033[5;36m[1] - Update to the newest version (Recommended)\033[0m\n";
     std::cout << "\033[5;36m[2] - Don't update Return to Home\033[0m\n\n";
     short int a;
     std::cin >> a;
@@ -1246,5 +1267,73 @@ bool checkforupdates(bool start)
   }
 }
 }
+return true;
+}
+
+bool changeprogramcaller()
+{
+		std::cout << "\033[5;36m\nPlease Enter your current word which calls the program\033[0m\n";
+		std::string callname;
+		std::cin >> callname;
+		std::ifstream shfile;
+		shfile.open ("/usr/bin/" + callname);
+		if(!shfile){
+		std::cout << "\033[1;31m\n\nLooks like there is no call file like that\033[0m\n\n";
+		std::cout << "\033[5;36m[1] - Try entering again\033[0m\n";
+		std::cout << "\033[5;36m[2] - Create a call function\033[0m\n\n\n";
+		char optionforprogramcaller;
+		std::cin >> optionforprogramcaller;
+		if (optionforprogramcaller == '1'){
+		changeprogramcaller();
+		}
+		else if(optionforprogramcaller == '2'){
+		std::string exists = "/usr/bin/" + callname;
+		std::ifstream ifile;
+		ifile.open(exists);
+		while (true){
+		if(ifile){
+		ifile.close();
+		std::cout << "\n\nSorry this name is already taken by someother program please enter another name\n";
+		std::cin >> callname;
+		exists = "/usr/bin/" + callname;
+		std::ifstream iifile;
+		iifile.open(exists);
+		if(!iifile){
+		break;
+		}
+		else {
+		continue;
+		}}
+		if (!ifile) {
+		break;
+		}
+		}
+		std::ofstream file;
+		file.open(callname);
+		std::string pwd = get_current_dir_name();
+		std::string namee = "cd " + pwd;
+		namee.resize(namee.size() - 7);
+		file << "#!/bin/bash" << std::endl;
+		file << namee << std::endl;
+		file << "./PhraseNUX" << std::endl;
+		file.close();
+		std::string nameing = "/usr/bin/" + callname;
+		rename(callname.c_str(), nameing.c_str());
+		callname = "chmod u=x /usr/bin/" + callname;
+		const char* nnamee = callname.c_str();
+		system(nnamee);
+		return true;
+		}
+		}
+		else{
+		shfile.close();
+		std::cout << "\033[5;36m\nPlease Enter your new word which will be used to calls the program\033[0m\n";
+		std::string newcallname;
+		std::cin >> newcallname;
+		newcallname = "/usr/bin/" + newcallname;
+		callname = "/usr/bin/" + callname;
+		rename(callname.c_str(), newcallname.c_str());
+		return true;
+		}
 return true;
 }

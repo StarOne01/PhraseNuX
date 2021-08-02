@@ -19,7 +19,7 @@ ifile.open(exists);
 while (true){
 if(ifile){
 ifile.close();
-cout << "\n\nSorry this name is already taken by someother program please enter another name";
+cout << "\n\nSorry this name is already taken by someother program please enter another name\n";
 cin >> name;
 exists = "/usr/bin/" + name;
 std::ifstream ifile;
@@ -29,9 +29,7 @@ break;
 }
 else {
 continue;
-}
-}
-}
+}}}
 std::ofstream file;
 file.open(name);
 string pwd = get_current_dir_name();
@@ -41,9 +39,7 @@ file << "#!/bin/bash" << endl;
 file << namee << endl;
 file << "./PhraseNUX" << endl;
 file.close();
-string nname = "sudo mv " + name + " /usr/bin";
-const char* na = nname.c_str(); 
-system(na);
+rename(name, "/usr/bin/" + name);
 system("chmod +x start");
 system("bash start");
 name = "chmod u=rx /usr/bin/" + name;
