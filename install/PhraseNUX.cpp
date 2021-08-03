@@ -85,12 +85,8 @@ bool delpass()
 	std::cout << "\n";
         std::cout << "\033[1;31mEnter Your Password:\033[0m";
         std::string lll = safeenter();
-        if (veripassford(lll)){
 	if (!(showpass(0))){
 	return false;
-	}
-        if(!secdel()){
-	remove("test");
 	}
 	std::cout << "\n" << "\n";
         std::string deletethis;
@@ -130,7 +126,7 @@ bool delpass()
 	std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
 	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 	return false;
-	}}
+	}
 return true;
 }
 
@@ -430,15 +426,7 @@ bool startup()
         else if (Jj == 'D' || Jj == 'd' || Jj == '1')
         {
 		std::cout << "\n"  << "\n";
-		const char* pass = "0";
-		if(!(aescrypt('d', &pass))){
-		std::cout << "\033[1;31mError!! in Decrypting the encrypted password\033[0m\n\n";
-		std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-		}
 		showpass(1);
-                if(!(secdel())){
-		remove("test");
-		}
 		if(!(startup())){
                         std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
@@ -1124,12 +1112,22 @@ std::string pwdfile(std::string filename1)
 		return path;
 }
 
-
+bool nottoshowallpass = true;
+std::string tagforsearch;
 
 //Function to show all passwords stored
 
 bool showpass(bool what)
 {
+	std::cout << "\033[1;31m\nEnter Your Password:\033[0m";
+	std::string lll = safeenter();
+	unsigned int numpasstodisno = 0;
+	for (unsigned int numpasstodis = 1; numpasstodis < 8; numpasstodis++){
+	if (!veripassford(lll)){
+	std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                        return false;
+                        }
         std::ifstream ifile;
    	ifile.open("test");
    	if(!(ifile && rc)) {
@@ -1138,22 +1136,38 @@ bool showpass(bool what)
                         return false;
         		}
 		ifile.close();
+		if(!(secdel())){
+                remove ("test");
+                }
 		std::string lineofthefile;
-		std::ifstream passfile("test");
 		unsigned int waitfor = 10;
+		if(nottoshowallpass){
 		std::cout << "\033[5;36m\n\nPlease Enter the keyword of the password you need\033[0m\n\n";
-		std::string tagforsearch;
 		std::getline(std::cin >> std::ws, tagforsearch);
+		}
 		std::cout << "\n" << "\n" << "\n";
+		if (!veripassford(lll)){
+        	std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                        return false;
+                        }
+		std::ifstream passfile("test");
 		while(getline(passfile, lineofthefile))
         	{
 		if(lineofthefile.find(tagforsearch) != std::string::npos){
+		    numpasstodisno++;
 		    for (auto ai = lineofthefile.length() - 1; ai >= 0; ai--){
 	            if (lineofthefile[ai] == '|' && lineofthefile[ai - 1] == '-' && lineofthefile[ai - 2] == '-' && lineofthefile[ai - 3] == '-' && lineofthefile[ai - 4] == '-' && lineofthefile[ai - 5] == '-' && lineofthefile[ai - 6] == '-' && lineofthefile[ai - 7] == '`' && lineofthefile[ai - 8] == '~' && lineofthefile[ai - 9] == '_' && lineofthefile[ai - 10] == '|' && lineofthefile[ai - 11] == 'A' && lineofthefile[ai - 12] == '|' && lineofthefile[ai - 13] == '-' && lineofthefile[ai - 14] == '-' && lineofthefile[ai - 15] == '-' && lineofthefile[ai - 16] == '-' && lineofthefile[ai - 17] == '-' && lineofthefile[ai - 18] == '-' &&  lineofthefile[ai - 19] == '-' && lineofthefile[ai - 20] == '|'){
 		            auto I = lineofthefile.length() - ai + 20;
-		            lineofthefile.resize(lineofthefile.size() - I);
-		            std::cout << lineofthefile << "\n" << "\n" << "\n" << "\n" << "\n";
-		            break;
+			    std::string tagfromfile;
+			    for (auto tagpos = ai + 1; tagpos < lineofthefile.length(); tagpos++){
+			    tagfromfile.push_back(lineofthefile[tagpos]);
+			    }
+			    lineofthefile.resize(lineofthefile.size() - I);
+			    std::cout << tagfromfile + " 👇" << "\n" << "\n" << lineofthefile << "\n" << "\n" << "\n" << "\n" << "\n";
+			    //lineofthefile.resize(lineofthefile.size() - I);
+			    break;
+
         			    }
 		}
 		if (lineofthefile.length() <= 100 ) {
@@ -1171,8 +1185,7 @@ bool showpass(bool what)
 		else {
 		unsigned int countmore = 1;
 		waitfor = countmore++ * 100 + waitfor;
-		}
-		}}
+		}}}
         	passfile.close();
 		if (what){
 		if(!(secdel())){
@@ -1181,24 +1194,36 @@ bool showpass(bool what)
 		if (waitfor > 10){
 		waitfor = waitfor - 10;
 		waitup(waitfor);
-		if(!(startup())){
+		/*if(!(startup())){
                                         std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
                                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                         return false;
-                        }
+                        }*/
 		return true;
 		}
 		else if (waitfor <= 10){
-      		std::cout << "Your Password is correct but\n\nNo Passwords Found\n\n";
-		std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-		return true;
+		std::cout << "\033[1;31mThe Tag you entered does not match any passwords\033[0m\n\n";
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		if (numpasstodis == 5){
+		std::cout << "\033[1;31mLooks like the Tag which you entered does not match any passwords for 5 times\033[0m\n\n";
+		std::cout << "\033[5;36m[1] - Try entering again\033[0m\n";
+    		std::cout << "\033[5;36m[2] - Show all passwords\033[0m\n\n";
+		char optionsforshow;
+		std::cin >> optionsforshow;
+		if(optionsforshow == '1'){
+		numpasstodis = 1;
+		continue;
 		}
+		else if(optionsforshow == '2'){
+		nottoshowallpass = false;
+		tagforsearch = "|";
+		}}}
 		else {
 		std::cout << "\033[1;31mError:!: Incorrect Password or the password file is altered\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                         startup();
 			return false;
-			}}
+			}}}
 	return true;
 }
 bool checkforupdates(bool start)
