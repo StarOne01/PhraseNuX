@@ -11,6 +11,7 @@ rm -rf PhraseNUX.cpp
 rm -rf start
 rm -rf install_dependencies.cpp
 cd ..
+rm -rf changelog
 rm -rf random
 rm -rf hash
 rm -rf AES
@@ -18,14 +19,12 @@ rm -rf index.html
 cd install 
 mv PhraseNUX ..
 mv update ..
+mv Encrypted_Passwords.aes ..
 cd ..
 rm -rf install
-chmod u=x update
-touch test
+chmod u=rx update
 echo -ne "\e[38;5;9mWarning !! : Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\e[0m\n"
 echo -ne "\e[38;5;9m Guide for Password creation\n\e[0m\n"
 echo -ne "\e[38;5;9m•You can use any ASCII values and DONOT include Personal informarion \n•short passwords for PROHIBITED\n•Max Password size = 1024 characters\e[0m\n"
-aescrypt -e test
-srm -z test
-mv test.aes Encrypted_Passwords.aes
+
 echo -ne "\e[38;5;9m\n\nTo Start using the password manager Please type PhraseNUX in any directory\e[0m\n"

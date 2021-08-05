@@ -121,7 +121,7 @@ int read_password(unsigned char* buffer, encryptmode_t mode)
         // Prompt for password
         if (i)
         {
-            fprintf(ftty, "\033[5;36m\nRe-\033[0m");
+            fprintf(ftty, "\033[5;36m\nRe-");
         }
         fprintf(ftty, "\033[5;36m\nEnter Your Password:\033[0m ");
         fflush(ftty);

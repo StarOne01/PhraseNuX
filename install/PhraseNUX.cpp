@@ -158,10 +158,9 @@ bool writetofile(std::string ea, short int opt)
 	else {
 	std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n";
                                         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-                                        if(!(std::cout << "\033c")){
+                                        std::cout << "\033c";
                                         system("clear");
                                         return false;
-                                        }
 	}
 	}
 	else {
@@ -236,10 +235,10 @@ bool writetofile(std::string ea, short int opt)
 				default:
 					std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n";
 					std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-       					if(!(std::cout << "\033c")){
+       					std::cout << "\033c";
 					system("clear");
 					return false;
-					}
+
               }
 	  }
 }
@@ -327,9 +326,8 @@ void waitup(int a)
 {
         std::cout << "\033[1;31m\n\nNote: For security reasons your terminal will be cleared in " << a << " seconds\n\033[0m\n";
         std::this_thread::sleep_for(std::chrono::milliseconds(a * 1000));
-        if(!(std::cout << "\033c")){
+        std::cout << "\033c";
 	system("clear");
-	}
 }
 
 //Function which acts like "main" function
@@ -413,9 +411,8 @@ bool startup()
                                 else {
 					std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n";
                                         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-                                        if(!(std::cout << "\033c")){
+                                        std::cout << "\033c";
 					system("clear");
-					}
 					if(!(startup())){
 					std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
 					std::this_thread::sleep_for(std::chrono::milliseconds(3000));
@@ -740,11 +737,8 @@ bool aescrypt(char type,const char** pas)
     FILE *infp = NULL;
     FILE *outfp = NULL;
     encryptmode_t mode=UNINIT;
-    unsigned char pass_input[MAX_PASSWD_BUF];
     unsigned char pass[MAX_PASSWD_BUF];
-    int file_count = 0;
     char outfile[10];
-    int password_acquired = 0;
     // Initialize the output filename
              if (type == 'd') {
                 if (mode != UNINIT)
@@ -764,13 +758,6 @@ bool aescrypt(char type,const char** pas)
                 }
                 mode = ENC;
                 }
-             if (!(*pas == "0")){
-                if (password_acquired)
-                {
-                    fprintf(stderr, "Error: password supplied twice\n");
-                    cleanup(outfile);
-                    return 0;
-                }
                     passlen = passwd_to_utf16(  (unsigned char*) *pas,
                                                 strlen((char *) *pas),
                                                 MAX_PASSWD_LEN,
@@ -778,8 +765,7 @@ bool aescrypt(char type,const char** pas)
                     if (passlen < 0)
                     {
                         cleanup(outfile);
-                        return 0;                    }
-                    password_acquired = 1;
+                        return 0;        
                 }
 
     if (mode == UNINIT)
@@ -789,46 +775,6 @@ bool aescrypt(char type,const char** pas)
         return 0;
     }
 
-    // Prompt for password if not provided on the command line
-    if (passlen == 0)
-    {
-        passlen = read_password(pass_input, mode);
-
-        switch (passlen)
-        {
-            case 0: //no password in input
-                fprintf(stderr, "Error: No password supplied.\n");
-                cleanup(outfile);
-                return 0;
-            case AESCRYPT_READPWD_FOPEN:
-            case AESCRYPT_READPWD_FILENO:
-            case AESCRYPT_READPWD_TCGETATTR:
-            case AESCRYPT_READPWD_TCSETATTR:
-            case AESCRYPT_READPWD_FGETC:
-            case AESCRYPT_READPWD_TOOLONG:
-                fprintf(stderr, "Error in read_password: %s.\n",
-                        read_password_error(passlen));
-                cleanup(outfile);
-                return 0;
-            case AESCRYPT_READPWD_NOMATCH:
-                fprintf(stderr, "Error: Passwords don't match.\n");
-                cleanup(outfile);
-                return 0;
-        }
-
-        passlen = passwd_to_utf16(  pass_input,
-                                    strlen((char*)pass_input),
-                                    MAX_PASSWD_LEN,
-                                    pass);
-
-        if (passlen < 0)
-        {
-            cleanup(outfile);
-            // For security reasons, erase the password
-            memset(pass, 0, MAX_PASSWD_BUF);
-            return 0;
-        }
-    }
     if (outfp != NULL)
     {
         if (outfp != stdout){
@@ -1044,14 +990,12 @@ bool changepass()
 		}
                 }
 		else {
-        		const char *Enteredtosys = oldpass.c_str();
-                	if (!(aescrypt('d', &Enteredtosys))){
+                	if (!veripassford(oldpass)){
 			std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                         }
-        		const char *Enteredtosyse = newpass.c_str();
-       			if (!(aescrypt('e', &Enteredtosyse))){
+       			if (!veripassfore(newpass)){
 			std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
@@ -1100,7 +1044,9 @@ bool addpassmanually(){
 
 std::string pwdfile(std::string filename1)
 {
-		std::string path = get_current_dir_name();
+	        char tmp[256];
+    		getcwd(tmp, 256);
+    		std::string path = tmp;
 	        char finalletter = path[path.length() -1 ];
     		if(finalletter == '/'){
         	path = path + filename1;
@@ -1194,11 +1140,6 @@ bool showpass(bool what)
 		if (waitfor > 10){
 		waitfor = waitfor - 10;
 		waitup(waitfor);
-		/*if(!(startup())){
-                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
-                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                                        return false;
-                        }*/
 		return true;
 		}
 		else if (waitfor <= 10){
@@ -1238,8 +1179,13 @@ bool checkforupdates(bool start)
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
     res = curl_easy_perform(curl);
-    curl_easy_cleanup(curl);
-    if (readBuffer == "No Updates Available\n" || readBuffer == "1\n" || readBuffer == ""){
+    if (res == 1){
+    std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+   } 
+   curl_easy_cleanup(curl);
+    if (!(readBuffer == "No Updates Available\n" || readBuffer == "1\n" || readBuffer == "")){
     if (!start){
     std::cout << "\033[1;32m              Version is Up-to-date.....   Returning To Home Now\033[0m\n";
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
@@ -1248,7 +1194,6 @@ bool checkforupdates(bool start)
                                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                         return false;
                         }
-    }
     else if (start){
 		if (!(startup())){
                                         std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
@@ -1256,12 +1201,34 @@ bool checkforupdates(bool start)
                                         return false;
                         }
 	return true;
+}
 		}
+    }
     else {
     std::cout << "\033[1;36m               Newer Update available !!\033[0m\n\n\n";
     std::cout << "\033[1;32mWould you like to update the program ?\033[0m\n\n";
     std::cout << "\033[5;36m[1] - Update to the newest version (Recommended)\033[0m\n";
     std::cout << "\033[5;36m[2] - Don't update Return to Home\033[0m\n\n";
+
+/*  CURL *curl2;
+  CURLcode res2;
+  std::string readBuffer2;
+
+  curl2 = curl_easy_init();
+  if(curl2) {
+    curl_easy_setopt(curl, CURLOPT_URL, "https://tamilanth.github.io/PhraseNUX/changelog/");
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer2);
+    res2 = curl_easy_perform(curl2);
+    if (res2){
+    std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+   }
+   curl_easy_cleanup(curl);
+    std::cout << readBuffer2 << std::endl;
+ }
+ */
     short int a;
     std::cin >> a;
     if (a == 1){
@@ -1290,7 +1257,7 @@ bool checkforupdates(bool start)
     return false;
     }
   }
-}
+
 }
 return true;
 }
@@ -1335,7 +1302,9 @@ bool changeprogramcaller()
 		}
 		std::ofstream file;
 		file.open(callname);
-		std::string pwd = get_current_dir_name();
+		char tmp[256];
+    		getcwd(tmp, 256);
+		std::string pwd = tmp;
 		std::string namee = "cd " + pwd;
 		namee.resize(namee.size() - 7);
 		file << "#!/bin/bash" << std::endl;
