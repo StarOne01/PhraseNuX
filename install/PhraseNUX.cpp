@@ -619,12 +619,6 @@ void banner5()
 
 }
 
-/*
-                  
-    	std::cout << "\033[5;36m	                 
-    	std::cout << "\033[5;36m		         b
-	std::cout << "\033[5;36m		         
-	std::cout << "\033[5;36m		  */       
 //Randomly select a banner
 
 void banner()
@@ -871,14 +865,13 @@ bool aescrypt(char type,const char** pas)
         }
 
         // If there was an error, remove the output file
-/*        if (!rc || !enrc)
+        if (!rc || !enrc)
         {
             cleanup(outfile);
             // For security reasons, erase the password
             memset(pass,0, MAX_PASSWD_BUF);
             return 0;
         }
-*/
         // Reset input/output file names and desriptors
         outfile[0] = '\0';
         infp = NULL;
@@ -1210,7 +1203,7 @@ bool checkforupdates(bool start)
     std::cout << "\033[5;36m[1] - Update to the newest version (Recommended)\033[0m\n";
     std::cout << "\033[5;36m[2] - Don't update Return to Home\033[0m\n\n";
 
-/*  CURL *curl2;
+  CURL *curl2;
   CURLcode res2;
   std::string readBuffer2;
 
@@ -1228,7 +1221,6 @@ bool checkforupdates(bool start)
    curl_easy_cleanup(curl);
     std::cout << readBuffer2 << std::endl;
  }
- */
     short int a;
     std::cin >> a;
     if (a == 1){
