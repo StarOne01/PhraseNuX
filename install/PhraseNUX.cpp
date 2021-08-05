@@ -1209,16 +1209,16 @@ bool checkforupdates(bool start)
 
   curl2 = curl_easy_init();
   if(curl2) {
-    curl_easy_setopt(curl, CURLOPT_URL, "https://tamilanth.github.io/PhraseNUX/changelog/");
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer2);
+    curl_easy_setopt(curl2, CURLOPT_URL, "https://tamilanth.github.io/PhraseNUX/changelog/");
+    curl_easy_setopt(curl2, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl2, CURLOPT_WRITEDATA, &readBuffer2);
     res2 = curl_easy_perform(curl2);
     if (res2){
     std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
                                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                         return false;
    }
-   curl_easy_cleanup(curl);
+   curl_easy_cleanup(curl2);
     std::cout << readBuffer2 << std::endl;
  }
     short int a;
