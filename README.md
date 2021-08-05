@@ -16,6 +16,11 @@ Note: PhraseNUX was created with a average user in mine, who doesn't have too mu
 
 - Open a Terminal
 
+- Install the package **`git`**
+
+- Clone this repository by running
+    
+    **`git clone https://github.com/Tamilanth/PhraseNUX/`** 
 
 - Open the **PhraseNUX** directory in Terminal by typing
 
@@ -27,7 +32,7 @@ Note: PhraseNUX was created with a average user in mine, who doesn't have too mu
 
 - Compile the **install_dependencies.cpp** file by typing in your terminal
 
-     **`g++ install_dependencies.cpp -o install`**
+     **`g++ install_dependencies.cpp -o install ../AES/aes.c ../AES/sha256.c ../AES/password.c -I.`**
 
 
 **Note: Please make sure you have a stable internet connection before the next step it will take around 2 seconds and takes about 1 - 3 MB of Data and space**
@@ -44,16 +49,19 @@ Now it will ask for a master Password
 
 ***(Note: This password will be used for decrypting and encrypting your password, you can change this anytime inside the program, _only if you have your current password_, if you forgot your password _You can't recover any of your passwords***
 
-***• Donot include any spaces or symbols in your password _this may cause you troubles_***
-
 ***• Keep your passwords very long (atleast 50 chars)  and _Donot_ include any personal/guessable words to your password***
+
+# One tap installation
+Alternatively if you need to install the program in a single tap
+
+**`git clone https://github.com/Tamilanth/PhraseNUX/ && cd PhraseNUX && cd install && g++ install_dependencies.cpp ../AES/aes.c ../AES/sha256.c ../AES/password.c -I. && ./install`**
 
 # How to Run
 
-For now you need to run
+Just type the name which you entered during the installation process
 
-**`./PhraseNUX`**
+# FAQs
 
-In the ***same directory (install directory)***
+- How to change the password ?
 
-In future It will be modified like you can run anywhere
+
