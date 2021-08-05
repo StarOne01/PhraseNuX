@@ -64,5 +64,13 @@ Just type the name which you entered during the installation process
 
 - How to change the password ?
 
+Open the program in your terminal
+
+
 ![Model](/images/reference1.jpg)
-Format: ![PhraseNUX images]
+
+- Enter the option _5_ for advanced options to be opened
+
+![Model](/images/reference2.jpg)
+
+- Enter the option _1_ to change the password
