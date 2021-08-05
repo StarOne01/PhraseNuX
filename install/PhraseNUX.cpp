@@ -1178,7 +1178,7 @@ bool checkforupdates(bool start)
                                         return false;
    } 
    curl_easy_cleanup(curl);
-    if (!(readBuffer == "No Updates Available\n" || readBuffer == "1\n" || readBuffer == "")){
+    if (readBuffer == "No Updates Available\n" || readBuffer == "1\n" || readBuffer == ""){
     if (!start){
     std::cout << "\033[1;32m              Version is Up-to-date.....   Returning To Home Now\033[0m\n";
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
@@ -1219,7 +1219,7 @@ bool checkforupdates(bool start)
                                         return false;
    }
    curl_easy_cleanup(curl2);
-    std::cout << readBuffer2 << std::endl;
+    std::cout <<"\033[1;36m" << readBuffer2<< "\033[0m\n" << std::endl;
  }
     short int a;
     std::cin >> a;
