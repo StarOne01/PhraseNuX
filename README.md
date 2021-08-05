@@ -64,4 +64,5 @@ Just type the name which you entered during the installation process
 
 - How to change the password ?
 
-
+![Model](/images/reference1.png)
+Format: ![PhraseNUX images]
