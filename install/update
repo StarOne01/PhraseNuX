@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 cd ..
-mkdir PhraseNUXupdating
+sudo mkdir PhraseNUXupdating
 cd PhraseNUX
 mv Encrypted_Passwords.aes ..
 cd ..
@@ -13,13 +13,16 @@ git clone https://github.com/Tamilanth/PhraseNUX/
 cd PhraseNUX
 cd install
 echo -ne "\e[38;5;9mNote: For security reasons the source codes will be cleared, if you need to play with source codes please download this again and edit the installation script\n\e[0m"
-g++ PhraseNUX.cpp -lcurl -o PhraseNUX ../random/csprng.cpp ../hash/sha3.cpp -I.
+g++ PhraseNUX.cpp -lcurl ../AES/aes.h ../AES/sha256.h ../AES/password.h ../AES/aes.c ../AES/sha256.c ../AES/password.c ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
+mv a.out PhraseNUX
 rm -rf PhraseNUX.cpp
-rm -rf Start
+rm -rf start
 rm -rf install_dependencies.cpp
 cd ..
 rm -rf AES
-rm -rf changelog
+rm -rf images
+rm -rf main
+rm -rf termux
 rm -rf random
 rm -rf hash
 cd install

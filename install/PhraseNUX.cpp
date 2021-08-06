@@ -1144,7 +1144,7 @@ bool checkforupdates(bool start)
 
   curl = curl_easy_init();
   if(curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, "https://tamilanth.github.io/PhraseNUX/main/updates");
+    curl_easy_setopt(curl, CURLOPT_URL, "https://tamilanth.github.io/PhraseNUX/main/updates/");
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
     res = curl_easy_perform(curl);
@@ -1152,7 +1152,7 @@ bool checkforupdates(bool start)
     std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
                                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                         return false;
-   } 
+   }
     curl_easy_cleanup(curl);
     if (readBuffer == "No Updates Available\n" || readBuffer == "1\n" || readBuffer == "" || readBuffer == "1" || readBuffer == "No Updates Available"){
     if (!start){
