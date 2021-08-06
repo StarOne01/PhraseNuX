@@ -1,12 +1,12 @@
 /*
-PhraseNUX was created && developed && is being maintained by Prashanth(Tamilanth)
+PhraseNuX was created && developed && is being maintained by Prashanth(Tamilanth)
 © Tamilanth
-PhraseNUX is free to use and free to be modified and distributed as per the GPL License
+PhraseNuX is free to use and free to be modified and distributed as per the GPL License
 for more information on modification and distribution, please refer to LICENSE.md
 Incase of any bugs please tag me by posting "Found a Bug @MY_USWLERNAME" at
 		• Instagram (@its_me_tamilanth) or
 		• Twitter (@Tamilanth)
-		• Tag me in PhraseNUX's github discussion
+		• Tag me in PhraseNuX's github discussion
 for further Instructions
 
 Thanking you
@@ -310,7 +310,7 @@ void optionsA()
 {
         std::cout << "\033c";
         banner();
-        std::cout << "                Welcome to PhraseNUX\n";
+        std::cout << "                Welcome to PhraseNuX\n";
         std::cout << "         ( A password manager by Tamilanth )  " << "\n"
                  << "\n";
         smallbanner();
@@ -893,7 +893,7 @@ bool advancedoptions()
 {
 	std::cout << "\033c";
         banner();
-        std::cout << "                Welcome to PhraseNUX\n";
+        std::cout << "                Welcome to PhraseNuX\n";
         std::cout << "         ( A password manager by Tamilanth )  " << "\n"
                  << "\n";
         smallbanner();
@@ -1279,7 +1279,7 @@ bool changeprogramcaller()
 		namee.resize(namee.size() - 7);
 		file << "#!/bin/bash" << std::endl;
 		file << namee << std::endl;
-		file << "./PhraseNUX" << std::endl;
+		file << "./PhraseNuX" << std::endl;
 		file.close();
 		std::string nameing = "/usr/bin/" + callname;
 		rename(callname.c_str(), nameing.c_str());
