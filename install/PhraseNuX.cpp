@@ -1144,7 +1144,7 @@ bool checkforupdates(bool start)
 
   curl = curl_easy_init();
   if(curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, "https://tamilanth.github.io/PhraseNUX/main/updates/");
+    curl_easy_setopt(curl, CURLOPT_URL, "https://tamilanth.github.io/PhraseNuX/main/updates/");
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
     res = curl_easy_perform(curl);
@@ -1185,7 +1185,7 @@ bool checkforupdates(bool start)
 
   curl2 = curl_easy_init();
   if(curl2) {
-    curl_easy_setopt(curl2, CURLOPT_URL, "https://tamilanth.github.io/PhraseNUX/main/changelog/");
+    curl_easy_setopt(curl2, CURLOPT_URL, "https://tamilanth.github.io/PhraseNuX/main/changelog/");
     curl_easy_setopt(curl2, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl2, CURLOPT_WRITEDATA, &readBuffer2);
     res2 = curl_easy_perform(curl2);
