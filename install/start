@@ -5,13 +5,16 @@ rm -rf PhraseX.cpp
 rm -rf install_dependencies.cpp
 sudo apt install secure-delete
 echo -ne "\e[38;5;9m\n\nPlease Wait compiling codes\e[0m\n"
-g++ PhraseNUX.cpp -lcurl -o PhraseNUX ../AES/aes.h ../AES/sha256.h ../AES/password.h ../AES/aes.c ../AES/sha256.c ../AES/password.c ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
+g++ PhraseNUX.cpp -lcurl ../AES/aes.h ../AES/sha256.h ../AES/password.h ../AES/aes.c ../AES/sha256.c ../AES/password.c ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
+mv a.out PhraseNUX
 echo "Compiled successfully !\n\n"
 rm -rf PhraseNUX.cpp
 rm -rf start
 rm -rf install_dependencies.cpp
 cd ..
-rm -rf changelog
+rm -rf termux
+rm -rf main
+rm -rf images
 rm -rf random
 rm -rf hash
 rm -rf AES

@@ -865,13 +865,13 @@ bool aescrypt(char type,const char** pas)
         }
 
         // If there was an error, remove the output file
-        if (!rc || !enrc)
+       /* if (!rc || !enrc)
         {
             cleanup(outfile);
             // For security reasons, erase the password
             memset(pass,0, MAX_PASSWD_BUF);
             return 0;
-        }
+        }*/
         // Reset input/output file names and desriptors
         outfile[0] = '\0';
         infp = NULL;
@@ -879,9 +879,9 @@ bool aescrypt(char type,const char** pas)
 
     // For security reasons, erase the password
     memset(pass, 0, MAX_PASSWD_BUF);
-    if(!rc){
+/*    if(!rc){
     return false;
-    }
+    }*/
  return true;
 }
 
@@ -1104,7 +1104,6 @@ bool showpass(bool what)
 			    }
 			    lineofthefile.resize(lineofthefile.size() - I);
 			    std::cout << tagfromfile + " 👇" << "\n" << "\n" << lineofthefile << "\n" << "\n" << "\n" << "\n" << "\n";
-			    //lineofthefile.resize(lineofthefile.size() - I);
 			    break;
 
         			    }
@@ -1178,7 +1177,7 @@ bool checkforupdates(bool start)
                                         return false;
    } 
     curl_easy_cleanup(curl);
-    if (readBuffer == "No Updates Available\n" || readBuffer == "1\n" || readBuffer == ""){
+    if (readBuffer == "No Updates Available\n" || readBuffer == "1\n" || readBuffer == "" || readBuffer == "1" || readBuffer == "No Updates Available"){
     if (!start){
     std::cout << "\033[1;32m              Version is Up-to-date.....   Returning To Home Now\033[0m\n";
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
