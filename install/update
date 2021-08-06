@@ -32,9 +32,9 @@ cd ..
 chmod +x update
 rm -rf install
 cd ..
-cd PhraseNUXupdating
+cd PhraseNUX_updating
 mv Encrypted_Passwords.aes ..
 cd ..
 rm -rf PhraseNUXupdating
-mv test.aes PhraseNUX.cpp
+mv Encrypted_Passwords.aes PhraseNUX
 echo -ne "\e[38;5;9m\n\nYou are free to Start using the password manager by entering PhraseNUX any directory\e[0m\n"

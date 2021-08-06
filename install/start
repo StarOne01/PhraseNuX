@@ -18,7 +18,6 @@ rm -rf images
 rm -rf random
 rm -rf hash
 rm -rf AES
-rm -rf index.html
 cd install 
 mv PhraseNUX ..
 mv update ..
