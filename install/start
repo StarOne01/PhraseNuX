@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 echo -ne "\e[38;5;9mNote: For security reasons the source codes will be cleared, if you need to play with source codes please download this again and edit the installation script\n\e[0m"
-sudo rm -rf PhraseX.cpp
+sudo rm -rf PhraseNUX.cpp
 rm -rf install_dependencies.cpp
 sudo apt install secure-delete
 echo -ne "\e[38;5;9m\n\nPlease Wait compiling codes\e[0m\n"
@@ -25,8 +25,4 @@ mv Encrypted_Passwords.aes ..
 cd ..
 rm -rf install
 chmod u=rx update
-echo -ne "\e[38;5;9mWarning !! : Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\e[0m\n"
-echo -ne "\e[38;5;9m Guide for Password creation\n\e[0m\n"
-echo -ne "\e[38;5;9m•You can use any ASCII values and DONOT include Personal informarion \n•short passwords for PROHIBITED\n•Max Password size = 1024 characters\e[0m\n"
-
-echo -ne "\e[38;5;9m\n\nTo Start using the password manager Please type PhraseNUX in any directory\e[0m\n"
+echo -ne "\e[38;5;9m\n\nTo Start using the password manager Please type your keyword in any directory to fireup PhraseNUX\e[0m\n"

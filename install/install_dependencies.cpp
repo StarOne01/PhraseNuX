@@ -57,7 +57,7 @@ system(nnamee);
 
 cout << "\033[1;31mWarning !! : Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\n\033[0m";
 cout << "\033[1;32mGuide for Password creation\n\n\n\033[0m";
-cout << "\033[1;31m•You can use any ASCII values and DONOT include Personal informarion \n•short passwords for PROHIBITED\n•Max Password size = 1024 characters\033[0m\n";
+cout << "\033[1;31m•You can use any ASCII values and DONOT include Personal informarion \n•short passwords are PROHIBITED\n•Max Password size = 1024 characters\033[0m\n";
 std::ofstream output("test");
 std::ifstream iiifile;
 iiifile.open("test");
