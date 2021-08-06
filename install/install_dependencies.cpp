@@ -47,7 +47,7 @@ std::string namee = "cd " + pwd;
 namee.resize(namee.size() - 7);
 file << "#!/bin/bash" << std::endl;
 file << namee << std::endl;
-file << "./PhraseNUX" << std::endl;
+file << "./PhraseNuX" << std::endl;
 file.close();
 std::string nameing = "/usr/bin/" + callname;
 rename(callname.c_str(), nameing.c_str());

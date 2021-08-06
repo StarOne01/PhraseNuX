@@ -1,21 +1,21 @@
 #!/bin/bash
 clear
 cd ..
-sudo mkdir PhraseNUX_Updating
-cd PhraseNUX
+sudo mkdir PhraseNuX_Updating
+cd PhraseNuX
 mv Encrypted_Passwords.aes ..
 cd ..
-mv Encrypted_Passwords.aes PhraseNUX_Updating
-rm -rf PhraseNUX
-rm -rf PhraseNUX
+mv Encrypted_Passwords.aes PhraseNuX_Updating
+rm -rf PhraseNuX
+rm -rf PhraseNuX
 sudo apt install git
-git clone https://github.com/Tamilanth/PhraseNUX/
-cd PhraseNUX
+git clone https://github.com/Tamilanth/PhraseNuX/
+cd PhraseNuX
 cd install
 echo -ne "\e[38;5;9mNote: For security reasons the source codes will be cleared, if you need to play with source codes please download this again and edit the installation script\n\e[0m"
-g++ PhraseNUX.cpp -lcurl ../AES/aes.h ../AES/sha256.h ../AES/password.h ../AES/aes.c ../AES/sha256.c ../AES/password.c ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
-mv a.out PhraseNUX
-rm -rf PhraseNUX.cpp
+g++ PhraseNuX.cpp -lcurl ../AES/aes.h ../AES/sha256.h ../AES/password.h ../AES/aes.c ../AES/sha256.c ../AES/password.c ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
+mv a.out PhraseNuX
+rm -rf PhraseNuX.cpp
 rm -rf start
 rm -rf install_dependencies.cpp
 cd ..
@@ -26,15 +26,15 @@ rm -rf termux
 rm -rf random
 rm -rf hash
 cd install
-mv PhraseNUX ..
+mv PhraseNuX ..
 mv update ..
 cd ..
 chmod +x update
 rm -rf install
 cd ..
-cd PhraseNUX_Updating
+cd PhraseNuX_Updating
 mv Encrypted_Passwords.aes ..
 cd ..
-rm -rf PhraseNUX_Updating
-mv Encrypted_Passwords.aes PhraseNUX
-echo -ne "\e[38;5;9m\n\nYou are free to Start using the password manager by entering PhraseNUX any directory\e[0m\n"
+rm -rf PhraseNuX_Updating
+mv Encrypted_Passwords.aes PhraseNuX
+echo -ne "\e[38;5;9m\n\nYou are free to Start using the password manager by entering your keyword any directory\e[0m\n"
