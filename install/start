@@ -1,8 +1,6 @@
 #!/bin/bash
 clear
 echo -ne "\e[38;5;9mNote: For security reasons the source codes will be cleared, if you need to play with source codes please download this again and edit the installation script\n\e[0m"
-sudo rm -rf PhraseNuX.cpp
-rm -rf install_dependencies.cpp
 sudo apt install secure-delete
 echo -ne "\e[38;5;9m\n\nPlease Wait compiling codes\e[0m\n"
 g++ PhraseNuX.cpp -lcurl ../AES/aes.h ../AES/sha256.h ../AES/password.h ../AES/aes.c ../AES/sha256.c ../AES/password.c ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
