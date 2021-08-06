@@ -6,6 +6,7 @@ for more information on modification and distribution, please refer to LICENSE.m
 Incase of any bugs please tag me by posting "Found a Bug @MY_USWLERNAME" at
 		• Instagram (@its_me_tamilanth) or
 		• Twitter (@Tamilanth)
+		• Tag me in PhraseNUX's github discussion
 for further Instructions
 
 Thanking you
@@ -52,7 +53,7 @@ std::string str(unsigned long long int i)
         std::string x = std::to_string(i);
         return x;
 }
-//Declaring all functions and checkers
+//Declaring all functions and checkers and variables in global scope
 bool aescrypt(char type,const char** pas);
 bool checkforupdates(bool start);
 bool addpassmanually();
@@ -658,7 +659,7 @@ bool call(int mini, int max, short int ik)
 	return true;
 }
 
-//Randomly create a Alphabet only password
+//Randomly create a Alphabet only && Alphabet + Number password
 
 bool alphaonlyfn(bool num)
 {
@@ -864,14 +865,6 @@ bool aescrypt(char type,const char** pas)
             fclose(outfp);
         }
 
-        // If there was an error, remove the output file
-       /* if (!rc || !enrc)
-        {
-            cleanup(outfile);
-            // For security reasons, erase the password
-            memset(pass,0, MAX_PASSWD_BUF);
-            return 0;
-        }*/
         // Reset input/output file names and desriptors
         outfile[0] = '\0';
         infp = NULL;
@@ -879,9 +872,6 @@ bool aescrypt(char type,const char** pas)
 
     // For security reasons, erase the password
     memset(pass, 0, MAX_PASSWD_BUF);
-/*    if(!rc){
-    return false;
-    }*/
  return true;
 }
 
@@ -960,7 +950,7 @@ bool advancedoptions()
 return true;
 }
 
-//Function change the Password
+//Function which changes the Password
 
 bool changepass()
 {
@@ -1000,7 +990,7 @@ bool changepass()
 return true;
 }
 
-//Function accept user's own passwords
+//Function which accepts user's own passwords
 
 bool addpassmanually(){
 		std::cout << "\033[1;32m\n\nPlease enter your own passsword\033[0m\n\n";
@@ -1035,26 +1025,10 @@ bool addpassmanually(){
 		return true;
 }
 
-std::string pwdfile(std::string filename1)
-{
-	        char tmp[256];
-    		getcwd(tmp, 256);
-    		std::string path = tmp;
-	        char finalletter = path[path.length() -1 ];
-    		if(finalletter == '/'){
-        	path = path + filename1;
-	    	}
-    		else
-		{
-        		path  = path + "/" + filename1;
-    		}
-		return path;
-}
-
 bool nottoshowallpass = true;
 std::string tagforsearch;
 
-//Function to show all passwords stored
+//Function to show passwords stored
 
 bool showpass(bool what)
 {
@@ -1159,6 +1133,9 @@ bool showpass(bool what)
 			}}}
 	return true;
 }
+
+//Function which checks for updates
+
 bool checkforupdates(bool start)
 {
   CURL *curl;
@@ -1171,7 +1148,7 @@ bool checkforupdates(bool start)
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
     res = curl_easy_perform(curl);
-    if (res == 1){
+    if (res){
     std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
                                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                         return false;
@@ -1252,6 +1229,8 @@ bool checkforupdates(bool start)
 }
 return true;
 }
+
+//Function to change the function which calls the program
 
 bool changeprogramcaller()
 {
