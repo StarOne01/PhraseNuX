@@ -7,15 +7,12 @@
               .||.   .|.  .||.  
 
 
-          Hey, Welcome to PhraseNUX 
-
-**Note: This is for linux distros, if you are looking for termux please refer to this**
-https://github.com/Tamilanth/PhraseNUX/tree/termux
+          Hey, Welcome to PhraseNuX 
 
 
 # How To Install
 
-Note: PhraseNUX was created with a average user in mine, who doesn't have too much of tech knowledge. so, For security reasons the source codes of the application will be deleted after installation by default, If you are an advanced user and like to play with the codes, please edit the **install/start** file which is written in bash and edit the hashing function in the **install/PhraseNUX.cpp**
+Note: PhraseNuX was created with a average user in mine, who doesn't have too much of tech knowledge. so, For security reasons the source codes of the application will be deleted after installation by default, If you are an advanced user and like to play with the codes, please edit the **install/start** file which is written in bash and edit the hashing function in the **install/PhraseNuX.cpp**
 
 - Open a Terminal
 
@@ -23,11 +20,11 @@ Note: PhraseNUX was created with a average user in mine, who doesn't have too mu
 
 - Clone this repository by running
     
-    **`git clone https://github.com/Tamilanth/PhraseNUX/`** 
+    **`git clone https://github.com/Tamilanth/PhraseNuX/`** 
 
-- Open the **PhraseNUX** directory in Terminal by typing
+- Open the **PhraseNuX** directory in Terminal by typing
 
-     **`cd PhraseNUX`**
+     **`cd PhraseNuX`**
 
 - Open the install directory in the terminal by typing
 
@@ -35,10 +32,10 @@ Note: PhraseNUX was created with a average user in mine, who doesn't have too mu
 
 - Compile the **install_dependencies.cpp** file by typing in your terminal
 
-     **`g++ install_dependencies.cpp ../AES/aes.c ../AES/sha256.c ../AES/password.c -I. -o install`**
+     **`g++ install_dependencies.cpp -liconv ../AES/aes.c ../AES/sha256.c ../AES/password.c -I. -o install && ./install`**
 
 
-**Note: Please make sure you have a stable internet connection before the next step it will take around 2 seconds and takes about 2 - 100 MB of Data and space**
+**Note: Please make sure you have a stable internet connection before the next step it will take around 2 seconds and takes about 1 - 3 MB of Data and space**
 
 - Run the compiled binary file 
 
@@ -52,28 +49,33 @@ Now it will ask for a master Password
 
 ***(Note: This password will be used for decrypting and encrypting your password, you can change this anytime inside the program, _only if you have your current password_, if you forgot your password _You can't recover any of your passwords***
 
-***• Keep your passwords very long (atleast 50 chars)  and _Donot_ include any personal/guessable words to your password***
+***• Keep your master password very long (atleast 20 chars)  and _Donot_ include any personal/guessable words to your password***
 
 # One tap installation
 Alternatively if you need to install the program in a single tap
 
-**`git clone https://github.com/Tamilanth/PhraseNUX/ && cd PhraseNUX && cd install && g++ install_dependencies.cpp ../AES/aes.c ../AES/sha256.c ../AES/password.c -I. && ./install`**
+**`pkg install git && git clone https://github.com/Tamilanth/PhraseNuX/ && cd PhraseNuX && cd install && g++ install_dependencies.cpp -liconv ../AES/aes.c ../AES/sha256.c ../AES/password.c -I. -o install && ./install`**
 
 # How to Run
 
-Just type the name which you entered during the installation process
+Just type the keyword which you entered during the installation process
 
 # FAQs
 
-- How to change the password ?
+### How to change the password ?
 
 Open the program in your terminal
-
 
 ![Model](/images/reference1.jpg)
 
 - Enter the option _5_ for advanced options to be opened
 
-![Model](/images/reference2.jpg)
 
-- Enter the option _1_ to change the password
+- Enter the option _1_ to change the password and enter your old master password and new master password now
+
+### How can i backup my passwords ?
+
+- By default the passwords will never leave your phone, so if you need to store your passwords somewhere safely, you are free to copy it.
+The Encrypted passwords are stored in the filename `"Encrypted_Passwords.aes"` in PhraseNuX Folder
+
+***(Note: Do this only if you trust the place you store the passwords and your master password should be atleast 20 chars to ensure the safety of your encryption.)***
