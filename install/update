@@ -8,7 +8,7 @@ cd ..
 mv Encrypted_Passwords.aes PhraseNuX_Updating
 rm -rf PhraseNuX
 rm -rf PhraseNuX
-sudo apt install git
+sudo apt install git -y
 git clone https://github.com/Tamilanth/PhraseNuX/
 cd PhraseNuX
 cd install
