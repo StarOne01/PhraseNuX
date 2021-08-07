@@ -84,7 +84,7 @@ bool delpass()
 {
         std::string line;
 	std::cout << "\n";
-        std::cout << "\033[1;31mEnter Your Password:\033[0m";
+        std::cout << "\033[1;31m(invisible)\nEnter Your Password:\033[0m";
         std::string lll = safeenter();
 	if (!(showpass(0))){
 	return false;
@@ -138,10 +138,10 @@ bool writetofile(std::string ea, short int opt)
         std::string lll;
 	std::cout << "\n";
 	if (ea.length() > 1000000){
-	std::cout << "\033[5;36m\nLooks like the generated password is too long \033[0m\n";
+	std::cout << "\033[1;36m\nLooks like the generated password is too long \033[0m\n";
 	short int moreopt;
-	std::cout << "\033[5;36m\n[1] - Show Anyway\033[0m";
-	std::cout << "\033[5;36m\n[2] - Directly save to enecrypted password file\033[0m\n";
+	std::cout << "\033[1;36m\n[1] - Show Anyway\033[0m";
+	std::cout << "\033[1;36m\n[2] - Directly save to enecrypted password file\033[0m\n";
         std::cout << "\n";
 	std::cin >> moreopt;
 	if (moreopt == 1){
@@ -174,10 +174,10 @@ bool writetofile(std::string ea, short int opt)
         std::cout << "\n";
 	}
         if(optionsforsaving == 1){
-        std::cout << "\033[1;31mEnter Your Password:\033[0m";
+        std::cout << "\033[1;31m(invisible)\nEnter Your Password:\033[0m";
         lll = safeenter();
 	std::string tag;
-        std::cout << "\033[5;36m\n\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt the passwords:\033[0m\n\n\n";
+        std::cout << "\033[1;36m\n\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt the passwords:\033[0m\n\n\n";
 	std::getline(std::cin >> std::ws, tag);
         std::cout << "\n";
 	bool a = veripassford(lll);
@@ -189,7 +189,7 @@ bool writetofile(std::string ea, short int opt)
         std::cout << "\033[1;31mEntered incorrect Password for 5 times exiting !\n\033[0m";
         return false;
         }
-	std::cout << "\033[1;31m\nEnter Your Password:\033[0m";
+	std::cout << "\033[1;31m\n(invisible)\nEnter Your Password:\033[0m";
 	lll = safeenter();
         if(veripassford(lll)){
 	break;
@@ -250,11 +250,11 @@ return true;
 
 void optionsB()
 {       std::cout << "\n";
-        std::cout << "\033[5;36m[1] - Numbers Only Mode \033[0m\n";
-        std::cout << "\033[5;36m[2] - Alphabets Only Mode \033[0m\n";
-	std::cout << "\033[5;36m[3] - Alphabets-Numeric Mode \033[0m\n";
-        std::cout << "\033[5;36m[4] - Mixed Mode \033[0m\n";
-        std::cout << "\033[5;36m[5] - Main Menu \033[0m\n\n";
+        std::cout << "\033[1;36m[1] - Numbers Only Mode \033[0m\n";
+        std::cout << "\033[1;36m[2] - Alphabets Only Mode \033[0m\n";
+	std::cout << "\033[1;36m[3] - Alphabets-Numeric Mode \033[0m\n";
+        std::cout << "\033[1;36m[4] - Mixed Mode \033[0m\n";
+        std::cout << "\033[1;36m[5] - Main Menu \033[0m\n\n";
 }
 
 
@@ -314,11 +314,11 @@ void optionsA()
         std::cout << "         ( A password manager by Tamilanth )  " << "\n"
                  << "\n";
         smallbanner();
-        std::cout << "\033[5;36m[1] - Show Saved Passwords\033[0m\n";
-        std::cout << "\033[5;36m[2] - Create a  New Password\033[0m\n";
-        std::cout << "\033[5;36m[3] - Delete a Password\033[0m\n";
-        std::cout << "\033[5;36m[4] - Exit\033[0m\n";
-	std::cout << "\033[5;36m[5] - Advanced\033[0m\n\n\n";
+        std::cout << "\033[1;36m[1] - Show Saved Passwords\033[0m\n";
+        std::cout << "\033[1;36m[2] - Create a  New Password\033[0m\n";
+        std::cout << "\033[1;36m[3] - Delete a Password\033[0m\n";
+        std::cout << "\033[1;36m[4] - Exit\033[0m\n";
+	std::cout << "\033[1;36m[5] - Advanced\033[0m\n\n\n";
 }
 
 //Function that makes the program wait for specific timw
@@ -559,7 +559,7 @@ inline bool secdel()
 //Banners
 void smallbanner()
 {
-	std::cout << "\033[5;36m                 ▁▂▄▅▆▇█ ƬΛ █▇▆▅▄▂▁         \033[0m\n\n";
+	std::cout << "\033[1;36m                 ▁▂▄▅▆▇█ ƬΛ █▇▆▅▄▂▁         \033[0m\n\n";
 }
 
 void banner1()
@@ -577,23 +577,23 @@ void banner1()
 
 void banner2()
 {
-        std::cout << "\033[5;36m\n\n";
-        std::cout << "\033[5;36m                  |''||''|     |\n";
-        std::cout << "\033[5;36m                     ||       |||\n";
-        std::cout << "\033[5;36m                     ||      |  ||\n";
-        std::cout << "\033[5;36m                     ||     .''''|.\n";
-        std::cout << "\033[5;36m                    .||.   .|.  .||.\033[0m\n\n\n\n";
+        std::cout << "\033[1;36m\n\n";
+        std::cout << "\033[1;36m                  |''||''|     |\n";
+        std::cout << "\033[1;36m                     ||       |||\n";
+        std::cout << "\033[1;36m                     ||      |  ||\n";
+        std::cout << "\033[1;36m                     ||     .''''|.\n";
+        std::cout << "\033[1;36m                    .||.   .|.  .||.\033[0m\n\n\n\n";
 }
 
 void banner3()
 {
-        std::cout << "\033[5;36m\n\n";
-        std::cout << "\033[5;36m                     ╭━━━━┳━━━╮    \n";
-        std::cout << "\033[5;36m                     ┃╭╮╭╮┃╭━╮┃    \n";
-        std::cout << "\033[5;36m                     ╰╯┃┃╰┫┃╱┃┃    \n";
-        std::cout << "\033[5;36m                     ╱╱┃┃╱┃╰━╯┃    \n";
-        std::cout << "\033[5;36m                     ╱╱┃┃╱┃╭━╮┃    \n";
-        std::cout << "\033[5;36m                     ╱╱╰╯╱╰╯╱╰╯    \033[0m\n\n\n\n";
+        std::cout << "\033[1;36m\n\n";
+        std::cout << "\033[1;36m                     ╭━━━━┳━━━╮    \n";
+        std::cout << "\033[1;36m                     ┃╭╮╭╮┃╭━╮┃    \n";
+        std::cout << "\033[1;36m                     ╰╯┃┃╰┫┃╱┃┃    \n";
+        std::cout << "\033[1;36m                     ╱╱┃┃╱┃╰━╯┃    \n";
+        std::cout << "\033[1;36m                     ╱╱┃┃╱┃╭━╮┃    \n";
+        std::cout << "\033[1;36m                     ╱╱╰╯╱╰╯╱╰╯    \033[0m\n\n\n\n";
 }
 
 void banner4()
@@ -897,11 +897,11 @@ bool advancedoptions()
         std::cout << "         ( A password manager by Tamilanth )  " << "\n"
                  << "\n";
         smallbanner();
-        std::cout << "\033[5;36m\n[1] - Change Master Password\033[0m\n";
-        std::cout << "\033[5;36m[2] - Add your own  Password to the Database (created by you)\033[0m\n";
-        std::cout << "\033[5;36m[3] - Check for updates\e[0m\n";
-	std::cout << "\033[5;36m[4] - Change the phrase to call the program\033[0m\n";
-	std::cout << "\033[5;36m[5] - Return to Main Menu\e[0m\n\n\n\n";
+        std::cout << "\033[1;36m\n[1] - Change Master Password\033[0m\n";
+        std::cout << "\033[1;36m[2] - Add your own  Password to the Database (created by you)\033[0m\n";
+        std::cout << "\033[1;36m[3] - Check for updates\e[0m\n";
+	std::cout << "\033[1;36m[4] - Change the phrase to call the program\033[0m\n";
+	std::cout << "\033[1;36m[5] - Return to Main Menu\e[0m\n\n\n\n";
 	char Optionadvanced;
 	std::cout << "Please select your Option 1 or 2 or 3 or 4:\n";
         std::cin >> Optionadvanced;
@@ -955,12 +955,12 @@ return true;
 bool changepass()
 {
 		std::cout << "\033[1;31m\n\nWarning !!: Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\033[0m\n";
-		std::cout << "\033[1;32m Guide for Password creation\e[0m\n\n";
+		std::cout << "\033[1;32m\n\n Guide for Password creation\e[0m\n\n";
 		std::cout << "\033[1;31m•You can use any ASCII valuesand DO NOT include Personal information \n•short passwords are PROHIBITED\n•Max Length 1024 characters\033[0m\n\n\n";
-		std::cout << "\033[1;31m\n\nPlease Enter your current password to proceed\033[0m";
+		std::cout << "\033[1;31m\n\n(invisible)\nPlease Enter your current password to proceed\033[0m";
 		std::string oldpass = safeenter();
 		std::cout << std::endl;
-		std::cout << "\033[1;31m\n\nPlease enter your new password  \e[0m";
+		std::cout << "\033[1;31m\n\n(invisible)\nPlease enter your new password:  \e[0m";
 		std::string newpass = safeenter();
 		if (oldpass == newpass){
 		std::cout << "\033[1;31m\n\nError:!: The new and old Passwords are same !!\n\nPlease Try again  \033[0m\n";
@@ -996,10 +996,10 @@ bool addpassmanually(){
 		std::cout << "\033[1;32m\n\nPlease enter your own passsword\033[0m\n\n";
 		std::string ownpass;
 		std::getline(std::cin >> std::ws, ownpass);
-		std::cout << "\033[5;36m\nEnter Your Password:\033[0m";
+		std::cout << "\033[1;36m\n(invisible)\nEnter Your Password:\033[0m";
         	std::string passwd = safeenter();
         	std::string tag;
-        	std::cout << "\033[5;36m\n\n\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt your passwords\033[0m\n";
+        	std::cout << "\033[1;36m\n\n\nPlease enter the name for this password, so you can identify the passwords with names when you decrypt your passwords\033[0m\n";
         	std::getline(std::cin >> std::ws, tag);
         	std::cout << "\n";
         	if(!(veripassford(passwd))){
@@ -1032,7 +1032,7 @@ std::string tagforsearch;
 
 bool showpass(bool what)
 {
-	std::cout << "\033[1;31m\nEnter Your Password:\033[0m";
+	std::cout << "\033[1;31m\n(invisible)\nEnter Your Password:\033[0m";
 	std::string lll = safeenter();
 	unsigned int numpasstodisno = 0;
 	for (unsigned int numpasstodis = 1; numpasstodis < 8; numpasstodis++){
@@ -1055,7 +1055,7 @@ bool showpass(bool what)
 		std::string lineofthefile;
 		unsigned int waitfor = 10;
 		if(nottoshowallpass){
-		std::cout << "\033[5;36m\n\nPlease Enter the keyword of the password you need\033[0m\n\n";
+		std::cout << "\033[1;36m\n\nPlease Enter the keyword of the password you need\033[0m\n\n";
 		std::getline(std::cin >> std::ws, tagforsearch);
 		}
 		std::cout << "\n" << "\n" << "\n";
@@ -1113,8 +1113,8 @@ bool showpass(bool what)
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		if (numpasstodis == 5){
 		std::cout << "\033[1;31mLooks like the Tag which you entered does not match any passwords for 5 times\033[0m\n\n";
-		std::cout << "\033[5;36m[1] - Try entering again\033[0m\n";
-    		std::cout << "\033[5;36m[2] - Show all passwords\033[0m\n\n";
+		std::cout << "\033[1;36m[1] - Try entering again\033[0m\n";
+    		std::cout << "\033[1;36m[2] - Show all passwords\033[0m\n\n";
 		char optionsforshow;
 		std::cin >> optionsforshow;
 		if(optionsforshow == '1'){
@@ -1148,14 +1148,14 @@ bool checkforupdates(bool start)
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
     res = curl_easy_perform(curl);
-    if (res){
-    std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
-                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                                        return false;
-   }
     curl_easy_cleanup(curl);
     if (readBuffer == "No Updates Available\n" || readBuffer == "1\n" || readBuffer == "" || readBuffer == "1" || readBuffer == "No Updates Available"){
     if (!start){
+    if (res == 6){
+    std::cout << "\033[1;31mError!! Please turn on your internet connection to check for updates \033[0m\n\n";
+                  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+    }
     std::cout << "\033[1;32m              Version is Up-to-date.....   Returning To Home Now\033[0m\n";
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     if (!(startup())){
@@ -1176,8 +1176,8 @@ bool checkforupdates(bool start)
     else {
     std::cout << "\033[1;36m               Newer Update available !!\033[0m\n\n\n";
     std::cout << "\033[1;32mWould you like to update the program ?\033[0m\n\n";
-    std::cout << "\033[5;36m[1] - Update to the newest version (Recommended)\033[0m\n";
-    std::cout << "\033[5;36m[2] - Don't update Return to Home\033[0m\n\n";
+    std::cout << "\033[1;36m[1] - Update to the newest version (Recommended)\033[0m\n";
+    std::cout << "\033[1;36m[2] - Don't update Return to Home\033[0m\n\n";
 
   CURL *curl2;
   CURLcode res2;
@@ -1234,15 +1234,15 @@ return true;
 
 bool changeprogramcaller()
 {
-		std::cout << "\033[5;36m\nPlease Enter your current word which calls the program\033[0m\n";
+		std::cout << "\033[1;36m\nPlease Enter your current word which calls the program\033[0m\n";
 		std::string callname;
 		std::cin >> callname;
 		std::ifstream shfile;
 		shfile.open ("/usr/bin/" + callname);
 		if(!shfile){
 		std::cout << "\033[1;31m\n\nLooks like there is no call file like that\033[0m\n\n";
-		std::cout << "\033[5;36m[1] - Try entering again\033[0m\n";
-		std::cout << "\033[5;36m[2] - Create a call function\033[0m\n\n\n";
+		std::cout << "\033[1;36m[1] - Try entering again\033[0m\n";
+		std::cout << "\033[1;36m[2] - Create a call function\033[0m\n\n\n";
 		char optionforprogramcaller;
 		std::cin >> optionforprogramcaller;
 		if (optionforprogramcaller == '1'){
@@ -1291,7 +1291,7 @@ bool changeprogramcaller()
 		}
 		else{
 		shfile.close();
-		std::cout << "\033[5;36m\nPlease Enter your new word which will be used to calls the program\033[0m\n";
+		std::cout << "\033[1;36m\nPlease Enter your new word which will be used to calls the program\033[0m\n";
 		std::string newcallname;
 		std::cin >> newcallname;
 		newcallname = "/usr/bin/" + newcallname;
