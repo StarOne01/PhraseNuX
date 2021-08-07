@@ -47,11 +47,12 @@ Note: PhraseNuX was created with a average user in mine, who doesn't have too mu
 
 Now it will ask for a master Password 
 
-***(Note: This password will be used for decrypting and encrypting your password, you can change this anytime inside the program, _only if you have your current password_, if you forgot your password _You can't recover any of your passwords***
+***(Note: This password will be used for decrypting and encrypting your password, you can change this anytime inside the program, _only if you have your current password_, if you forgot your password _You can't recover any of your passwords_***
 
 ***• Keep your master password very long (atleast 20 chars)  and _Donot_ include any personal/guessable words to your password***
 
 # One tap installation
+
 Alternatively if you need to install the program in a single tap
 
 **`pkg install git && git clone https://github.com/Tamilanth/PhraseNuX/ && cd PhraseNuX && cd install && g++ install_dependencies.cpp -liconv ../AES/aes.c ../AES/sha256.c ../AES/password.c -I. -o install && ./install`**
@@ -62,14 +63,13 @@ Just type the keyword which you entered during the installation process
 
 # FAQs
 
-### How to change the password ?
+### How to change the master password ?
 
 Open the program in your terminal
 
 ![Model](/images/reference1.jpg)
 
 - Enter the option _5_ for advanced options to be opened
-
 
 - Enter the option _1_ to change the password and enter your old master password and new master password now
 
@@ -78,4 +78,4 @@ Open the program in your terminal
 - By default the passwords will never leave your phone, so if you need to store your passwords somewhere safely, you are free to copy it.
 The Encrypted passwords are stored in the filename `"Encrypted_Passwords.aes"` in PhraseNuX Folder
 
-***(Note: Do this only if you trust the place you store the passwords and your master password should be atleast 20 chars to ensure the safety of your encryption.)***
+***(Note: Do this only if you trust the place you store the passwords and your master password should be atleast 20 chars to ensure the safety of your encrypted passwords)***
