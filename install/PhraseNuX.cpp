@@ -1333,7 +1333,7 @@ bool checkforupdates(bool start)
                         std::cin >> a;
                         if (a == 1)
                         {
-			        if(checkformodification("update","b3dbdb7a2ac2bc1de53c2569c4964ac3682e58542a474e2e645eb2590eba89c8"))
+                                if (checkformodification("update", "b3dbdb7a2ac2bc1de53c2569c4964ac3682e58542a474e2e645eb2590eba89c8"))
                                 {
                                         if (!(system("bash update")))
                                         {
@@ -1349,110 +1349,111 @@ bool checkforupdates(bool start)
                                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                         return false;
                                 }
-                                else if (a == 2)
+                        }
+                        else if (a == 2)
+                        {
+                                if (!(startup()))
                                 {
-                                        if (!(startup()))
-                                        {
-                                                std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
-                                                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                                                return false;
-                                        }
-                                        return true;
-                                }
-                                else
-                                {
-                                        std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n\n";
-                                        if (!(checkforupdates(0)))
-                                        {
-                                                std::cout << "\033[1;31mError!! could not start the update script, please do it manually by running \"bash update\" in you terminal\033[0m\n\n";
-                                                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                                                return false;
-                                        }
+                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                         return false;
                                 }
+                                return true;
+                        }
+                        else
+                        {
+                                std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n\n";
+                                if (!(checkforupdates(0)))
+                                {
+                                        std::cout << "\033[1;31mError!! could not start the update script, please do it manually by running \"bash update\" in you terminal\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        return false;
+                                }
+                                return false;
                         }
                 }
-                return true;
         }
+        return true;
+}
 
-        //Function to change the function which calls the program
+//Function to change the function which calls the program
 
-        bool changeprogramcaller()
+bool changeprogramcaller()
+{
+        std::cout << "\033[1;36m\nPlease Enter your current word which calls the program\033[0m\n";
+        std::string callname;
+        std::cin >> callname;
+        std::ifstream shfile;
+        shfile.open("/usr/bin/" + callname);
+        if (!shfile)
         {
-                std::cout << "\033[1;36m\nPlease Enter your current word which calls the program\033[0m\n";
-                std::string callname;
-                std::cin >> callname;
-                std::ifstream shfile;
-                shfile.open("/usr/bin/" + callname);
-                if (!shfile)
+                std::cout << "\033[1;31m\n\nLooks like there is no call file like that\033[0m\n\n";
+                std::cout << "\033[1;36m[1] - Try entering again\033[0m\n";
+                std::cout << "\033[1;36m[2] - Create a call function\033[0m\n\n\n";
+                char optionforprogramcaller;
+                std::cin >> optionforprogramcaller;
+                if (optionforprogramcaller == '1')
                 {
-                        std::cout << "\033[1;31m\n\nLooks like there is no call file like that\033[0m\n\n";
-                        std::cout << "\033[1;36m[1] - Try entering again\033[0m\n";
-                        std::cout << "\033[1;36m[2] - Create a call function\033[0m\n\n\n";
-                        char optionforprogramcaller;
-                        std::cin >> optionforprogramcaller;
-                        if (optionforprogramcaller == '1')
+                        changeprogramcaller();
+                }
+                else if (optionforprogramcaller == '2')
+                {
+                        std::string exists = "/usr/bin/" + callname;
+                        std::ifstream ifile;
+                        ifile.open(exists);
+                        while (true)
                         {
-                                changeprogramcaller();
-                        }
-                        else if (optionforprogramcaller == '2')
-                        {
-                                std::string exists = "/usr/bin/" + callname;
-                                std::ifstream ifile;
-                                ifile.open(exists);
-                                while (true)
+                                if (ifile)
                                 {
-                                        if (ifile)
-                                        {
-                                                ifile.close();
-                                                std::cout << "\n\nSorry this name is already taken by someother program please enter another name\n";
-                                                std::cin >> callname;
-                                                exists = "/usr/bin/" + callname;
-                                                std::ifstream iifile;
-                                                iifile.open(exists);
-                                                if (!iifile)
-                                                {
-                                                        break;
-                                                }
-                                                else
-                                                {
-                                                        continue;
-                                                }
-                                        }
-                                        if (!ifile)
+                                        ifile.close();
+                                        std::cout << "\n\nSorry this name is already taken by someother program please enter another name\n";
+                                        std::cin >> callname;
+                                        exists = "/usr/bin/" + callname;
+                                        std::ifstream iifile;
+                                        iifile.open(exists);
+                                        if (!iifile)
                                         {
                                                 break;
                                         }
+                                        else
+                                        {
+                                                continue;
+                                        }
                                 }
-                                std::ofstream file;
-                                file.open(callname);
-                                char tmp[256];
-                                getcwd(tmp, 256);
-                                std::string pwd = tmp;
-                                std::string namee = "cd " + pwd;
-                                namee.resize(namee.size() - 7);
-                                file << "#!/bin/bash" << std::endl;
-                                file << namee << std::endl;
-                                file << "./PhraseNuX" << std::endl;
-                                file.close();
-                                std::string nameing = "/usr/bin/" + callname;
-                                rename(callname.c_str(), nameing.c_str());
-                                callname = "chmod u=x /usr/bin/" + callname;
-                                const char *nnamee = callname.c_str();
-                                system(nnamee);
-                                return true;
+                                if (!ifile)
+                                {
+                                        break;
+                                }
                         }
-                }
-                else
-                {
-                        shfile.close();
-                        std::cout << "\033[1;36m\nPlease Enter your new word which will be used to calls the program\033[0m\n";
-                        std::string newcallname;
-                        std::cin >> newcallname;
-                        newcallname = "/usr/bin/" + newcallname;
-                        callname = "/usr/bin/" + callname;
-                        rename(callname.c_str(), newcallname.c_str());
+                        std::ofstream file;
+                        file.open(callname);
+                        char tmp[256];
+                        getcwd(tmp, 256);
+                        std::string pwd = tmp;
+                        std::string namee = "cd " + pwd;
+                        namee.resize(namee.size() - 7);
+                        file << "#!/bin/bash" << std::endl;
+                        file << namee << std::endl;
+                        file << "./PhraseNuX" << std::endl;
+                        file.close();
+                        std::string nameing = "/usr/bin/" + callname;
+                        rename(callname.c_str(), nameing.c_str());
+                        callname = "chmod u=x /usr/bin/" + callname;
+                        const char *nnamee = callname.c_str();
+                        system(nnamee);
                         return true;
                 }
+        }
+        else
+        {
+                shfile.close();
+                std::cout << "\033[1;36m\nPlease Enter your new word which will be used to calls the program\033[0m\n";
+                std::string newcallname;
+                std::cin >> newcallname;
+                newcallname = "/usr/bin/" + newcallname;
+                callname = "/usr/bin/" + callname;
+                rename(callname.c_str(), newcallname.c_str());
                 return true;
         }
+        return true;
+}

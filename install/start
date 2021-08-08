@@ -4,9 +4,9 @@ echo -ne "\e[38;5;9mNote: For security reasons the source codes will be cleared,
 sudo apt install secure-delete -y
 sudo apt install clang -y
 echo -ne "\e[38;5;9m\n\nPlease Wait compiling codes\e[0m\n"
-g++ PhraseNuX.cpp -lcurl ../AES/aes.h ../AES/sha256.h ../AES/password.h ../AES/aes.c ../AES/sha256.c ../AES/password.c ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
+g++ PhraseNuX.cpp -lcurl ../AES/aes.h ../AES/sha256.h ../AES/password.h ../AES/aes.cpp ../AES/sha256.c ../AES/password.cpp ../AES/aescrypt.h ../random/csprng.cpp ../hash/sha3.cpp -I.
 mv a.out PhraseNuX
-echo "Compiled successfully !\n\n"
+echo -ne "Compiled successfully ! \n\n\033[0m"
 rm -rf PhraseNuX.cpp
 rm -rf start
 rm -rf install_dependencies.cpp
@@ -17,7 +17,7 @@ rm -rf images
 rm -rf random
 rm -rf hash
 rm -rf AES
-cd install 
+cd install
 mv PhraseNuX ..
 mv update ..
 mv Encrypted_Passwords.aes ..
