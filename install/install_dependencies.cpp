@@ -62,7 +62,7 @@ int main()
             if (a == "Yes" || a == "yes" || a == "y" || a == "Y" || a == "YES")
             {
                 string callname;
-                cout << "\n\n\033[1;36mPlease enter the command to start the Program i.e, the word which you enter now will be used to call the program\033[0m\n";
+                cout << "\n\n\033[1;36mPlease enter a command (this will be used to lauch PhraseNuX when you type this keyword anywhere in your terminal)\033[0m\n";
                 cin >> callname;
                 std::string exists = "/usr/bin/" + callname;
                 std::ifstream ifile;
