@@ -74,6 +74,7 @@ void banner();
 bool alphaonlyfn(bool num);
 bool call(int mini, int max, short int ik);
 void smallbanner();
+std::string startsha = "0552d3158a2bcfda0f577c5f0fe2fb624ba17d5660dd8bafd9c5dd3e871889c1";
 std::string pwdfile(std::string filename1);
 
 //function to delete passwords
@@ -1333,7 +1334,7 @@ bool checkforupdates(bool start)
                         std::cin >> a;
                         if (a == 1)
                         {
-                                if (checkformodification("update", "0552d3158a2bcfda0f577c5f0fe2fb624ba17d5660dd8bafd9c5dd3e871889c1"))
+                                if (checkformodification("update", startsha))
                                 {
                                         if (!(system("bash update")))
                                         {
@@ -1345,34 +1346,46 @@ bool checkforupdates(bool start)
                                 }
                                 else
                                 {
-                                        std::cout << "\033[1;31mError!! could not start the update script because it is been modified and became untrusted\n\nPlease turn your network connection on\033[0m\n\n";
-                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                                        CURL *curl3;
-                                        CURLcode res3;
-                                        std::string readBuffer3;
-
-                                        curl3 = curl_easy_init();
-                                        if (curl3)
+                                        for (int downcount = 0; downcount <= 10; downcount++)
                                         {
-                                                curl_easy_setopt(curl3, CURLOPT_URL, "https://tamilanth.github.io/PhraseNuX/main/updatescript");
-                                                curl_easy_setopt(curl3, CURLOPT_WRITEFUNCTION, WriteCallback);
-                                                curl_easy_setopt(curl3, CURLOPT_WRITEDATA, &readBuffer3);
-                                                res3 = curl_easy_perform(curl3);
-                                                if (res3)
+                                                std::cout << "\033[1;31mError!! could not start the update script because it is been modified and became untrusted\n\nPlease turn your network connection on\033[0m\n\n";
+                                                std::this_thread::sleep_for(std::chrono::milliseconds(6000));
+                                                CURL *curl3;
+                                                CURLcode res3;
+                                                std::string readBuffer3;
+
+                                                curl3 = curl_easy_init();
+                                                if (curl3)
                                                 {
-                                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
-                                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                                                        return false;
+                                                        curl_easy_setopt(curl3, CURLOPT_URL, "https://tamilanth.github.io/PhraseNuX/main/updatescript/");
+                                                        curl_easy_setopt(curl3, CURLOPT_WRITEFUNCTION, WriteCallback);
+                                                        curl_easy_setopt(curl3, CURLOPT_WRITEDATA, &readBuffer3);
+                                                        res3 = curl_easy_perform(curl3);
+                                                        if (res3 == 6)
+                                                        {
+                                                                std::cout << "\033[1;31mPlease turn on your network\033[0m\n\n";
+                                                                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                                                checkforupdates(1);
+                                                        }
+                                                        curl_easy_cleanup(curl3);
+                                                        std::ofstream updatedown("update");
+                                                        updatedown << readBuffer3;
+                                                        updatedown.close();
+                                                        if (checkformodification("update", startsha))
+                                                        {
+                                                                break;
+                                                        }
+                                                        if (!checkformodification("update", startsha) && downcount == 10)
+                                                        {
+                                                                std::cout << "\033[1;31m\n\n\n\n\n\n\nLooks like our developer forgot to update the sha values please say him this by starting a github discussion\033[0m\n\n";
+								std::this_thread::sleep_for(std::chrono::milliseconds(8000));
+                                                                break;
+                                                        }
                                                 }
-                                                curl_easy_cleanup(curl3);
-                                                std::ofstream updatedown("update");
-                                                updatedown << readBuffer3;
-						updatedown.close();
-						system("chmod +x update");
-						system("bash update");
-						return true;
                                         }
-                                        return false;
+					system("chmod u=rx update");
+                                        system("bash update");
+                                        return true;
                                 }
                         }
                         else if (a == 2)
