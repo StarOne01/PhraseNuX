@@ -21,10 +21,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
-#include <unistd.h>  // getopt
-#include <stdlib.h>  // malloc
-#include <time.h>    // time
-#include <errno.h>   // errno
+#include <unistd.h> // getopt
+#include <stdlib.h> // malloc
+#include <time.h>   // time
+#include <errno.h>  // errno
 
 #include "aescrypt.h"
 #include "password.h"
@@ -34,7 +34,7 @@
  *
  *  This function is called to encrypt the open data steam "infp".
  */
-bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
+bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char *passwd, int passlen)
 {
     aes_context aes_ctx;
     sha256_context sha_ctx;
@@ -69,23 +69,23 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     // generation could be replaced with any good random
     // source of data.
     memset(iv_key, 0, 48);
-    for (i=0; i<48; i+=16)
+    for (i = 0; i < 48; i += 16)
     {
         memset(buffer, 0, 32);
         sha256_starts(&sha_ctx);
-        for(j=0; j<256; j++)
+        for (j = 0; j < 256; j++)
         {
             if ((bytes_read = fread(buffer, 1, 32, randfp)) != 32)
             {
                 fprintf(stderr, "\033[1;31mError: Couldn't read from /dev/urandom : %u\e[0m\n",
-                        (unsigned) bytes_read);
+                        (unsigned)bytes_read);
                 fclose(randfp);
                 return 0;
             }
             sha256_update(&sha_ctx, buffer, 32);
         }
         sha256_finish(&sha_ctx, digest);
-        memcpy(iv_key+i, digest, 16);
+        memcpy(iv_key + i, digest, 16);
     }
 
     // Write an AES signature at the head of the file, along
@@ -93,8 +93,8 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     buffer[0] = 'A';
     buffer[1] = 'E';
     buffer[2] = 'S';
-    buffer[3] = (unsigned char) 0x02;   // Version 2
-    buffer[4] = '\0';                   // Reserved for version 0
+    buffer[3] = (unsigned char)0x02; // Version 2
+    buffer[4] = '\0';                // Reserved for version 0
     if (fwrite(buffer, 1, 5, outfp) != 5)
     {
         fprintf(stderr, "\033[1;31mError: Could not write out header data\e[0m\n");
@@ -103,17 +103,17 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     }
 
     // Write out the CREATED-BY tag
-    j = 11 +                   // "CREATED-BY\0"
-        strlen(PROG_NAME) +    // Program name
-        1 +                    // Space
-        strlen(PROG_VERSION);  // Program version ID
+    j = 11 +                  // "CREATED-BY\0"
+        strlen(PROG_NAME) +   // Program name
+        1 +                   // Space
+        strlen(PROG_VERSION); // Program version ID
 
     // Our extension buffer is only 256 octets long, so
     // let's not write an extension if it is too big
     if (j < 256)
     {
         buffer[0] = '\0';
-        buffer[1] = (unsigned char) (j & 0xff);
+        buffer[1] = (unsigned char)(j & 0xff);
         if (fwrite(buffer, 1, 2, outfp) != 2)
         {
             fprintf(stderr, "\033[1;31mError: Could not write tag to AES file (1)\e[0m\n");
@@ -142,7 +142,7 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
 
     // Write out the "container" extension
     buffer[0] = '\0';
-    buffer[1] = (unsigned char) 128;
+    buffer[1] = (unsigned char)128;
     if (fwrite(buffer, 1, 2, outfp) != 2)
     {
         fprintf(stderr, "Error: Could not write tag to AES file (4)\n");
@@ -170,22 +170,20 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     // We will use an initialization vector comprised of the current time
     // process ID, and random data, all hashed together with SHA-256.
     current_time = time(NULL);
-    for(i = 0; i < 8; i++)
+    for (i = 0; i < 8; i++)
     {
-        buffer[i] = (unsigned char)
-                        (current_time >> (i * 8));
+        buffer[i] = (unsigned char)(current_time >> (i * 8));
     }
     process_id = getpid();
-    for(i = 0; i < 8; i++)
+    for (i = 0; i < 8; i++)
     {
-        buffer[i+8] = (unsigned char)
-                        (process_id >> (i * 8));
+        buffer[i + 8] = (unsigned char)(process_id >> (i * 8));
     }
 
-    sha256_starts(  &sha_ctx);
-    sha256_update(  &sha_ctx, buffer, 16);
+    sha256_starts(&sha_ctx);
+    sha256_update(&sha_ctx, buffer, 16);
 
-    for (i=0; i<256; i++)
+    for (i = 0; i < 256; i++)
     {
         if (fread(buffer, 1, 32, randfp) != 32)
         {
@@ -193,12 +191,12 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
             fclose(randfp);
             return 0;
         }
-        sha256_update(  &sha_ctx,
-                        buffer,
-                        32);
+        sha256_update(&sha_ctx,
+                      buffer,
+                      32);
     }
 
-    sha256_finish(  &sha_ctx, digest);
+    sha256_finish(&sha_ctx, digest);
 
     memcpy(IV, digest, 16);
 
@@ -211,19 +209,19 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         fprintf(stderr, "\033[1;31mError: Could not write out initialization vector\n\e[0m");
         return 0;
     }
-    
+
     // Hash the IV and password 8192 times
     memset(digest, 0, 32);
     memcpy(digest, IV, 16);
-    for(i=0; i<8192; i++)
+    for (i = 0; i < 8192; i++)
     {
-        sha256_starts(  &sha_ctx);
-        sha256_update(  &sha_ctx, digest, 32);
-        sha256_update(  &sha_ctx,
-                        passwd,
-                        (unsigned long)passlen);
-        sha256_finish(  &sha_ctx,
-                        digest);
+        sha256_starts(&sha_ctx);
+        sha256_update(&sha_ctx, digest, 32);
+        sha256_update(&sha_ctx,
+                      passwd,
+                      (unsigned long)passlen);
+        sha256_finish(&sha_ctx,
+                      digest);
     }
 
     // Set the AES encryption key
@@ -235,7 +233,7 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     memset(ipad, 0x36, 64);
     memset(opad, 0x5C, 64);
 
-    for(i=0; i<32; i++)
+    for (i = 0; i < 32; i++)
     {
         ipad[i] ^= digest[i];
         opad[i] ^= digest[i];
@@ -246,22 +244,22 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
 
     // Encrypt the IV and key used to encrypt the plaintext file,
     // writing that encrypted text to the output file.
-    for(i=0; i<48; i+=16)
+    for (i = 0; i < 48; i += 16)
     {
         // Place the next 16 octets of IV and key buffer into
         // the input buffer.
-        memcpy(buffer, iv_key+i, 16);
+        memcpy(buffer, iv_key + i, 16);
 
         // XOR plain text block with previous encrypted
         // output (i.e., use CBC)
-        for(j=0; j<16; j++)
+        for (j = 0; j < 16; j++)
         {
             buffer[j] ^= IV[j];
         }
 
         // Encrypt the contents of the buffer
         aes_encrypt(&aes_ctx, buffer, buffer);
-        
+
         // Concatenate the "text" as we compute the HMAC
         sha256_update(&sha_ctx, buffer, 16);
 
@@ -271,7 +269,7 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
             fprintf(stderr, "\033[1;31mError: Could not write iv_key data\n\e[0m");
             return 0;
         }
-        
+
         // Update the IV (CBC mode)
         memcpy(IV, buffer, 16);
     }
@@ -295,7 +293,7 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     memcpy(IV, iv_key, 16);
 
     // Set the AES encryption key
-    aes_set_key(&aes_ctx, iv_key+16, 256);
+    aes_set_key(&aes_ctx, iv_key + 16, 256);
 
     // Set the ipad and opad arrays with values as
     // per RFC 2104 (HMAC).  HMAC is defined as
@@ -303,10 +301,10 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     memset(ipad, 0x36, 64);
     memset(opad, 0x5C, 64);
 
-    for(i=0; i<32; i++)
+    for (i = 0; i < 32; i++)
     {
-        ipad[i] ^= iv_key[i+16];
-        opad[i] ^= iv_key[i+16];
+        ipad[i] ^= iv_key[i + 16];
+        opad[i] ^= iv_key[i + 16];
     }
 
     // Wipe the IV and encryption mey from memory
@@ -322,14 +320,14 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     {
         // XOR plain text block with previous encrypted
         // output (i.e., use CBC)
-        for(i=0; i<16; i++)
+        for (i = 0; i < 16; i++)
         {
             buffer[i] ^= IV[i];
         }
 
         // Encrypt the contents of the buffer
         aes_encrypt(&aes_ctx, buffer, buffer);
-        
+
         // Concatenate the "text" as we compute the HMAC
         sha256_update(&sha_ctx, buffer, 16);
 
@@ -339,7 +337,7 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
             fprintf(stderr, "Error: Could not write to output file\n");
             return 0;
         }
-        
+
         // Update the IV (CBC mode)
         memcpy(IV, buffer, 16);
 
@@ -355,7 +353,7 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     }
 
     // Write the file size modulo
-    buffer[0] = (char) (aeshdr.last_block_size & 0x0F);
+    buffer[0] = (char)(aeshdr.last_block_size & 0x0F);
     if (fwrite(buffer, 1, 1, outfp) != 1)
     {
         fprintf(stderr, "Error: Could not write the file size modulo\n");
@@ -389,7 +387,7 @@ bool encrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
  *
  *  This function is called to decrypt the open data steam "infp".
  */
-bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
+bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char *passwd, int passlen)
 {
     aes_context aes_ctx;
     sha256_context sha_ctx;
@@ -403,10 +401,10 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     unsigned char *head, *tail;
     unsigned char ipad[64], opad[64];
     int reached_eof = 0;
-    
+
     // Read the file header
     if ((bytes_read = fread(&aeshdr, 1, sizeof(aeshdr), infp)) !=
-         sizeof(aescrypt_hdr))
+        sizeof(aescrypt_hdr))
     {
         if (feof(infp))
         {
@@ -474,7 +472,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
                     return 0;
                 }
             }
-        } while(j);
+        } while (j);
     }
 
     // Read the initialization vector from the file
@@ -494,15 +492,15 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     // Hash the IV and password 8192 times
     memset(digest, 0, 32);
     memcpy(digest, IV, 16);
-    for(i=0; i<8192; i++)
+    for (i = 0; i < 8192; i++)
     {
-        sha256_starts(  &sha_ctx);
-        sha256_update(  &sha_ctx, digest, 32);
-        sha256_update(  &sha_ctx,
-                        passwd,
-                        passlen);
-        sha256_finish(  &sha_ctx,
-                        digest);
+        sha256_starts(&sha_ctx);
+        sha256_update(&sha_ctx, digest, 32);
+        sha256_update(&sha_ctx,
+                      passwd,
+                      passlen);
+        sha256_finish(&sha_ctx,
+                      digest);
     }
 
     // Set the AES encryption key
@@ -514,7 +512,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     memset(ipad, 0x36, 64);
     memset(opad, 0x5C, 64);
 
-    for(i=0; i<32; i++)
+    for (i = 0; i < 32; i++)
     {
         ipad[i] ^= digest[i];
         opad[i] ^= digest[i];
@@ -527,7 +525,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     // for decrypting the bulk of the file.
     if (aeshdr.version >= 0x01)
     {
-        for(i=0; i<48; i+=16)
+        for (i = 0; i < 48; i += 16)
         {
             if ((bytes_read = fread(buffer, 1, 16, infp)) != 16)
             {
@@ -549,9 +547,9 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
 
             // XOR plain text block with previous encrypted
             // output (i.e., use CBC)
-            for(j=0; j<16; j++)
+            for (j = 0; j < 16; j++)
             {
-                iv_key[i+j] = (buffer[j] ^ IV[j]);
+                iv_key[i + j] = (buffer[j] ^ IV[j]);
             }
 
             // Update the IV (CBC mode)
@@ -590,7 +588,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         memcpy(IV, iv_key, 16);
 
         // Set the AES encryption key
-        aes_set_key(&aes_ctx, iv_key+16, 256);
+        aes_set_key(&aes_ctx, iv_key + 16, 256);
 
         // Set the ipad and opad arrays with values as
         // per RFC 2104 (HMAC).  HMAC is defined as
@@ -598,10 +596,10 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         memset(ipad, 0x36, 64);
         memset(opad, 0x5C, 64);
 
-        for(i=0; i<32; i++)
+        for (i = 0; i < 32; i++)
         {
-            ipad[i] ^= iv_key[i+16];
-            opad[i] ^= iv_key[i+16];
+            ipad[i] ^= iv_key[i + 16];
+            opad[i] ^= iv_key[i + 16];
         }
 
         // Wipe the IV and encryption mey from memory
@@ -610,7 +608,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         sha256_starts(&sha_ctx);
         sha256_update(&sha_ctx, ipad, 64);
     }
-    
+
     // Decrypt the balance of the file
 
     // Attempt to initialize the ring buffer with contents from the file.
@@ -631,7 +629,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
                 (aeshdr.version >= 0x01 && bytes_read != 33))
             {
                 fprintf(stderr, "Error: Input file is corrupt (1:%u).\n",
-                        (unsigned) bytes_read);
+                        (unsigned)bytes_read);
                 return 0;
             }
             else
@@ -659,7 +657,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
     head = buffer + 48;
     tail = buffer;
 
-    while(!reached_eof)
+    while (!reached_eof)
     {
         // Check to see if the head of the buffer is past the ring buffer
         if (head == (buffer + 64))
@@ -681,7 +679,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
                     (aeshdr.version >= 0x01 && bytes_read != 1))
                 {
                     fprintf(stderr, "Error: Input file is corrupt (3:%u).\n",
-                            (unsigned) bytes_read);
+                            (unsigned)bytes_read);
                     return 0;
                 }
 
@@ -724,7 +722,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
 
             // XOR plain text block with previous encrypted
             // output (i.e., use CBC)
-            for(i=0; i<16; i++)
+            for (i = 0; i < 16; i++)
             {
                 tail[i] ^= IV[i];
             }
@@ -735,7 +733,9 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
             // If this is the final block, then we may
             // write less than 16 octets
             n = ((!reached_eof) ||
-                 (aeshdr.last_block_size == 0)) ? 16 : aeshdr.last_block_size;
+                 (aeshdr.last_block_size == 0))
+                    ? 16
+                    : aeshdr.last_block_size;
 
             // Write the decrypted block
             if ((i = fwrite(tail, 1, n, outfp)) != n)
@@ -743,10 +743,10 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
                 perror("\033[1;31mError writing decrypted block:\e[0m");
                 return 0;
             }
-            
+
             // Move the tail of the ring buffer forward
             tail += 16;
-            if (tail == (buffer+64))
+            if (tail == (buffer + 64))
             {
                 tail = buffer;
             }
@@ -769,23 +769,23 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         {
             tail = buffer;
         }
-        memcpy(buffer2+16, tail, 16);
+        memcpy(buffer2 + 16, tail, 16);
     }
     else
     {
-        memcpy(buffer2, tail+1, 15);
+        memcpy(buffer2, tail + 1, 15);
         tail += 16;
         if (tail == (buffer + 64))
         {
             tail = buffer;
         }
-        memcpy(buffer2+15, tail, 16);
+        memcpy(buffer2 + 15, tail, 16);
         tail += 16;
         if (tail == (buffer + 64))
         {
             tail = buffer;
         }
-        memcpy(buffer2+31, tail, 1);
+        memcpy(buffer2 + 31, tail, 1);
     }
 
     if (memcmp(digest, buffer2, 32))
@@ -793,7 +793,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
         if (aeshdr.version == 0x00)
         {
             fprintf(stderr, "\033[1;31mError: Message has been altered or password is incorrect\n\e[0m");
-	    return 0;
+            return 0;
         }
         else
         {
@@ -820,7 +820,7 @@ bool decrypt_stream(FILE *infp, FILE *outfp, unsigned char* passwd, int passlen)
  */
 void cleanup(const char *outfile)
 {
-    if (strcmp(outfile,"-") && outfile[0] != '\0')
+    if (strcmp(outfile, "-") && outfile[0] != '\0')
     {
         unlink(outfile);
     }

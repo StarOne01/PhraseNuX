@@ -20,6 +20,7 @@
 
 #define _POSIX_C_SOURCE 200112L
 
+#include <iostream>
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
@@ -39,7 +40,7 @@
  *
  *  Returns the description of the error when reading the password.
  */
-const char* read_password_error(int error)
+const char *read_password_error(int error)
 {
     if (error == AESCRYPT_READPWD_FOPEN)
         return "fopen()";
@@ -71,19 +72,19 @@ const char* read_password_error(int error)
  *    < 0 error (return value indicating the specific error)
  */
 
-int read_password(unsigned char* buffer, encryptmode_t mode)
+int read_password(unsigned char *buffer, encryptmode_t mode)
 {
-    struct termios t;                   // Used to set ECHO attribute
-    int echo_enabled;                   // Was echo enabled?
-    int tty;                            // File descriptor for tty
-    FILE* ftty;                         // File for tty
+    struct termios t; // Used to set ECHO attribute
+    int echo_enabled; // Was echo enabled?
+    int tty;          // File descriptor for tty
+    FILE *ftty;       // File for tty
     unsigned char pwd_confirm[MAX_PASSWD_BUF];
-                                        // Used for password confirmation
-    int c;                              // Character read from input
-    int chars_read;                     // Chars read from input
-    unsigned char* p;                   // Password buffer pointer
-    int i;                              // Loop counter
-    int match;                          // Do the two passwords match?
+    // Used for password confirmation
+    int c;            // Character read from input
+    int chars_read;   // Chars read from input
+    unsigned char *p; // Password buffer pointer
+    int i;            // Loop counter
+    int match;        // Do the two passwords match?
 
     // Open the tty
     ftty = fopen("/dev/tty", "r+");
@@ -96,7 +97,7 @@ int read_password(unsigned char* buffer, encryptmode_t mode)
     {
         return AESCRYPT_READPWD_FILENO;
     }
- 
+
     // Get the tty attrs
     if (tcgetattr(tty, &t) < 0)
     {
@@ -121,9 +122,14 @@ int read_password(unsigned char* buffer, encryptmode_t mode)
         // Prompt for password
         if (i)
         {
-            fprintf(ftty, "\033[5;36m\nRe-");
+            std::cout << "\033[5;36m\n(invisible)\033[0m";
+            fprintf(ftty, "\033[5;36m\nRe-Enter Your Password:\033[0m");
         }
-        fprintf(ftty, "\033[5;36m\nEnter Your Password:\033[0m ");
+        else
+        {
+            std::cout << "\033[5;36m\n(invisible)\033[0m";
+            fprintf(ftty, "\033[5;36m\nEnter Your Password:\033[0m");
+        }
         fflush(ftty);
 
         // Disable echo if necessary
@@ -150,10 +156,10 @@ int read_password(unsigned char* buffer, encryptmode_t mode)
         while (((c = fgetc(ftty)) != '\n') && (c != EOF))
         {
             // fill buffer till MAX_PASSWD_LEN
-            if (chars_read <= MAX_PASSWD_LEN+1)
+            if (chars_read <= MAX_PASSWD_LEN + 1)
             {
                 if (chars_read <= MAX_PASSWD_LEN)
-                    p[chars_read] = (char) c;
+                    p[chars_read] = (char)c;
                 chars_read++;
             }
         }
@@ -208,7 +214,7 @@ int read_password(unsigned char* buffer, encryptmode_t mode)
     if (mode == ENC)
     {
         // Check if passwords match
-        match = strcmp((char*)buffer, (char*)pwd_confirm);
+        match = strcmp((char *)buffer, (char *)pwd_confirm);
         memset(pwd_confirm, 0, MAX_PASSWD_BUF);
 
         if (match != 0)
@@ -233,10 +239,10 @@ int passwd_to_utf16(unsigned char *in_passwd,
                     unsigned char *out_passwd)
 {
     unsigned char *ic_outbuf,
-                  *ic_inbuf;
+        *ic_inbuf;
     iconv_t condesc;
     size_t ic_inbytesleft,
-           ic_outbytesleft;
+        ic_outbytesleft;
 
     /* Max length is specified in character, but this function deals
      * with bytes.  So, multiply by two since we are going to create a
@@ -250,7 +256,7 @@ int passwd_to_utf16(unsigned char *in_passwd,
     ic_outbuf = out_passwd;
 
     /* Set the locale based on the current environment */
-    setlocale(LC_CTYPE,"");
+    setlocale(LC_CTYPE, "");
 
     if ((condesc = iconv_open("UTF-16LE", nl_langinfo(CODESET))) ==
         (iconv_t)(-1))
@@ -260,31 +266,30 @@ int passwd_to_utf16(unsigned char *in_passwd,
     }
 
     if (iconv(condesc,
-              (char ** const) &ic_inbuf,
+              (char **const)&ic_inbuf,
               &ic_inbytesleft,
-              (char ** const) &ic_outbuf,
-              &ic_outbytesleft) == (size_t) -1)
+              (char **const)&ic_outbuf,
+              &ic_outbytesleft) == (size_t)-1)
     {
         switch (errno)
         {
-            case E2BIG:
-                fprintf(stderr, "\033[1;31mError: password too long\e[0m\n");
-                iconv_close(condesc);
-                return -1;
-                break;
-            default:
-                /*
+        case E2BIG:
+            fprintf(stderr, "\033[1;31mError: password too long\e[0m\n");
+            iconv_close(condesc);
+            return -1;
+            break;
+        default:
+            /*
                 printf("\nEILSEQ(%d), EINVAL(%d), %d\n",
                        EILSEQ,
                        EINVAL,
                        errno);
                 */
-                perror("\033[1;31mPassword conversion error\e[0m");
-                iconv_close(condesc);
-                return -1;
+            perror("\033[1;31mPassword conversion error\e[0m");
+            iconv_close(condesc);
+            return -1;
         }
     }
     iconv_close(condesc);
     return (max_length - ic_outbytesleft);
 }
-

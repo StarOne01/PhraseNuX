@@ -20,7 +20,8 @@
 #include "aes.h"
 #include "sha256.h"
 
-typedef struct {
+typedef struct
+{
     char aes[3];
     unsigned char version;
     unsigned char last_block_size;
