@@ -1333,7 +1333,7 @@ bool checkforupdates(bool start)
                         std::cin >> a;
                         if (a == 1)
                         {
-                                if (checkformodification("update", "b3dbdb7a2ac2bc1de53c2569c4964ac3682e58542a474e2e645eb2590eba89c8"))
+                                if (checkformodification("update", "0552d3158a2bcfda0f577c5f0fe2fb624ba17d5660dd8bafd9c5dd3e871889c1"))
                                 {
                                         if (!(system("bash update")))
                                         {
@@ -1345,8 +1345,33 @@ bool checkforupdates(bool start)
                                 }
                                 else
                                 {
-                                        std::cout << "\033[1;31mError!! could not start the update script because it is been modified and became untrusted, please do it manually by running \"bash update\" in you terminal\033[0m\n\n";
+                                        std::cout << "\033[1;31mError!! could not start the update script because it is been modified and became untrusted\n\nPlease turn your network connection on\033[0m\n\n";
                                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                        CURL *curl3;
+                                        CURLcode res3;
+                                        std::string readBuffer3;
+
+                                        curl3 = curl_easy_init();
+                                        if (curl3)
+                                        {
+                                                curl_easy_setopt(curl3, CURLOPT_URL, "https://tamilanth.github.io/PhraseNuX/main/updatescript");
+                                                curl_easy_setopt(curl3, CURLOPT_WRITEFUNCTION, WriteCallback);
+                                                curl_easy_setopt(curl3, CURLOPT_WRITEDATA, &readBuffer3);
+                                                res3 = curl_easy_perform(curl3);
+                                                if (res3)
+                                                {
+                                                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                                        return false;
+                                                }
+                                                curl_easy_cleanup(curl3);
+                                                std::ofstream updatedown("update");
+                                                updatedown << readBuffer3;
+						updatedown.close();
+						system("chmod +x update");
+						system("bash update");
+						return true;
+                                        }
                                         return false;
                                 }
                         }
