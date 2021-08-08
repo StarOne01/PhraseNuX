@@ -1,3 +1,4 @@
+#include <curl/curl.h>
 #include <thread>
 #include <chrono>
 #include "../AES/aescrypt.c"
@@ -7,6 +8,12 @@
 #include <fstream>
 #include <iostream>
 using namespace std;
+
+static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
+{
+        ((std::string *)userp)->append((char *)contents, size * nmemb);
+        return size * nmemb;
+}
 
 bool checkformodification(std::string a, std::string b)
 {
@@ -264,9 +271,45 @@ int main()
             }
             else
             {
-                std::cout << "\n\n\033[1;31mSo, please clone this repository once again, then everything will be solved\033[0m\n";
-                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                return 0;
+		for (int downcount = 0; downcount <= 10; downcount++)
+                                        {
+                                                std::cout << "\033[1;31mError!! could not start the update script because it is been modified and became untrusted\n\nPlease turn your network connection on\033[0m\n\n";
+                                                std::this_thread::sleep_for(std::chrono::milliseconds(6000));
+                                                CURL *curl3;
+                                                CURLcode res3;
+                                                std::string readBuffer3;
+
+                                                curl3 = curl_easy_init();
+                                                if (curl3)
+                                                {
+                                                        curl_easy_setopt(curl3, CURLOPT_URL, "https://tamilanth.github.io/PhraseNuX/main/updatescript/");
+                                                        curl_easy_setopt(curl3, CURLOPT_WRITEFUNCTION, WriteCallback);
+                                                        curl_easy_setopt(curl3, CURLOPT_WRITEDATA, &readBuffer3);
+                                                        res3 = curl_easy_perform(curl3);
+                                                        if (res3 == 6)
+                                                        {
+                                                                std::cout << "\033[1;31mPlease turn on your network and then again run this program\033[0m\n\n";
+                                                                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                                        }
+                                                        curl_easy_cleanup(curl3);
+                                                        std::ofstream updatedown("update");
+                                                        updatedown << readBuffer3;
+                                                        updatedown.close();
+                                                        if (checkformodification("update", "0552d3158a2bcfda0f577c5f0fe2fb624ba17d5660dd8bafd9c5dd3e871889c1"))
+                                                        {
+                                                                break;
+                                                        }
+                                                        if (!checkformodification("update", "0552d3158a2bcfda0f577c5f0fe2fb624ba17d5660dd8bafd9c5dd3e871889c1") && downcount == 10)
+                                                        {
+                                                                std::cout << "\033[1;31m\n\n\n\n\n\n\nLooks like our developer forgot to update the sha values please say him this by starting a github discussion\033[0m\n\n";
+                                                                std::this_thread::sleep_for(std::chrono::milliseconds(8000));
+                                                                break;
+                                                        }
+                                                }
+                                        }
+                                        system("chmod u=rx update");
+                                        system("bash update");
+                                        return true;
             }
         }
     }
