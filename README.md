@@ -32,7 +32,7 @@ Note: PhraseNuX was created with a average user in mine, who doesn't have too mu
 
 - Compile the **install_dependencies.cpp** file by typing in your terminal
 
-     **`g++ install_dependencies.cpp ../hash/sha3.cpp ../AES/aes.c ../AES/sha256.c ../AES/password.c -I. -o install && ./install`**
+     **`g++ install_dependencies.cpp ../hash/sha3.cpp ../AES/aes.cpp ../AES/sha256.c ../AES/password.cpp -I. -o install`**
 
 
 **Note: Please make sure you have a stable internet connection before the next step it will take around 2 seconds and takes about 1 - 3 MB of Data and space**
