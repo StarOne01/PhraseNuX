@@ -55,7 +55,7 @@ Now it will ask for a master Password
 
 Alternatively if you need to install the program in a single tap
 
-**`sudo apt install git && git clone https://github.com/Tamilanth/PhraseNuX/ && cd PhraseNuX && cd install && g++ install_dependencies.cpp -lcurl ../hash/sha3.cpp ../AES/aes.c ../AES/sha256.c ../AES/password.cpp -I. -o install && sudo ./install`**
+**`sudo apt install git && git clone https://github.com/Tamilanth/PhraseNuX/ && cd PhraseNuX && cd install && g++ install_dependencies.cpp -lcurl ../hash/sha3.cpp ../AES/aes.cpp ../AES/sha256.c ../AES/password.cpp -I. -o install && sudo ./install`**
 
 # How to Run
 
