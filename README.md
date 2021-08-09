@@ -39,7 +39,7 @@ Note: PhraseNuX was created with a average user in mine, who doesn't have too mu
 
 - Run the compiled binary file 
 
-     **`./install`**
+     **`sudo ./install`**
 
 - Now close the terminal and open the **`PhaseNUX`** directory
 
@@ -55,7 +55,7 @@ Now it will ask for a master Password
 
 Alternatively if you need to install the program in a single tap
 
-**`sudo apt install git && git clone https://github.com/Tamilanth/PhraseNuX/ && cd PhraseNuX && cd install && g++ install_dependencies.cpp -lcurl ../AES/aes.c ../AES/sha256.c ../AES/password.c -I. -o install && ./install`**
+**`sudo apt install git && git clone https://github.com/Tamilanth/PhraseNuX/ && cd PhraseNuX && cd install && g++ install_dependencies.cpp -lcurl ../AES/aes.c ../AES/sha256.c ../AES/password.c -I. -o install && sudo ./install`**
 
 # How to Run
 
