@@ -58,11 +58,13 @@ bool checkforupdates(bool start);
 bool addpassmanually();
 bool changeprogramcaller();
 bool changepass();
+std::string tagforsearch;
+std::string startsha = "0552d3158a2bcfda0f577c5f0fe2fb624ba17d5660dd8bafd9c5dd3e871889c1";
 bool safeenterstop();
 bool selectservice();
 bool advancedoptions();
 std::string safeenter();
-bool showpass(bool what);
+bool showpass(bool what, std::string &passthen);
 void waitup(int a);
 bool veripassfore(std::string passstr);
 bool veripassford(std::string passstr);
@@ -74,8 +76,6 @@ void banner();
 bool alphaonlyfn(bool num);
 bool call(int mini, int max, short int ik);
 void smallbanner();
-std::string startsha = "0552d3158a2bcfda0f577c5f0fe2fb624ba17d5660dd8bafd9c5dd3e871889c1";
-std::string pwdfile(std::string filename1);
 
 //function to delete passwords
 
@@ -83,15 +83,18 @@ bool delpass()
 {
         std::string line;
         std::cout << "\n";
-        std::cout << "\033[1;31m(invisible)\nEnter Your Password:\033[0m";
-        std::string lll = safeenter();
-        if (!(showpass(0)))
+        std::string lll;
+        if (!(showpass(0, lll)))
         {
                 return false;
         }
         std::cout << "\n"
                   << "\n";
         std::string deletethis;
+	if (!secdel())
+        {
+                remove("test");
+        }
         std::cout << "\033[1;31mEnter the password (with tags) to be deleted\e[0m\n";
         std::getline(std::cin >> std::ws, deletethis);
         if (!(veripassford(lll)))
@@ -465,7 +468,7 @@ bool startup()
         {
                 std::cout << "\n"
                           << "\n";
-                showpass(1);
+                showpass(1, startsha);
                 if (!(startup()))
                 {
                         std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
@@ -719,7 +722,7 @@ bool alphaonlyfn(bool num)
         duthomhas::csprng rng;
         unsigned long long int numberof;
         std::cout << "\n";
-        std::cout << "\033[1;32mPlease enter the length of the password you need\n Literally there is no limits for the length of the password \n\nBut Beware !!, this could crash your system after a few lakhs or Crores\nDEPENDING UPON YOUR SYSTEM \033[0m\n\n";
+	std::cout << "\033[1;32mPlease enter the length of the password you need \n[Max 18,446,744,073,709,551,615] \n\nBut Beware !!, this number could crash your system after a few lakhs\nDEPENDS UPON YOUR SYSTEM\033[0m\n";
         std::cin >> numberof;
         std::string allalpha;
         for (unsigned long long int fromnoof = 1; fromnoof <= numberof; ++fromnoof)
@@ -1112,11 +1115,12 @@ bool addpassmanually()
 }
 
 bool nottoshowallpass = true;
-std::string tagforsearch;
+bool isthereanypassinthefile = false;
+bool fileiscreatedbyPhraseNuX = false;
 
 //Function to show passwords stored
 
-bool showpass(bool what)
+bool showpass(bool what, std::string &passthen)
 {
         std::cout << "\033[1;31m\n(invisible)\nEnter Your Password:\033[0m";
         std::string lll = safeenter();
@@ -1127,7 +1131,7 @@ bool showpass(bool what)
                 {
                         std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                        return false;
+			return false;
                 }
                 std::ifstream ifile;
                 ifile.open("test");
@@ -1161,6 +1165,7 @@ bool showpass(bool what)
                 std::ifstream passfile("test");
                 while (getline(passfile, lineofthefile))
                 {
+			isthereanypassinthefile = true;
                         if (lineofthefile.find(tagforsearch) != std::string::npos)
                         {
                                 numpasstodisno++;
@@ -1168,6 +1173,7 @@ bool showpass(bool what)
                                 {
                                         if (lineofthefile[ai] == '|' && lineofthefile[ai - 1] == '-' && lineofthefile[ai - 2] == '-' && lineofthefile[ai - 3] == '-' && lineofthefile[ai - 4] == '-' && lineofthefile[ai - 5] == '-' && lineofthefile[ai - 6] == '-' && lineofthefile[ai - 7] == '`' && lineofthefile[ai - 8] == '~' && lineofthefile[ai - 9] == '_' && lineofthefile[ai - 10] == '|' && lineofthefile[ai - 11] == 'A' && lineofthefile[ai - 12] == '|' && lineofthefile[ai - 13] == '-' && lineofthefile[ai - 14] == '-' && lineofthefile[ai - 15] == '-' && lineofthefile[ai - 16] == '-' && lineofthefile[ai - 17] == '-' && lineofthefile[ai - 18] == '-' && lineofthefile[ai - 19] == '-' && lineofthefile[ai - 20] == '|')
                                         {
+						fileiscreatedbyPhraseNuX = true;
                                                 auto I = lineofthefile.length() - ai + 20;
                                                 std::string tagfromfile;
                                                 for (auto tagpos = ai + 1; tagpos < lineofthefile.length(); tagpos++)
@@ -1208,7 +1214,23 @@ bool showpass(bool what)
                                 }
                         }
                 }
-                passfile.close();
+		passfile.close();
+		if (!isthereanypassinthefile)
+                {
+                std::cout << "\033[1;31mThere is no saved passwords, Create a Password first \033[0m\n\n";
+                std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+                return false;
+                }
+		if (!fileiscreatedbyPhraseNuX)
+		{
+                                std::cout << "\033[1;31m\n\nLooks like the passwords were not created or stored initially by PhraseNuX\n\nIf you have just installed PhraseNuX, try creating a password and save it\n\nThis error will go away\033[0m\n\n";
+				std::this_thread::sleep_for(std::chrono::milliseconds(7000));
+				return false;
+		}
+		if(!what){
+		passthen = lll;
+		break;
+		}
                 if (what)
                 {
                         if (!(secdel()))
@@ -1272,7 +1294,7 @@ bool checkforupdates(bool start)
                 curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
                 res = curl_easy_perform(curl);
                 curl_easy_cleanup(curl);
-                if (readBuffer == "No Updates Available\n" || readBuffer == "1\n" || readBuffer == "" || readBuffer == "1" || readBuffer == "No Updates Available")
+                if (readBuffer == "" || readBuffer == "1.1\n" || readBuffer == "1.1")
                 {
                         if (!start)
                         {
@@ -1400,11 +1422,9 @@ bool checkforupdates(bool start)
                         }
                         else
                         {
-                                std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2 or 3 or 4\033[0m\n\n";
+                                std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2\033[0m\n\n";
                                 if (!(checkforupdates(0)))
                                 {
-                                        std::cout << "\033[1;31mError!! could not start the update script, please do it manually by running \"bash update\" in you terminal\033[0m\n\n";
-                                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                         return false;
                                 }
                                 return false;
@@ -1481,6 +1501,15 @@ bool changeprogramcaller()
                         system(nnamee);
                         return true;
                 }
+		else
+		{
+                                std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2\033[0m\n\n";
+                                if (!(changeprogramcaller()))
+                                {
+                                        return false;
+                                }
+		}
+
         }
         else
         {
