@@ -91,21 +91,29 @@ bool delpass()
         std::cout << "\n"
                   << "\n";
         std::string deletethis;
-	if (!secdel())
+        if (!secdel())
         {
                 remove("test");
         }
-        std::cout << "\033[1;31mEnter the password (with tags) to be deleted\e[0m\n";
+        std::cout << "\033[1;31mEnter the full  password (with tags) to be deleted\e[0m\n";
         std::getline(std::cin >> std::ws, deletethis);
         if (!(veripassford(lll)))
         {
-                std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                if (!(secdel()))
+                {
+                        remove("test");
+                }
+                std::cout << "\033[1;31mError!! in Decrypting the Encrypted password (1)\033[0m\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                 return false;
         }
         std::ifstream oldfile("test");
         if (!oldfile.is_open())
         {
+                if (!(secdel()))
+                {
+                        remove("test");
+                }
                 std::cout << "\noperation failed !!!\n";
                 return false;
         }
@@ -126,17 +134,17 @@ bool delpass()
         rename("testw", "test");
         if (!veripassfore(lll))
         {
-                std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
+                if (!(secdel()))
+                {
+                        remove("test");
+                }
+                std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error (1)\033[0m\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                 return false;
         }
         lll = "sjueodnzkslsnejsidaishsiwywoanshs";
-        if (!(startup()))
-        {
-                std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
-                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                return false;
-        }
+	std::cout << "\033[1;32mPassword deleted successfully..... Returning to Home now\033[0m\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(4000));
         return true;
 }
 
@@ -202,20 +210,28 @@ bool writetofile(std::string ea, short int opt)
                 if (a && rc)
                 {
                 }
-                else if (!a && !rc)
+                else if (!a || !rc)
                 {
                         for (short int count = 0; count <= 5; count++)
                         {
                                 if (count == 4)
                                 {
+                                        if (!(secdel()))
+                                        {
+                                                remove("test");
+                                        }
                                         std::cout << "\033[1;31mEntered incorrect Password for 5 times exiting !\n\033[0m";
                                         return false;
                                 }
-                                std::cout << "\033[1;31m\n(invisible)\nEnter Your Password:\033[0m";
+                                std::cout << "\033[1;31mIncorrect Password, Please try again \n\n(invisible)\nEnter Your Password:\033[0m";
                                 lll = safeenter();
-                                if (veripassford(lll))
+                                if (veripassford(lll) && rc)
                                 {
                                         break;
+                                }
+                                else {
+                                        rc = 0;
+                                        continue;
                                 }
                         }
                 }
@@ -226,7 +242,11 @@ bool writetofile(std::string ea, short int opt)
                 file.close();
                 if (!(veripassfore(lll)))
                 {
-                        std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error (2)\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
@@ -235,13 +255,15 @@ bool writetofile(std::string ea, short int opt)
                 {
                         remove("test");
                 }
-                if (!(startup()))
+		std::cout << "\033[1;32mPassword saved successfully.......returning to home now\033[0m\n";
+                std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+/*                if (!(startup()))
                 {
-                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                        std::cout << "\033[1;31mError!! in starting the program !! (2)\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
-                return true;
+  */              return true;
         }
         else
         {
@@ -371,12 +393,20 @@ bool startup()
         {
                 if (!(delpass()))
                 {
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
                         std::cout << "\033[1;31mError!! in Deleting the passwords\033[0m\n\n";
                         return false;
                 }
                 if (!(startup()))
                 {
-                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mError!! in starting the program !! (3)\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
@@ -396,13 +426,21 @@ bool startup()
                 {
                         if (!(call(48, 57, 1)))
                         {
-                                std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
+                                if (!(secdel()))
+                                {
+                                        remove("test");
+                                }
+                                std::cout << "\033[1;31mError!! in generating the password (1)\033[0m\n\n";
                                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                 return false;
                         }
                         if (!(startup()))
                         {
-                                std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                if (!(secdel()))
+                                {
+                                        remove("test");
+                                }
+                                std::cout << "\033[1;31mError!! in starting the program !! (4)\033[0m\n\n";
                                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                 return false;
                         }
@@ -412,29 +450,46 @@ bool startup()
                 {
                         if (!(alphaonlyfn(0)))
                         {
-                                std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
+                                if (!(secdel()))
+                                {
+                                        remove("test");
+                                }
+                                std::cout << "\033[1;31mError!! in generating the password (2)\033[0m\n\n";
                                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                 return false;
                         }
-                        return true;
+
                         if (!(startup()))
                         {
-                                std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                if (!(secdel()))
+                                {
+                                        remove("test");
+                                }
+                                std::cout << "\033[1;31mError!! in starting the program !! (5)\033[0m\n\n";
                                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                 return false;
                         }
+			return true;
                 }
                 else if (Option == '3')
                 {
                         if (!(alphaonlyfn(1)))
                         {
-                                std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
+                                if (!(secdel()))
+                                {
+                                        remove("test");
+                                }
+                                std::cout << "\033[1;31mError!! in generating the password (3)\033[0m\n\n";
                                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                 return false;
                         }
                         if (!(startup()))
                         {
-                                std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                if (!(secdel()))
+                                {
+                                        remove("test");
+                                }
+                                std::cout << "\033[1;31mError!! in starting the program !! (6)\033[0m\n\n";
                                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                 return false;
                         }
@@ -444,7 +499,22 @@ bool startup()
                 {
                         if (!(call(33, 126, 3)))
                         {
-                                std::cout << "\033[1;31mError!! in generating the password\033[0m\n\n";
+                                if (!(secdel()))
+                                {
+                                        remove("test");
+                                }
+                                std::cout << "\033[1;31mError!! in generating the password (4)\033[0m\n\n";
+                                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                                return false;
+                        }
+
+			if (!(startup()))
+                        {
+                                if (!(secdel()))
+                                {
+                                        remove("test");
+                                }
+                                std::cout << "\033[1;31mError!! in starting the program !! (6)\033[0m\n\n";
                                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                                 return false;
                         }
@@ -458,7 +528,11 @@ bool startup()
                         system("clear");
                         if (!(startup()))
                         {
-                                std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                                if (!(secdel()))
+                                {
+                                        remove("test");
+                                }
+                                std::cout << "\033[1;31mError!! in starting the program !! (7)\033[0m\n\n";
                                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         }
                         return false;
@@ -468,10 +542,23 @@ bool startup()
         {
                 std::cout << "\n"
                           << "\n";
-                showpass(1, startsha);
+                if (!showpass(1, startsha))
+                {
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mError!! in showing the password !!\033[0m\n\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                        return false;
+                }
                 if (!(startup()))
                 {
-                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mError!! in starting the program !! (8)\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
@@ -481,13 +568,21 @@ bool startup()
         {
                 if (!(advancedoptions()))
                 {
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
                         std::cout << "\033[1;31mError!! in starting advanced options !!\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
                 if (!(startup()))
                 {
-                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mError!! in starting the program !! (9)\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
@@ -499,7 +594,11 @@ bool startup()
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 if (!(startup()))
                 {
-                        std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mError!! in starting the program !! (10)\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
@@ -514,6 +613,10 @@ int main()
         std::cout << "\033c";
         if (checkforupdates(1))
         {
+                if (!(secdel()))
+                {
+                        remove("test");
+                }
                 return 0;
         }
 }
@@ -524,15 +627,16 @@ bool veripassford(std::string passstr)
 {
         std::cout << "\n";
         const char *Opennn = passstr.c_str();
-        if (!(aescrypt('d', &Opennn)))
+        if (!(aescrypt('d', &Opennn)) || !rc)
         {
-                if (!(rc))
-                {
-                        std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mError!! in Decrypting the Encrypted password (2)\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         passstr = "iyinaishsiwywoanshs";
                         return false;
-                }
         }
         return true;
 }
@@ -545,18 +649,23 @@ bool veripassfore(std::string parssstr)
         ifile.open("test");
         if (!(ifile && rc))
         {
-                std::cout << "\033[1;31mError:!: Incorrect Password or the password file is altered\033[0m\n\n";
+		if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                std::cout << "\033[1;31mError:!: Incorrect Password or the password file is altered (1)\033[0m\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-                if (!(secdel()))
-                {
-                        remove("test");
-                }
+		return false;
         }
         ifile.close();
         std::cout << "\n";
         const char *Starboy = parssstr.c_str();
         if (!(aescrypt('e', &Starboy)))
         {
+                if (!(secdel()))
+                {
+                        remove("test");
+                }
                 std::cout << "\033[1;31mError!! in Encrypting the Decrypted password\033[0m\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                 parssstr = "8jgftjjnshs";
@@ -567,18 +676,12 @@ bool veripassfore(std::string parssstr)
         {
                 remove("test");
         }
-        if (!(startup()))
-        {
-                std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
-                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                return false;
-        }
         return true;
 }
 
 //Writing to file for secure delete
 
-bool writetofileforsd(std::string dea)
+inline bool writetofileforsd(std::string dea)
 {
         for (short int hhh = 0; hhh <= 35; hhh++)
         {
@@ -599,11 +702,9 @@ inline bool secdel()
         std::string aaaab = str(acaa);
         std::string baaab = str(bcbb) + aaaab;
         std::string erapt = aaaab + baaab + aaaab + baaab + aaaab + baaab + aaaab + baaab;
-        if (writetofileforsd(erapt))
-        {
-                system("srm -z test");
-                remove("test");
-        }
+        writetofileforsd(erapt);
+        system("srm -z test");
+        remove("test");
         return true;
 }
 
@@ -703,12 +804,11 @@ bool call(int mini, int max, short int ik)
         }
         if (!(writetofile(mixed, ik)))
         {
+                if (!(secdel()))
+                {
+                        remove("test");
+                }
                 std::cout << "\033[1;31mError!! in writing the  passwords to file\033[0m\n\n";
-                return false;
-        }
-        if (!(startup()))
-        {
-                std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
                 return false;
         }
         return true;
@@ -722,7 +822,7 @@ bool alphaonlyfn(bool num)
         duthomhas::csprng rng;
         unsigned long long int numberof;
         std::cout << "\n";
-	std::cout << "\033[1;32mPlease enter the length of the password you need \n[Max 18,446,744,073,709,551,615] \n\nBut Beware !!, this number could crash your system after a few lakhs\nDEPENDS UPON YOUR SYSTEM\033[0m\n";
+        std::cout << "\033[1;32mPlease enter the length of the password you need \n[Max 18,446,744,073,709,551,615] \n\nBut Beware !!, this number could crash your system after a few lakhs\nDEPENDS UPON YOUR SYSTEM\033[0m\n";
         std::cin >> numberof;
         std::string allalpha;
         for (unsigned long long int fromnoof = 1; fromnoof <= numberof; ++fromnoof)
@@ -752,17 +852,17 @@ bool alphaonlyfn(bool num)
         }
         if (!(writetofile(allalpha, type)))
         {
-                std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
-                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                return false;
-        }
-        if (!(startup()))
-        {
-                std::cout << "\033[1;31mError!! in starting the program !!\033[0m\n\n";
+                if (!(secdel()))
+                {
+                        remove("test");
+                }
+                std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error (3)\033[0m\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                 return false;
         }
         return true;
+
+
 }
 
 //Making password entered invisible
@@ -784,6 +884,8 @@ std::string safeenter()
         }
         return pass;
 }
+
+// AES encryption && decryption function
 
 bool aescrypt(char type, const char **pas)
 {
@@ -1036,7 +1138,7 @@ bool changepass()
         std::cout << "\033[1;31m\n\nWarning !!: Keep this password very strong and please remember this, IF YOU FORGOT THIS PASSWORD, YOU CAN'T RECOVER ANY OF YOUR PASSWORDS\033[0m\n";
         std::cout << "\033[1;32m\n\n Guide for Password creation\e[0m\n\n";
         std::cout << "\033[1;31m•You can use any ASCII valuesand DO NOT include Personal information \n•short passwords are PROHIBITED\n•Max Length 1024 characters\033[0m\n\n\n";
-        std::cout << "\033[1;31m\n\n(invisible)\nPlease Enter your current password to proceed\033[0m";
+        std::cout << "\033[1;31m\n\n(invisible)\nPlease Enter your current password to proceed:  \033[0m";
         std::string oldpass = safeenter();
         std::cout << std::endl;
         std::cout << "\033[1;31m\n\n(invisible)\nPlease enter your new password:  \e[0m";
@@ -1047,10 +1149,18 @@ bool changepass()
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 if (!changepass())
                 {
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
                         return false;
                 }
                 else
                 {
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
                         return true;
                 }
         }
@@ -1058,17 +1168,25 @@ bool changepass()
         {
                 if (!veripassford(oldpass))
                 {
-                        std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+			std::cout << "\033[1;31mCould not change the password due to an error\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
                 if (!veripassfore(newpass))
                 {
-                        std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mCould not change the password due to an error\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
-                std::cout << "Success! password changed successfully\033[0m\n";
+                std::cout << "\033[1;32mSuccess! password changed successfully\033[0m\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 return true;
         }
@@ -1090,7 +1208,11 @@ bool addpassmanually()
         std::cout << "\n";
         if (!(veripassford(passwd)))
         {
-                std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                if (!(secdel()))
+                {
+                        remove("test");
+                }
+                std::cout << "\033[1;31mError!! in Decrypting the Encrypted password (4)\033[0m\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                 return false;
         }
@@ -1101,8 +1223,12 @@ bool addpassmanually()
         ifile.close();
         if (!(veripassfore(passwd)))
         {
+                if (!(secdel()))
+                {
+                        remove("test");
+                }
                 passwd = "izsywiabhaishsiwywoanshs";
-                std::cout << "\033[1;31mYour Newly Generated Password has not be saved ! Due to an error\033[0m\n\n";
+                std::cout << "\033[1;31mThe Password which you entered cannot be saved !\033[0m\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                 return false;
         }
@@ -1111,6 +1237,8 @@ bool addpassmanually()
         {
                 remove("test");
         }
+	std::cout << "\033[1;32mPassword changed successfully\033[0m\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         return true;
 }
 
@@ -1127,17 +1255,25 @@ bool showpass(bool what, std::string &passthen)
         unsigned int numpasstodisno = 0;
         for (unsigned int numpasstodis = 1; numpasstodis < 8; numpasstodis++)
         {
-                if (!veripassford(lll))
+                if (!(veripassford(lll)))
                 {
-                        std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mError!! in Decrypting the Encrypted password (5)\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-			return false;
+                        return false;
                 }
                 std::ifstream ifile;
                 ifile.open("test");
                 if (!(ifile && rc))
                 {
-                        std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mError!! in Decrypting the Encrypted password (6)\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
@@ -1150,7 +1286,7 @@ bool showpass(bool what, std::string &passthen)
                 unsigned int waitfor = 10;
                 if (nottoshowallpass)
                 {
-                        std::cout << "\033[1;36m\n\nPlease Enter the keyword of the password you need\033[0m\n\n";
+                        std::cout << "\033[1;36m\n\nPlease Enter the keyword of the password you need (Case Sensitive)\033[0m\n\n";
                         std::getline(std::cin >> std::ws, tagforsearch);
                 }
                 std::cout << "\n"
@@ -1158,14 +1294,18 @@ bool showpass(bool what, std::string &passthen)
                           << "\n";
                 if (!veripassford(lll))
                 {
-                        std::cout << "\033[1;31mError!! in Decrypting the Encrypted password\033[0m\n\n";
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mError!! in Decrypting the Encrypted password (7)\033[0m\n\n";
                         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                         return false;
                 }
                 std::ifstream passfile("test");
                 while (getline(passfile, lineofthefile))
                 {
-			isthereanypassinthefile = true;
+                        isthereanypassinthefile = true;
                         if (lineofthefile.find(tagforsearch) != std::string::npos)
                         {
                                 numpasstodisno++;
@@ -1173,7 +1313,7 @@ bool showpass(bool what, std::string &passthen)
                                 {
                                         if (lineofthefile[ai] == '|' && lineofthefile[ai - 1] == '-' && lineofthefile[ai - 2] == '-' && lineofthefile[ai - 3] == '-' && lineofthefile[ai - 4] == '-' && lineofthefile[ai - 5] == '-' && lineofthefile[ai - 6] == '-' && lineofthefile[ai - 7] == '`' && lineofthefile[ai - 8] == '~' && lineofthefile[ai - 9] == '_' && lineofthefile[ai - 10] == '|' && lineofthefile[ai - 11] == 'A' && lineofthefile[ai - 12] == '|' && lineofthefile[ai - 13] == '-' && lineofthefile[ai - 14] == '-' && lineofthefile[ai - 15] == '-' && lineofthefile[ai - 16] == '-' && lineofthefile[ai - 17] == '-' && lineofthefile[ai - 18] == '-' && lineofthefile[ai - 19] == '-' && lineofthefile[ai - 20] == '|')
                                         {
-						fileiscreatedbyPhraseNuX = true;
+                                                fileiscreatedbyPhraseNuX = true;
                                                 auto I = lineofthefile.length() - ai + 20;
                                                 std::string tagfromfile;
                                                 for (auto tagpos = ai + 1; tagpos < lineofthefile.length(); tagpos++)
@@ -1214,23 +1354,35 @@ bool showpass(bool what, std::string &passthen)
                                 }
                         }
                 }
-		passfile.close();
-		if (!isthereanypassinthefile)
+                passfile.close();
+                if (!isthereanypassinthefile)
                 {
-                std::cout << "\033[1;31mThere is no saved passwords, Create a Password first \033[0m\n\n";
-                std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-                return false;
+                        if (!(secdel()))
+                        {
+                                remove("test");
+                        }
+                        std::cout << "\033[1;31mThere is no saved passwords, Create a Password first \033[0m\n\n";
+                        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+                        return false;
                 }
-		if (!fileiscreatedbyPhraseNuX)
-		{
+                if (!what)
+                {
+                        if (!fileiscreatedbyPhraseNuX)
+                        {
+                                if (!(secdel()))
+                                {
+                                        remove("test");
+                                }
                                 std::cout << "\033[1;31m\n\nLooks like the passwords were not created or stored initially by PhraseNuX\n\nIf you have just installed PhraseNuX, try creating a password and save it\n\nThis error will go away\033[0m\n\n";
-				std::this_thread::sleep_for(std::chrono::milliseconds(7000));
-				return false;
-		}
-		if(!what){
-		passthen = lll;
-		break;
-		}
+                                std::this_thread::sleep_for(std::chrono::milliseconds(7000));
+                                return false;
+                        }
+                }
+                if (!what)
+                {
+                        passthen = lll;
+                        break;
+                }
                 if (what)
                 {
                         if (!(secdel()))
@@ -1267,12 +1419,15 @@ bool showpass(bool what, std::string &passthen)
                                 }
                         }
                         else
-                        {
-                                std::cout << "\033[1;31mError:!: Incorrect Password or the password file is altered\033[0m\n\n";
-                                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-                                startup();
-                                return false;
-                        }
+                                {
+                                        if (!(secdel()))
+                                        {
+                                                remove("test");
+                                        }
+                                        std::cout << "\033[1;31mError:!: Incorrect Password or the password file is altered (2)\033[0m\n\n";
+                                        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                                        return false;
+                                }
                 }
         }
         return true;
@@ -1294,7 +1449,7 @@ bool checkforupdates(bool start)
                 curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
                 res = curl_easy_perform(curl);
                 curl_easy_cleanup(curl);
-                if (readBuffer == "" || readBuffer == "1.1\n" || readBuffer == "1.1")
+                if (readBuffer == "" || readBuffer == "1.0.1\n" || readBuffer == "1.0.1")
                 {
                         if (!start)
                         {
@@ -1400,12 +1555,12 @@ bool checkforupdates(bool start)
                                                         if (!checkformodification("update", startsha) && downcount == 10)
                                                         {
                                                                 std::cout << "\033[1;31m\n\n\n\n\n\n\nLooks like our developer forgot to update the sha values please say him this by starting a github discussion\033[0m\n\n";
-								std::this_thread::sleep_for(std::chrono::milliseconds(8000));
+                                                                std::this_thread::sleep_for(std::chrono::milliseconds(8000));
                                                                 break;
                                                         }
                                                 }
                                         }
-					system("chmod u=rx update");
+                                        system("chmod u=rx update");
                                         system("bash update");
                                         return true;
                                 }
@@ -1499,17 +1654,18 @@ bool changeprogramcaller()
                         callname = "chmod u=x /usr/bin/" + callname;
                         const char *nnamee = callname.c_str();
                         system(nnamee);
+			std::cout << "\033[1;32mKeyword have been created successfully......returning to home now\033[0m\n";
+                	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                         return true;
                 }
-		else
-		{
-                                std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2\033[0m\n\n";
-                                if (!(changeprogramcaller()))
-                                {
-                                        return false;
-                                }
-		}
-
+                else
+                {
+                        std::cout << "\033[1;31m\n\nError:!: Please select 1 or 2\033[0m\n\n";
+                        if (!(changeprogramcaller()))
+                        {
+                                return false;
+                        }
+                }
         }
         else
         {
@@ -1520,6 +1676,8 @@ bool changeprogramcaller()
                 newcallname = "/usr/bin/" + newcallname;
                 callname = "/usr/bin/" + callname;
                 rename(callname.c_str(), newcallname.c_str());
+		std::cout << "\033[1;32mKeyword have been changed successfully......returning to home now\033[0m\n";
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 return true;
         }
         return true;
