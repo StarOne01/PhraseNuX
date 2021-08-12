@@ -1513,12 +1513,7 @@ bool checkforupdates(bool start)
                         {
                                 if (checkformodification("update", startsha))
                                 {
-                                        if (!(system("bash update")))
-                                        {
-                                                std::cout << "\033[1;31mError!! could not start the update script, please do it manually by running \"bash update\" in you terminal\033[0m\n\n";
-                                                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-                                                return false;
-                                        }
+                                        system("bash update");
                                         return true;
                                 }
                                 else
