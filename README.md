@@ -16,7 +16,7 @@ Note: PhraseNuX was created with a average user in mine, who doesn't have too mu
 
 - Open a Terminal
 
-- Install the package **`git`**
+- Install the package **`git`** and **`clang`**
 
 - Clone this repository by running
     
@@ -55,7 +55,7 @@ Now it will ask for a master Password
 
 Alternatively if you need to install the program in a single tap
 
-**`sudo apt install git && git clone https://github.com/Tamilanth/PhraseNuX/ && cd PhraseNuX && cd install && g++ install_dependencies.cpp ../hash/sha3.cpp ../AES/aes.cpp ../AES/sha256.c ../AES/password.cpp -I. -o install && sudo ./install`**
+**`sudo apt install git && sudo apt install clang && git clone https://github.com/Tamilanth/PhraseNuX/ && cd PhraseNuX && cd install && g++ install_dependencies.cpp ../hash/sha3.cpp ../AES/aes.cpp ../AES/sha256.c ../AES/password.cpp -I. -o install && sudo ./install`**
 
 # How to Run
 
