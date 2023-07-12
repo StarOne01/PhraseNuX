@@ -9,6 +9,9 @@
 
           Hey, Welcome to PhraseNuX 
 
+#Hey, Welcome
+
+PhraseNuX, a CLI password manager
 
 # How To Install
 
@@ -16,30 +19,26 @@ Note: PhraseNuX was created with a average user in mine, who doesn't have too mu
 
 - Open a Terminal
 
-- Install the package **`git`** and **`clang`**
+- Make sure that the packages **`git`** , **`clang`** , **`iconv`** , **`make`** are installed
 
 - Clone this repository by running
     
     **`git clone https://github.com/Tamilanth/PhraseNuX/`** 
 
-- Open the **PhraseNuX** directory in Terminal by typing
+- Open the **PhraseNuX/app/install/** directory in Terminal by typing
 
-     **`cd PhraseNuX`**
+     **`cd PhraseNuX/app/install`**
 
-- Open the install directory in the terminal by typing
+- make the install binary by using make in that dir
 
-     **`cd install`**
-
-- Compile the **install_dependencies.cpp** file by typing in your terminal
-
-     **`g++ install_dependencies.cpp ../hash/sha3.cpp ../AES/aes.cpp ../AES/sha256.c ../AES/password.cpp -I. -o install`**
+     **`make`**
 
 
 **Note: Please make sure you have a stable internet connection before the next step it will take around 2 seconds and takes about 1 - 3 MB of Data and space**
 
 - Run the compiled binary file 
 
-     **`sudo ./install`**
+     **`./install`**
 
 - Now close the terminal and open the **`PhaseNUX`** directory
 
@@ -55,7 +54,7 @@ Now it will ask for a master Password
 
 Alternatively if you need to install the program in a single tap
 
-**`sudo apt install git && sudo apt install clang && git clone https://github.com/Tamilanth/PhraseNuX/ && cd PhraseNuX && cd install && g++ install_dependencies.cpp ../hash/sha3.cpp ../AES/aes.cpp ../AES/sha256.c ../AES/password.cpp -I. -o install && sudo ./install`**
+**`apt install git && apt install clang && git clone https://github.com/Tamilanth/PhraseNuX/ && cd PhraseNuX/app/install && make && sudo ./install`**
 
 # How to Run
 

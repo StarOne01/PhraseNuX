@@ -15,7 +15,7 @@
 #include "../hash/sha3.h"
 #include "../AES/aescrypt.c"
 #include <filesystem>
-
+#include <cstdlib>
 
 //Declaring all functions and checkers and variables in global scope
 bool aescrypt(char type, const char **pas);
@@ -23,8 +23,6 @@ bool checkforupdates(bool start);
 bool addpassmanually();
 bool changeprogramcaller();
 bool changepass();
-std::string tagforsearch;
-std::string startsha = "0552d3158a2bcfda0f577c5f0fe2fb624ba17d5660dd8bafd9c5dd3e871889c1";
 bool safeenterstop();
 bool selectservice();
 bool advancedoptions();
@@ -34,14 +32,11 @@ void waitup(int a);
 bool veripassfore(std::string passstr);
 bool veripassford(std::string passstr);
 bool startup();
-signed int rc = 0;
-signed int enrc = 0;
-inline bool secdel();
 void banner();
 bool alphaonlyfn(bool num);
 bool call(int mini, int max, short int ik);
 void smallbanner();
 
 
-
+#include "visuals.cpp"
 #endif
