@@ -1,19 +1,16 @@
+# PhraseNuX
+## Hey, Welcome
 
+PhraseNuX, a CLI password manager.
+PhraseNUX is a command-line password manager and a command-line password generator specially made for Linux. It's **Open-sourced** !
 
-            |''||''|     |   
-               ||       |||    
-               ||      |  ||    
-               ||     .''''|.   
-              .||.   .|.  .||.  
+## Credit
+Thanking 💙
+- [Secure Pseudo-Random Number Generator - CSPRNG](https://github.com/Duthomhas/CSPRNG)
+- [AEScrypt](https://www.aescrypt.com/download/)
+- [Sha3](https://github.com/stbrumme/hash-library)
 
-
-          Hey, Welcome to PhraseNuX 
-
-# Hey, Welcome
-
-PhraseNuX, a CLI password manager
-
-# How To Install
+## How To Install
 
 Note: PhraseNuX was created with a average user in mine, who doesn't have too much of tech knowledge. so, For security reasons the source codes of the application will be deleted after installation by default, If you are an advanced user and like to play with the codes, please edit the **install/start** file which is written in bash and edit the hashing function in the **install/PhraseNuX.cpp**
 
