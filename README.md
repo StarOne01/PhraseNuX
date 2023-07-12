@@ -9,7 +9,7 @@
 
           Hey, Welcome to PhraseNuX 
 
-#Hey, Welcome
+# Hey, Welcome
 
 PhraseNuX, a CLI password manager
 
