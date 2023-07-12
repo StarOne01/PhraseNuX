@@ -4,6 +4,12 @@
 PhraseNuX, a CLI password manager.
 PhraseNUX is a command-line password manager and a command-line password generator specially made for Linux. It's **Open-sourced** !
 
+## Contributing
+Contributes are **welcomed** !.
+Developers who are learning C/C++, this could be a great project to make your first contribution. Though this application is written in C++, **"C"**-styles are mostly followed and is implemented functional and procedural paradigms without the use of Object-oriented paradigm
+Then what ?
+Clone it !
+
 ## Credit
 Thanking 💙
 - [Secure Pseudo-Random Number Generator - CSPRNG](https://github.com/Duthomhas/CSPRNG)
